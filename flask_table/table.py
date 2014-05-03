@@ -1,5 +1,6 @@
 from collections import OrderedDict
 from flask import Markup
+from .columns import Col
 
 
 class TableMeta(type):
