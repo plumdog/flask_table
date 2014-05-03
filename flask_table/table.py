@@ -11,9 +11,11 @@ class TableMeta(type):
         return cls
 
 class Table(object, metaclass=TableMeta):
-    def __init__(self, items=None, classes=['table']):
+    classes = ['table']
+    def __init__(self, items=None, classes=None):
         self.items = items
-        self.classes = classes
+        if classes:
+            self.classes = classes
 
     def cols(self):
         return self._cols
