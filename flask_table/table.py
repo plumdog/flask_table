@@ -4,14 +4,34 @@ from .columns import Col
 
 
 class TableMeta(type):
+    """The metaclass for the Table class. We use the metaclass to sort of
+    the columns defined in the table declaration.
+
+    """
+
     def __new__(meta, name, bases, attrs):
+        """Create the class as normal, but also iterate over the attributes
+        set and gather up any that are Cols, and store them, so they
+        can be iterated over later.
+
+        """
         cls = type.__new__(meta, name, bases, attrs)
         cols = [(k,v) for k,v in attrs.items() if isinstance(v, Col)]
         cls._cols = OrderedDict(sorted(cols, key=lambda x: x[1]._counter_val))
         return cls
 
+
 class Table(object, metaclass=TableMeta):
+    """The main table class that should be subclassed when to create a
+    table. Initialise with an iterable of objects. Then either use the
+    __html__ method, or just output in a template to output the table
+    as html. Can also set a list of classes, either when declaring the
+    table, or when initialising.
+
+    """
+
     classes = ['table']
+
     def __init__(self, items=None, classes=None):
         self.items = items
         if classes:
