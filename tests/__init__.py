@@ -1,8 +1,6 @@
 import os
 import unittest
 
-from bs4 import BeautifulSoup
-
 from flask import Flask
 from flask_table import Table, Col, LinkCol, ButtonCol
 import flask.ext.testing as flask_testing
@@ -23,9 +21,7 @@ def html_equivalent(a, b):
 
 
 def html_reduce(s):
-    return BeautifulSoup(s).\
-            prettify(formatter=None).\
-            strip()
+    return ''.join(l.strip() for l in s.split('\n'))
 
 
 class TableTest(unittest.TestCase):
