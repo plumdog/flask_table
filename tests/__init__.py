@@ -36,7 +36,7 @@ class TableTest(unittest.TestCase):
 
     @classmethod
     def get_html(cls, d, name):
-        path = os.path.join(os.path.abspath(os.path.dirname(__file__)), 'tests_html', d, name + '.html')
+        path = os.path.join(os.path.abspath(os.path.dirname(__file__)), 'html', d, name + '.html')
         with open(path) as f:
             return str(f.read())
 
@@ -82,8 +82,7 @@ class AttrListTest(TableTest):
         self.assert_html_equivalent_from_file('attr_list_test', 'test_two_one_empty', items)
         
 
-def main():
-    unittest.main(warnings=False)
+
 
 if __name__ == '__main__':
     main()
