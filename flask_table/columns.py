@@ -110,7 +110,7 @@ class DateCol(Col):
 
     """
     def __init__(self, name, **kwargs):
-        super().__init__(name, **kwargs)
+        Col.__init__(self, name, **kwargs)
         self.date_format = kwargs.get('date_format', 'short')
 
     def td_format(self, content):
@@ -126,7 +126,7 @@ class DatetimeCol(Col):
 
     """
     def __init__(self, name, **kwargs):
-        super().__init__(name, **kwargs)
+        Col.__init__(self, name, **kwargs)
         self.datetime_format = kwargs.get('datetime_format', 'short')
 
     def td_format(self, content):
@@ -151,7 +151,7 @@ class LinkCol(Col):
 
     """
     def __init__(self, name, endpoint, attr=None, attr_list=[], url_kwargs={}):
-        super().__init__(name, attr=attr, attr_list=attr_list)
+        Col.__init__(self, name, attr=attr, attr_list=attr_list)
         self.endpoint = endpoint
         self._url_kwargs = url_kwargs
 
@@ -164,7 +164,7 @@ class LinkCol(Col):
         return url_kwargs_out
 
     def get_attr_list(self, attr):
-        return super().get_attr_list(None)
+        return Col.get_attr_list(self, None)
 
     def text(self, i, attr_list):
         if attr_list:
