@@ -55,7 +55,7 @@ class Col(object):
             return out
 
     def td(self, i, attr):
-        return '<td>' + self.td_contents(i, self.get_attr_list(attr)) + '</td>'
+        return '<td>%s</td>' % self.td_contents(i, self.get_attr_list(attr))
 
     def td_contents(self, i, attr_list):
         """Given an item and an attr_list, return the contents of the
