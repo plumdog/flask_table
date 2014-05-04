@@ -135,3 +135,14 @@ class ButtonTest(FlaskTableTest):
     def test_one(self):
         items = [Item(name='one', id=1)]
         self.assert_html_equivalent_from_file('button_test', 'test_one', items)
+
+
+class EscapeTest(TableTest):
+    def setUp(self):
+        class EscapeTable(Table):
+            name = Col('Name')
+        self.table_cls = EscapeTable
+
+    def test_one(self):
+        items = [Item(name='<&"\'')]
+        self.assert_html_equivalent_from_file('escape_test', 'test_one', items)
