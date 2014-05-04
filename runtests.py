@@ -1,5 +1,5 @@
 import unittest
-from tests import TableTest, ColTest, AttrListTest
+from tests import TableTest, ColTest, AttrListTest, LinkTest, ButtonTest
 
 def main():
     unittest.main(warnings=False)
