@@ -45,3 +45,44 @@ Extra things:
 * Oh, and BoolCol, which does Yes/No.
 
 * But most importantly, Col is easy to subclass.
+
+Subclassing Col
+===============
+
+(Look in examples/subclassing.py for a more concrete example)
+
+Suppose our item has an attribute, but we don't want to output the
+value directly, we need to alter it first. If the value that we get
+from the item gives us all the information we need, then we can just
+override the td_format method:
+
+```python
+class LangCol(Col):
+    def td_format(self, content):
+        if content == 'en_GB':
+            return 'British English'
+        elif content == 'de_DE':
+            return 'German'
+        elif content == 'fr_FR':
+            return 'French'
+        else:
+            return 'Not Specified'
+```
+
+If you need access to all of information in the item, then we can go a
+stage earlier in the process and override the td_contents method:
+
+```python
+
+from flask import Markup
+
+def td_contents(self, i, attr_list):
+    # by default this does
+    # return self.td_format(self.from_attr_list(i, attr_list))
+    return Markup.escape(self.from_attr_list(i, attr_list) + ' for ' + item.name)
+```
+
+At present, you do still need to be careful about escaping things as
+you override these methods. Also, because of the way that the Markup
+class works, you need to be careful about how you concatenate these
+with other strings.
