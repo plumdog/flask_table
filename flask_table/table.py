@@ -16,7 +16,7 @@ class TableMeta(type):
 
         """
         cls = type.__new__(meta, name, bases, attrs)
-        cols = [(k,v) for k,v in attrs.items() if isinstance(v, Col)]
+        cols = [(k, v) for k, v in attrs.items() if isinstance(v, Col)]
         cls._cols = OrderedDict(sorted(cols, key=lambda x: x[1]._counter_val))
         return cls
 
@@ -50,7 +50,9 @@ class Table(object, metaclass=TableMeta):
         if len(self.items) == 0:
             return '<p>No Items</p>'
         else:
-            return '<table%s>%s\n%s</table>' % (self.classes_html_attr(), self.thead(), self.tbody())
+            return '<table%s>%s\n%s</table>' % (
+                self.classes_html_attr(),
+                self.thead(), self.tbody())
 
     def thead(self):
         out = []

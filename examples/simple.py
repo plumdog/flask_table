@@ -6,10 +6,13 @@ somewhere, such as a database. We can declare a table that pulls out
 the relevant entries, escapes them and displays them.
 
 """
+
+
 class Item(object):
     def __init__(self, name, description):
         self.name = name
         self.description = description
+
 
 class ItemTable(Table):
     name = Col('Name')

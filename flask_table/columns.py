@@ -1,6 +1,7 @@
 from flask import Markup, url_for
 from babel.dates import format_date, format_datetime
 
+
 def _recursive_getattr(item, keys):
     if item is None:
         return None
@@ -8,6 +9,7 @@ def _recursive_getattr(item, keys):
         return getattr(item, keys[0])
     else:
         return _recursive_getattr(getattr(item, keys[0]), keys[1:])
+
 
 class Col(object):
     """The subclass for all Columns, and the class that just gets some
@@ -26,6 +28,7 @@ class Col(object):
     """
 
     _counter = 0
+
     def __init__(self, name, attr=None, attr_list=[]):
         self.name = name
         self._counter_val = Col._counter
@@ -86,6 +89,7 @@ class Col(object):
         """
         return str(Markup.escape(str(content)))
 
+
 class BoolCol(Col):
     """If the content is truthy, then output Yes. Otherwise output No.
 
@@ -98,6 +102,7 @@ class BoolCol(Col):
             return 'Yes'
         else:
             return 'No'
+
 
 class DateCol(Col):
     """Format the content as a date, unless it is None, in which case,
@@ -113,6 +118,7 @@ class DateCol(Col):
             return format_date(content, self.date_format)
         else:
             return ''
+
 
 class DatetimeCol(Col):
     """Format the content as a datetime, unless it is None, in which case,
@@ -151,8 +157,9 @@ class LinkCol(Col):
 
     def url_kwargs(self, item):
         url_kwargs_out = {}
-        for k,v in self._url_kwargs.items():
-            # TODO: replate getattr with _recursive_getattr, to maintain consistency.
+        for k, v in self._url_kwargs.items():
+            # TODO: replate getattr with _recursive_getattr, to
+            # maintain consistency.
             url_kwargs_out[k] = getattr(item, v)
         return url_kwargs_out
 
@@ -164,15 +171,15 @@ class LinkCol(Col):
             return self.from_attr_list(i, attr_list)
         else:
             return self.name
-        
 
     def url(self, i):
         return url_for(self.endpoint, **self.url_kwargs(i))
 
     def td_contents(self, i, attr_list):
-        return '<a href="%s">%s</a>' % (self.url(i), Markup.escape(self.text(i, attr_list)))
+        return '<a href="%s">%s</a>' % (self.url(i),
+                                        Markup.escape(self.text(i, attr_list)))
 
-                
+
 class ButtonCol(LinkCol):
     """Just the same a LinkCol, but creates an empty form which gets
     posted to the specified url.
@@ -186,4 +193,7 @@ class ButtonCol(LinkCol):
     """
 
     def td_contents(self, i, attr_list):
-        return '<form method="post" action="%s"><button type="submit">%s</button></form>' % (self.url(i), Markup.escape(self.text(i, attr_list)))
+        return ('<form method="post" action="%s">'
+                '<button type="submit">%s</button>'
+                '</form>') % (self.url(i),
+                              Markup.escape(self.text(i, attr_list)))
