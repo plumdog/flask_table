@@ -1,6 +1,7 @@
 from collections import OrderedDict
 from flask import Markup
 from .columns import Col
+from .compat import with_metaclass
 
 
 class TableMeta(type):
@@ -21,7 +22,7 @@ class TableMeta(type):
         return cls
 
 
-class Table(object, metaclass=TableMeta):
+class Table(with_metaclass(TableMeta)):
     """The main table class that should be subclassed when to create a
     table. Initialise with an iterable of objects. Then either use the
     __html__ method, or just output in a template to output the table
