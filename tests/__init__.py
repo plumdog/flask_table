@@ -18,6 +18,16 @@ class Subitem(Item):
     pass
 
 
+def html_equivalent(a, b):
+    return html_reduce(a) == html_reduce(b)
+
+
+def html_reduce(s):
+    return BeautifulSoup(s).\
+            prettify(formatter=None).\
+            strip()
+
+
 class TableTest(unittest.TestCase):
     def assert_in(self, x, y):
         if x not in y:
@@ -34,13 +44,7 @@ class TableTest(unittest.TestCase):
         return self.assert_not_in(x, y.__html__())
 
     def assert_html_equivalent(self, test_tab, reference):
-        x_beaut = BeautifulSoup(test_tab.__html__()).\
-            prettify(formatter=None).\
-            strip()
-        y_beaut = BeautifulSoup(reference).\
-            prettify(formatter=None).\
-            strip()
-        self.assertEqual(x_beaut, y_beaut)
+        self.assertTrue(html_equivalent(test_tab.__html__(), reference))
 
     @classmethod
     def get_html(cls, d, name):
