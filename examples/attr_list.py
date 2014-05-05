@@ -22,6 +22,10 @@ class Category(object):
 class ItemTable(Table):
     name = Col('Name')
     category_name = Col('Category', attr_list=['category', 'name'])
+    # Equivalently: Col('Category', attr='category.name')
+    # Both syntaxes are kept as the second is more readable, but
+    # doesn't cover all options. Such as if the items are dicts and
+    # the keys have dots in.
 
 
 def main():
