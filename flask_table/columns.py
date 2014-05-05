@@ -9,7 +9,13 @@ def _single_get(item, key):
         val = item[key]
     except (KeyError, TypeError):
         val = getattr(item, key)
-    return val
+
+    # once we have the value, try calling it as a function. If
+    # that fails, the just return it.
+    try:
+        return val()
+    except TypeError:
+        return val
 
 
 def _recursive_getattr(item, keys):
