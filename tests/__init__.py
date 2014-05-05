@@ -151,6 +151,18 @@ class AttrListTest(TableTest):
             'attr_list_test', 'test_two_one_empty', items)
 
 
+class WeirdAttrListTest(TableTest):
+    def setUp(self):
+        class MyTable(Table):
+            name = Col('Subitem Name Heading', attr_list=['subi.tem.', '.nam.e'])
+        self.table_cls = MyTable
+
+    def test_one(self):
+        items = [{'subi.tem.': {'.nam.e': 'one'}}]
+        self.assert_html_equivalent_from_file(
+            'attr_list_test', 'test_one', items)
+
+
 class AltAttrTest(ColTest):
     def setUp(self):
         class MyTable(Table):
