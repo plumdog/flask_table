@@ -52,11 +52,11 @@ class Col(object):
 
     def get_attr_list(self, attr):
         if self.attr:
-            return [self.attr]
+            return self.attr.split('.')
         elif self.attr_list:
             return self.attr_list
         elif attr:
-            return [attr]
+            return attr.split('.')
         else:
             return None
 

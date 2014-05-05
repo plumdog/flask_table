@@ -126,6 +126,13 @@ class AttrListTest(TableTest):
             'attr_list_test', 'test_two_one_empty', items)
 
 
+class AttrListDotsTest(AttrListTest):
+    def setUp(self):
+        class MyTable(Table):
+            name = Col('Subitem Name Heading', attr='subitem.name')
+        self.table_cls = MyTable
+
+
 class LinkTest(FlaskTableTest):
     def setUp(self):
         class LinkTable(Table):
