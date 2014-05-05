@@ -50,8 +50,8 @@ class TableTest(unittest.TestCase):
         with open(path) as f:
             return str(f.read())
 
-    def assert_html_equivalent_from_file(self, d, name, items, **kwargs):
-        tab = self.table_cls(items)
+    def assert_html_equivalent_from_file(self, d, name, items=[], **kwargs):
+        tab = kwargs.get('tab', self.table_cls(items))
         if kwargs.get('print_html'):
             print(tab.__html__())
         html = self.get_html(d, name)
@@ -198,6 +198,19 @@ class ClassTest(TableTest):
     def test_one(self):
         items = [Item(name='one')]
         self.assert_html_equivalent_from_file('class_test', 'test_one', items)
+
+
+class ClassTestAtPopulate(TableTest):
+    def setUp(self):
+        class MyTable(Table):
+            name = Col('Name Heading')
+        self.table_cls = MyTable
+
+    def test_one(self):
+        items = [Item(name='one')]
+        tab = self.table_cls(items, classes=['table'])
+        self.assert_html_equivalent_from_file(
+            'class_test', 'test_one', tab=tab)
 
 
 class LinkTest(FlaskTableTest):
