@@ -38,9 +38,6 @@ class Table(with_metaclass(TableMeta)):
         if classes is not None:
             self.classes = classes
 
-    def cols(self):
-        return self._cols
-
     def classes_html_attr(self):
         if not self.classes:
             return ''
@@ -57,7 +54,7 @@ class Table(with_metaclass(TableMeta)):
 
     def thead(self):
         out = []
-        for h in self.cols().values():
+        for h in self._cols.values():
             out.append('<th>%s</th>' % Markup.escape(h.name))
         return '<thead><tr>%s</tr></thead>' % ''.join(out)
 
@@ -69,6 +66,6 @@ class Table(with_metaclass(TableMeta)):
 
     def tr(self, i):
         out = []
-        for attr, c in self.cols().items():
+        for attr, c in self._cols.items():
             out.append(c.td(i, attr))
         return '<tr>%s</tr>' % ''.join(out)
