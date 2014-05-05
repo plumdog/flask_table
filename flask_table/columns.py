@@ -19,6 +19,12 @@ def _single_get(item, key):
 
 
 def _recursive_getattr(item, keys):
+    # See if keys is as string, if so, we need to split on the dots.
+    try:
+        keys = keys.split('.')
+    except AttributeError:
+        pass
+
     if item is None:
         return None
     if len(keys) == 1:
@@ -48,36 +54,36 @@ class Col(object):
     def __init__(self, name, attr=None, attr_list=[]):
         self.name = name
         self._counter_val = Col._counter
-        self.attr = attr
-        self.attr_list = attr_list
+        self.attr = '.'.join(attr_list)
+        if attr:
+            self.attr = attr
+        
         Col._counter += 1
 
     @classmethod
     def gettype(cls):
         return cls.__name__
 
-    def get_attr_list(self, attr):
+    def get_attr(self, attr):
         if self.attr:
-            return self.attr.split('.')
-        elif self.attr_list:
-            return self.attr_list
+            return self.attr
         elif attr:
-            return attr.split('.')
+            return attr
         else:
             return None
 
-    def from_attr_list(self, i, attr_list):
-        out = _recursive_getattr(i, attr_list)
+    def from_attr(self, i, attr):
+        out = _recursive_getattr(i, attr)
         if out is None:
             return ''
         else:
             return out
 
     def td(self, i, attr):
-        return '<td>%s</td>' % self.td_contents(i, self.get_attr_list(attr))
+        return '<td>%s</td>' % self.td_contents(i, self.get_attr(attr))
 
-    def td_contents(self, i, attr_list):
-        """Given an item and an attr_list, return the contents of the
+    def td_contents(self, i, attr):
+        """Given an item and an attr, return the contents of the
         <td>.
 
         This method is a likely candidate to override when extending
@@ -88,7 +94,7 @@ class Col(object):
         Note that the output of this function is NOT escaped.
 
         """
-        return self.td_format(self.from_attr_list(i, attr_list))
+        return self.td_format(self.from_attr(i, attr))
 
     def td_format(self, content):
         """Given just the value extracted from the item, return what should
@@ -97,7 +103,7 @@ class Col(object):
         This method is also a good choice to override when extending,
         which is done in the BoolCol, DateCol and DatetimeCol
         classes. Override this method when you just need the standard
-        data that attr_list gets from the item, but need to adjust how
+        data that attr gets from the item, but need to adjust how
         it is represented.
 
         Note that the output of this function is NOT escaped.
@@ -174,26 +180,24 @@ class LinkCol(Col):
     def url_kwargs(self, item):
         url_kwargs_out = {}
         for k, v in self._url_kwargs.items():
-            # TODO: replate getattr with _recursive_getattr, to
-            # maintain consistency.
-            url_kwargs_out[k] = getattr(item, v)
+            url_kwargs_out[k] = _recursive_getattr(item, v)
         return url_kwargs_out
 
-    def get_attr_list(self, attr):
-        return Col.get_attr_list(self, None)
+    def get_attr(self, attr):
+        return Col.get_attr(self, None)
 
-    def text(self, i, attr_list):
-        if attr_list:
-            return self.from_attr_list(i, attr_list)
+    def text(self, i, attr):
+        if attr:
+            return self.from_attr(i, attr)
         else:
             return self.name
 
     def url(self, i):
         return url_for(self.endpoint, **self.url_kwargs(i))
 
-    def td_contents(self, i, attr_list):
+    def td_contents(self, i, attr):
         return '<a href="%s">%s</a>' % (self.url(i),
-                                        Markup.escape(self.text(i, attr_list)))
+                                        Markup.escape(self.text(i, attr)))
 
 
 class ButtonCol(LinkCol):
@@ -208,8 +212,8 @@ class ButtonCol(LinkCol):
 
     """
 
-    def td_contents(self, i, attr_list):
+    def td_contents(self, i, attr):
         return ('<form method="post" action="%s">'
                 '<button type="submit">%s</button>'
                 '</form>') % (self.url(i),
-                              Markup.escape(self.text(i, attr_list)))
+                              Markup.escape(self.text(i, attr)))
