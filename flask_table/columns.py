@@ -112,18 +112,26 @@ class Col(object):
         return str(Markup.escape(str(content)))
 
 
-class BoolCol(Col):
-    """If the content is truthy, then output Yes. Otherwise output No.
+class OptCol(Col):
+    def __init__(self, name, choices={}, default_key=None, default_value='', coerce_fn=None, **kwargs):
+        Col.__init__(self, name, **kwargs)
+        self.choices = choices
+        self.default_value = choices.get(default_key, default_value)
+        self.coerce_fn = coerce_fn
 
-    TODO: generalise to a dict of options, plus a default.
-    TODO: account for internationalisation.
-
-    """
-    def td_format(self, content):
-        if content:
-            return 'Yes'
+    def coerce_content(self, content):
+        if self.coerce_fn:
+            return self.coerce_fn(content)
         else:
-            return 'No'
+            return content
+
+    def td_format(self, content):
+        return self.choices.get(self.coerce_content(content), self.default_value)
+
+
+class BoolCol(OptCol):
+    def __init__(self, name, **kwargs):
+        OptCol.__init__(self, name, choices={True: 'Yes', False: 'No'}, coerce_fn=bool, **kwargs)
 
 
 class DateCol(Col):

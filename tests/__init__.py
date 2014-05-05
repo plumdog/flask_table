@@ -2,7 +2,7 @@ import os
 import unittest
 
 from flask import Flask
-from flask_table import Table, Col, LinkCol, ButtonCol, BoolCol
+from flask_table import Table, Col, LinkCol, ButtonCol, OptCol, BoolCol
 import flask.ext.testing as flask_testing
 
 
@@ -250,6 +250,50 @@ class BoolTest(TableTest):
                  Item(yesno='Truthy'),
                  Item(yesno='')]
         self.assert_html_equivalent_from_file('bool_test', 'test_one', items)
+
+
+class OptTest(TableTest):
+    def setUp(self):
+        choices = {'a': 'A', 'b': 'Bbb', 'c': 'Ccccc'}
+        class MyTable(Table):
+            choice = OptCol('Choice Heading', choices=choices)
+        self.table_cls = MyTable
+
+    def test_one(self):
+        items = [Item(choice='a'),
+                 Item(choice='b'),
+                 Item(choice='c'),
+                 Item(choice='d')]
+        self.assert_html_equivalent_from_file('opt_test', 'test_one', items)
+
+
+class OptTestDefaultKey(TableTest):
+    def setUp(self):
+        choices = {'a': 'A', 'b': 'Bbb', 'c': 'Ccccc'}
+        class MyTable(Table):
+            choice = OptCol('Choice Heading', choices=choices, default_key='c')
+        self.table_cls = MyTable
+
+    def test_one(self):
+        items = [Item(choice='a'),
+                 Item(choice='b'),
+                 Item(choice='c'),
+                 Item(choice='d')]
+        self.assert_html_equivalent_from_file('opt_test', 'test_one_default_key', items)
+
+class OptTestDefaultValue(TableTest):
+    def setUp(self):
+        choices = {'a': 'A', 'b': 'Bbb', 'c': 'Ccccc'}
+        class MyTable(Table):
+            choice = OptCol('Choice Heading', choices=choices, default_value='Ddddddd')
+        self.table_cls = MyTable
+
+    def test_one(self):
+        items = [Item(choice='a'),
+                 Item(choice='b'),
+                 Item(choice='c'),
+                 Item(choice='d')]
+        self.assert_html_equivalent_from_file('opt_test', 'test_one_default_value', items)
 
 
 class EscapeTest(TableTest):

@@ -3,7 +3,8 @@ from tests import (TableTest, ColTest, AttrListTest, LinkTest, ButtonTest,
                    EscapeTest, ColDictTest, AttrListDotsTest, ColCallableTest,
                    AltAttrTest, ClassTest, LinkDictTest,
                    LinkTestSubItemAttrList, LinkTestSubItemAttrDots,
-                   WeirdAttrListTest, BoolTest)
+                   WeirdAttrListTest, BoolTest, OptTest, OptTestDefaultKey,
+                   OptTestDefaultValue)
 
 if __name__ == '__main__':
     #unittest.main(warnings=False)
