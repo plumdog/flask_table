@@ -2,8 +2,10 @@ import os
 import unittest
 
 from flask import Flask
-from flask_table import Table, Col, LinkCol, ButtonCol, OptCol, BoolCol
+from flask_table import (Table, Col, LinkCol, ButtonCol, OptCol, BoolCol,
+                         DateCol, DatetimeCol)
 import flask.ext.testing as flask_testing
+from datetime import date, datetime
 
 
 class Item(object):
@@ -318,6 +320,27 @@ class OptTestDefaultValue(TableTest):
                  Item(choice='c'),
                  Item(choice='d')]
         self.assert_html_equivalent_from_file('opt_test', 'test_one_default_value', items)
+
+class DateTest(TableTest):
+    def setUp(self):
+        class MyTable(Table):
+            date = DateCol('Date Heading')
+        self.table_cls = MyTable
+
+    def test_one(self):
+        items = [Item(date=date(2014, 1, 1)), Item(date=None)]
+        self.assert_html_equivalent_from_file('date_test', 'test_one', items)
+
+
+class DatetimeTest(TableTest):
+    def setUp(self):
+        class MyTable(Table):
+            datetime = DatetimeCol('DateTime Heading')
+        self.table_cls = MyTable
+
+    def test_one(self):
+        items = [Item(datetime=datetime(2014, 1, 1, 10, 20, 30)), Item(datetime=None)]
+        self.assert_html_equivalent_from_file('datetime_test', 'test_one', items)
 
 
 class EscapeTest(TableTest):
