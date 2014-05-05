@@ -54,9 +54,9 @@ class Col(object):
     def __init__(self, name, attr=None, attr_list=[]):
         self.name = name
         self._counter_val = Col._counter
-        self.attr = '.'.join(attr_list)
+        self.attr_list = attr_list
         if attr:
-            self.attr = attr
+            self.attr_list = attr.split('.')
         
         Col._counter += 1
 
@@ -64,25 +64,25 @@ class Col(object):
     def gettype(cls):
         return cls.__name__
 
-    def get_attr(self, attr):
-        if self.attr:
-            return self.attr
+    def get_attr_list(self, attr):
+        if self.attr_list:
+            return self.attr_list
         elif attr:
-            return attr
+            return attr.split('.')
         else:
             return None
 
-    def from_attr(self, i, attr):
-        out = _recursive_getattr(i, attr)
+    def from_attr_list(self, i, attr_list):
+        out = _recursive_getattr(i, attr_list)
         if out is None:
             return ''
         else:
             return out
 
     def td(self, i, attr):
-        return '<td>%s</td>' % self.td_contents(i, self.get_attr(attr))
+        return '<td>%s</td>' % self.td_contents(i, self.get_attr_list(attr))
 
-    def td_contents(self, i, attr):
+    def td_contents(self, i, attr_list):
         """Given an item and an attr, return the contents of the
         <td>.
 
@@ -94,7 +94,7 @@ class Col(object):
         Note that the output of this function is NOT escaped.
 
         """
-        return self.td_format(self.from_attr(i, attr))
+        return self.td_format(self.from_attr_list(i, attr_list))
 
     def td_format(self, content):
         """Given just the value extracted from the item, return what should
@@ -103,7 +103,7 @@ class Col(object):
         This method is also a good choice to override when extending,
         which is done in the BoolCol, DateCol and DatetimeCol
         classes. Override this method when you just need the standard
-        data that attr gets from the item, but need to adjust how
+        data that attr_list gets from the item, but need to adjust how
         it is represented.
 
         Note that the output of this function is NOT escaped.
@@ -183,21 +183,21 @@ class LinkCol(Col):
             url_kwargs_out[k] = _recursive_getattr(item, v)
         return url_kwargs_out
 
-    def get_attr(self, attr):
-        return Col.get_attr(self, None)
+    def get_attr_list(self, attr):
+        return Col.get_attr_list(self, None)
 
-    def text(self, i, attr):
-        if attr:
-            return self.from_attr(i, attr)
+    def text(self, i, attr_list):
+        if attr_list:
+            return self.from_attr_list(i, attr_list)
         else:
             return self.name
 
     def url(self, i):
         return url_for(self.endpoint, **self.url_kwargs(i))
 
-    def td_contents(self, i, attr):
+    def td_contents(self, i, attr_list):
         return '<a href="%s">%s</a>' % (self.url(i),
-                                        Markup.escape(self.text(i, attr)))
+                                        Markup.escape(self.text(i, attr_list)))
 
 
 class ButtonCol(LinkCol):
@@ -212,8 +212,8 @@ class ButtonCol(LinkCol):
 
     """
 
-    def td_contents(self, i, attr):
+    def td_contents(self, i, attr_list):
         return ('<form method="post" action="%s">'
                 '<button type="submit">%s</button>'
                 '</form>') % (self.url(i),
-                              Markup.escape(self.text(i, attr)))
+                              Markup.escape(self.text(i, attr_list)))
