@@ -189,6 +189,32 @@ class LinkTest(FlaskTableTest):
         self.assert_html_equivalent_from_file('link_test', 'test_one', items)
 
 
+class LinkDictTest(LinkTest):
+    def test_one(self):
+        items = [dict(name='one', id=1)]
+        self.assert_html_equivalent_from_file('link_test', 'test_one', items)
+
+
+class LinkTestSubItemAttrList(LinkTest):
+    def setUp(self):
+        class LinkTable(Table):
+            name = Col('Name')
+            view = LinkCol('View', 'view', url_kwargs=dict(id_=['subitem', 'id']))
+        self.table_cls = LinkTable
+
+    def test_one(self):
+        items = [Item(name='one', subitem=Subitem(id=1))]
+        self.assert_html_equivalent_from_file('link_test', 'test_one', items)
+
+
+class LinkTestSubItemAttrDots(LinkTestSubItemAttrList):
+    def setUp(self):
+        class LinkTable(Table):
+            name = Col('Name')
+            view = LinkCol('View', 'view', url_kwargs=dict(id_='subitem.id'))
+        self.table_cls = LinkTable
+
+
 class ButtonTest(FlaskTableTest):
     def setUp(self):
         class ButtonTable(Table):
