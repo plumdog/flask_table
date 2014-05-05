@@ -3,7 +3,7 @@ from distutils.core import setup
 setup(
     name='Flask-Table',
     packages=['flask_table'],
-    version='0.1.5',
+    version='0.1.6',
     author='Andrew Plummer',
     author_email='plummer574@gmail.com',
     url='https://github.com/plumdog/flask_table',
