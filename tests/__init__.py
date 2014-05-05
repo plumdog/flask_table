@@ -18,10 +18,6 @@ class Subitem(Item):
     pass
 
 
-def html_equivalent(a, b):
-    return html_reduce(a) == html_reduce(b)
-
-
 def html_reduce(s):
     return ''.join(l.strip() for l in s.split('\n'))
 
@@ -42,7 +38,7 @@ class TableTest(unittest.TestCase):
         return self.assert_not_in(x, y.__html__())
 
     def assert_html_equivalent(self, test_tab, reference):
-        self.assertTrue(html_equivalent(test_tab.__html__(), reference))
+        self.assertEqual(html_reduce(test_tab.__html__()), html_reduce(reference))
 
     @classmethod
     def get_html(cls, d, name):
