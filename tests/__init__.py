@@ -2,7 +2,7 @@ import os
 import unittest
 
 from flask import Flask
-from flask_table import Table, Col, LinkCol, ButtonCol
+from flask_table import Table, Col, LinkCol, ButtonCol, BoolCol
 import flask.ext.testing as flask_testing
 
 
@@ -237,6 +237,19 @@ class ButtonTest(FlaskTableTest):
     def test_one(self):
         items = [Item(name='one', id=1)]
         self.assert_html_equivalent_from_file('button_test', 'test_one', items)
+
+
+class BoolTest(TableTest):
+    def setUp(self):
+        class MyTable(Table):
+            yesno = BoolCol('YesNo Heading')
+        self.table_cls = MyTable
+
+    def test_one(self):
+        items = [Item(yesno=True),
+                 Item(yesno='Truthy'),
+                 Item(yesno='')]
+        self.assert_html_equivalent_from_file('bool_test', 'test_one', items)
 
 
 class EscapeTest(TableTest):
