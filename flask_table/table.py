@@ -31,11 +31,11 @@ class Table(with_metaclass(TableMeta)):
 
     """
 
-    classes = ['table']
+    classes = []
 
-    def __init__(self, items=None, classes=None):
+    def __init__(self, items, classes=None):
         self.items = items
-        if classes:
+        if classes is not None:
             self.classes = classes
 
     def cols(self):

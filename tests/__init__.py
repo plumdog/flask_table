@@ -165,6 +165,18 @@ class AttrListDotsTest(AttrListTest):
         self.table_cls = MyTable
 
 
+class ClassTest(TableTest):
+    def setUp(self):
+        class MyTable(Table):
+            classes = ['table']
+            name = Col('Name Heading')
+        self.table_cls = MyTable
+
+    def test_one(self):
+        items = [Item(name='one')]
+        self.assert_html_equivalent_from_file('class_test', 'test_one', items)
+
+
 class LinkTest(FlaskTableTest):
     def setUp(self):
         class LinkTable(Table):
