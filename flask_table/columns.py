@@ -60,10 +60,6 @@ class Col(object):
         
         Col._counter += 1
 
-    @classmethod
-    def gettype(cls):
-        return cls.__name__
-
     def get_attr_list(self, attr):
         if self.attr_list:
             return self.attr_list
