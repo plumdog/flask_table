@@ -146,6 +146,12 @@ class AttrListTest(TableTest):
         self.assert_html_equivalent_from_file(
             'attr_list_test', 'test_two_one_empty', items)
 
+class AltAttrTest(ColTest):
+    def setUp(self):
+        class MyTable(Table):
+            alt_name = Col('Name Heading', attr='name')
+        self.table_cls = MyTable
+
 
 class AttrListDotsTest(AttrListTest):
     def setUp(self):
