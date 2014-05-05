@@ -2,13 +2,23 @@ from flask import Markup, url_for
 from babel.dates import format_date, format_datetime
 
 
+def _single_get(item, key):
+    # First, try to lookup the key as if the item were a dict. If
+    # that fails, lookup the key as an atrribute of an item.
+    try:
+        val = item[key]
+    except (KeyError, TypeError):
+        val = getattr(item, key)
+    return val
+
+
 def _recursive_getattr(item, keys):
     if item is None:
         return None
     if len(keys) == 1:
-        return getattr(item, keys[0])
+        return _single_get(item, keys[0])
     else:
-        return _recursive_getattr(getattr(item, keys[0]), keys[1:])
+        return _recursive_getattr(_single_get(item, keys[0]), keys[1:])
 
 
 class Col(object):

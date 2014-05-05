@@ -22,6 +22,9 @@ class Item(object):
         self.name = name
         self.description = description
 items = [Item('Name1', 'Desc1'), Item('Name2', 'Desc2')]
+# Or, equivalently, some dicts
+items = [dict(name='Name1', description='Desc1'),
+         dict(name='Name2', description='Desc2')]
 
 # Populate the table
 table = MyTable(items)
@@ -32,9 +35,10 @@ print(table.__html__())
 ```
 
 Extra things:
+-------------
 
 * The attribute used for each column in the declaration of the column
-  is used as the default thing to lookup in each object.
+  is used as the default thing to lookup in each item.
 
 * There are also LinkCol and ButtonCol that allow links and buttons,
   which is where the Flask-specific-ness comes in.

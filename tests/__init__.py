@@ -95,6 +95,19 @@ class ColTest(TableTest):
         items = [Item(name=str(i)) for i in range(10)]
         self.assert_html_equivalent_from_file('col_test', 'test_ten', items)
 
+class ColDictTest(ColTest):
+    def test_one(self):
+        items = [dict(name='one')]
+        self.assert_html_equivalent_from_file('col_test', 'test_one', items)
+
+    def test_two(self):
+        items = [dict(name='one'), dict(name='two')]
+        self.assert_html_equivalent_from_file('col_test', 'test_two', items)
+
+    def test_ten(self):
+        items = [dict(name=str(i)) for i in range(10)]
+        self.assert_html_equivalent_from_file('col_test', 'test_ten', items)
+
 
 class AttrListTest(TableTest):
     def setUp(self):
