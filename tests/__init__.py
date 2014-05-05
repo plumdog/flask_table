@@ -96,6 +96,17 @@ class ColTest(TableTest):
         self.assert_html_equivalent_from_file('col_test', 'test_ten', items)
 
 
+class EmptyTest(TableTest):
+    def setUp(self):
+        class MyTable(Table):
+            name = Col('Name Heading')
+        self.table_cls = MyTable
+
+    def test_none(self):
+        items = []
+        self.assert_html_equivalent_from_file('empty_test', 'test_none', items)
+
+
 class ColDictTest(ColTest):
     def test_one(self):
         items = [dict(name='one')]
