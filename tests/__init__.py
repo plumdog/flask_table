@@ -95,6 +95,7 @@ class ColTest(TableTest):
         items = [Item(name=str(i)) for i in range(10)]
         self.assert_html_equivalent_from_file('col_test', 'test_ten', items)
 
+
 class ColDictTest(ColTest):
     def test_one(self):
         items = [dict(name='one')]
@@ -108,9 +109,11 @@ class ColDictTest(ColTest):
         items = [dict(name=str(i)) for i in range(10)]
         self.assert_html_equivalent_from_file('col_test', 'test_ten', items)
 
+
 class FuncItem(Item):
         def get_name(self):
             return self.name
+
 
 class ColCallableTest(ColTest):
     def setUp(self):
@@ -130,6 +133,7 @@ class ColCallableTest(ColTest):
         items = [FuncItem(name=str(i)) for i in range(10)]
         self.assert_html_equivalent_from_file('col_test', 'test_ten', items)
 
+
 class AttrListTest(TableTest):
     def setUp(self):
         class MyTable(Table):
@@ -145,6 +149,7 @@ class AttrListTest(TableTest):
         items = [Item(subitem=Subitem(name='one')), Item(subitem=None)]
         self.assert_html_equivalent_from_file(
             'attr_list_test', 'test_two_one_empty', items)
+
 
 class AltAttrTest(ColTest):
     def setUp(self):
