@@ -253,6 +253,17 @@ class LinkTestSubItemAttrDots(LinkTestSubItemAttrList):
         self.table_cls = LinkTable
 
 
+class LinkTestCustomContent(FlaskTableTest):
+    def setUp(self):
+        class LinkTable(Table):
+            name = LinkCol('View', 'view', attr='name', url_kwargs=dict(id_='id'))
+        self.table_cls = LinkTable
+
+    def test_one(self):
+        items = [Item(name='one', id=1)]
+        self.assert_html_equivalent_from_file('link_test', 'test_one_custom_content', items)
+
+
 class ButtonTest(FlaskTableTest):
     def setUp(self):
         class ButtonTable(Table):
