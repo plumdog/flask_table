@@ -1,4 +1,9 @@
-from distutils.core import setup
+from setuptools import setup
+
+install_requires = [
+    'Flask',
+    'Babel'
+]
 
 setup(
     name='Flask-Table',
@@ -8,6 +13,7 @@ setup(
     author_email='plummer574@gmail.com',
     url='https://github.com/plumdog/flask_table',
     description='HTML tables for use with the Flask micro-framework',
+    install_requires=install_requires,
     classifiers=[
         'Development Status :: 3 - Alpha',
         'Programming Language :: Python',
