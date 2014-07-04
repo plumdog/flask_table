@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 import os
+import io
 import unittest
 
 from flask import Flask
@@ -46,8 +47,8 @@ class TableTest(unittest.TestCase):
         path = os.path.join(
             os.path.abspath(os.path.dirname(__file__)),
             'html', d, name + '.html')
-        with open(path) as f:
-            return f.read().decode("utf8")
+        with io.open(path, encoding="utf8") as f:
+            return f.read()
 
     def assert_html_equivalent_from_file(self, d, name, items=[], **kwargs):
         tab = kwargs.get('tab', self.table_cls(items))
