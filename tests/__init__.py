@@ -338,6 +338,15 @@ class DateTest(TableTest):
         items = [Item(date=date(2014, 1, 1)), Item(date=None)]
         self.assert_html_equivalent_from_file('date_test', 'test_one', items)
 
+class DateTestFormat(TableTest):
+    def setUp(self):
+        class MyTable(Table):
+            date = DateCol('Date Heading', date_format="YYYY-MM-dd")
+        self.table_cls = MyTable
+
+    def test_one(self):
+        items = [Item(date=date(2014, 2, 1)), Item(date=None)]
+        self.assert_html_equivalent_from_file('date_test_format', 'test_one', items)
 
 class DatetimeTest(TableTest):
     def setUp(self):
