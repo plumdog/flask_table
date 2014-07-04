@@ -1,6 +1,10 @@
 import os
 import unittest
 
+for name in ['LANGUAGE', 'LC_ALL', 'LC_CTYPE', 'LC_MESSAGES']:
+    os.environ[name] = ''
+os.environ['LANGUAGE'] = 'en_GB.UTF-8'
+
 from flask import Flask
 from flask_table import (Table, Col, LinkCol, ButtonCol, OptCol, BoolCol,
                          DateCol, DatetimeCol)
