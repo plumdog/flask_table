@@ -102,10 +102,10 @@ class Col(object):
         data that attr_list gets from the item, but need to adjust how
         it is represented.
 
-        Note that the output of this function is NOT escaped.
+        Note that the output of this function is escaped.
 
         """
-        return str(Markup.escape(str(content)))
+        return Markup.escape(content)
 
 
 class OptCol(Col):

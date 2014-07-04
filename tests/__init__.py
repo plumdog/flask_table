@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import os
 import unittest
 
@@ -46,7 +47,7 @@ class TableTest(unittest.TestCase):
             os.path.abspath(os.path.dirname(__file__)),
             'html', d, name + '.html')
         with open(path) as f:
-            return str(f.read())
+            return f.read().decode("utf8")
 
     def assert_html_equivalent_from_file(self, d, name, items=[], **kwargs):
         tab = kwargs.get('tab', self.table_cls(items))
@@ -93,6 +94,10 @@ class ColTest(TableTest):
         items = [Item(name=str(i)) for i in range(10)]
         self.assert_html_equivalent_from_file('col_test', 'test_ten', items)
 
+    def test_encoding(self):
+        items = [Item(name=u'äöüß')]
+        self.assert_html_equivalent_from_file('col_test', 'test_encoding', items)
+
 
 class EmptyTest(TableTest):
     def setUp(self):
@@ -118,6 +123,10 @@ class ColDictTest(ColTest):
         items = [dict(name=str(i)) for i in range(10)]
         self.assert_html_equivalent_from_file('col_test', 'test_ten', items)
 
+    def test_encoding(self):
+        items = [dict(name=u'äöüß')]
+        self.assert_html_equivalent_from_file('col_test', 'test_encoding', items)
+
 
 class FuncItem(Item):
         def get_name(self):
@@ -141,6 +150,10 @@ class ColCallableTest(ColTest):
     def test_ten(self):
         items = [FuncItem(name=str(i)) for i in range(10)]
         self.assert_html_equivalent_from_file('col_test', 'test_ten', items)
+
+    def test_encoding(self):
+        items = [FuncItem(name=u'äöüß')]
+        self.assert_html_equivalent_from_file('col_test', 'test_encoding', items)
 
 
 class AttrListTest(TableTest):
