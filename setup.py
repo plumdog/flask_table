@@ -14,6 +14,8 @@ setup(
     url='https://github.com/plumdog/flask_table',
     description='HTML tables for use with the Flask micro-framework',
     install_requires=install_requires,
+    test_suite='tests',
+    tests_require=['flask-testing'],
     classifiers=[
         'Development Status :: 3 - Alpha',
         'Programming Language :: Python',
