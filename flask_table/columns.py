@@ -51,8 +51,9 @@ class Col(object):
 
     _counter = 0
 
-    def __init__(self, name, attr=None, attr_list=[]):
+    def __init__(self, name, attr=None, attr_list=[], allow_sort=True):
         self.name = name
+        self.allow_sort = allow_sort
         self._counter_val = Col._counter
         self.attr_list = attr_list
         if attr:
@@ -176,8 +177,8 @@ class LinkCol(Col):
     id=item.id) for each item in the iterable.
 
     """
-    def __init__(self, name, endpoint, attr=None, attr_list=[], url_kwargs={}):
-        Col.__init__(self, name, attr=attr, attr_list=attr_list)
+    def __init__(self, name, endpoint, attr=None, attr_list=[], url_kwargs={}, **kwargs):
+        Col.__init__(self, name, attr=attr, attr_list=attr_list, **kwargs)
         self.endpoint = endpoint
         self._url_kwargs = url_kwargs
 

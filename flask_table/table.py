@@ -32,9 +32,12 @@ class Table(with_metaclass(TableMeta)):
     """
 
     classes = []
+    allow_sort = False
 
-    def __init__(self, items, classes=None):
+    def __init__(self, items, *, classes=None, sort_by=None, sort_reverse=False):
         self.items = items
+        self.sort_by = sort_by
+        self.sort_reverse = sort_reverse
         if classes is not None:
             self.classes = classes
 
@@ -69,5 +72,21 @@ class Table(with_metaclass(TableMeta)):
             out.append(c.td(i, attr))
         return '<tr>%s</tr>' % ''.join(out)
 
+    def th_contents(self, col_key, col):
+        escaped = Markup.escape(col.name)
+        if not (col.allow_sort and self.allow_sort):
+            return escaped
+
+        if self.sort_by == col_key:
+            if self.sort_reverse:
+                return u'<a href="{}">↑{}</a>'.format(self.sort_url(col_key), escaped)
+            else:
+                return u'<a href="{}">↓{}</a>'.format(self.sort_url(col_key, reverse=True), escaped)
+        else:
+            return u'<a href="{}">{}</a>'.format(self.sort_url(col_key), escaped)
+
     def th(self, col_key, col):
-        return '<th>%s</th>' % Markup.escape(col.name)
+        return u'<th>{}</th>'.format(self.th_contents(col_key, col))
+
+    def sort_url(self, col_id, reverse=False):
+        raise NotImplementedError('sort_url not implemented')

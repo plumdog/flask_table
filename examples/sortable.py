@@ -5,51 +5,38 @@ from flask_table import Table, Col, LinkCol
 from flask import Flask, Markup, request, url_for
 
 """
-A example for creating a Table that is sortable by it's header
+A example for creating a Table that is sortable by its header
 """
 
 app = Flask(__name__)
-app.DEBUG = True
 
 class SortableTable(Table):
-    id = Col("ID")
+    id = Col('ID')
     name = Col('Name')
     description = Col('Description')
-    link = LinkCol('Link', "flask_link", url_kwargs={'id': 'id'})
+    link = LinkCol('Link', 'flask_link', url_kwargs=dict(id='id'), allow_sort=False)
+    allow_sort = True
 
-    def __init__(self, data, sort, reverse, *args, **kwargs):
-        super(SortableTable, self).__init__(data)
-        self.sort = sort
-        self.reverse = reverse
-
-    # implementation of the sortable header
-    def th(self, col_id, col):
-        escaped = Markup.escape(col.name)
-        if col_id == 'link':
-            th = escaped  # don't add the sort to the link column
+    def sort_url(self, col_key, reverse=False):
+        if reverse:
+            direction =  'desc'
         else:
-            if self.sort == col_id:
-                if self.reverse:
-                    th = u"<a href='{}'>↑{}</a>".format(url_for('index', sort=col_id), escaped)
-                else:
-                    th = u"<a href='{}'>↓{}</a>".format(url_for('index', sort=col_id, direction='desc'), escaped)
-            else:
-                th = u"<a href='{}'>{}</a>".format(url_for('index', sort=col_id), escaped)
-        return u"<th>{}</th>".format(th)
+            direction = 'asc'
+        return url_for('index', sort=col_key, direction=direction)
 
 
-@app.route("/")
+@app.route('/')
 def index():
     sort = request.args.get('sort', 'id')
     reverse = (request.args.get('direction', 'asc') == 'desc')
-    table = SortableTable(Item.get_sorted_by(sort, reverse), sort, reverse)
+    table = SortableTable(Item.get_sorted_by(sort, reverse), sort_by=sort, sort_reverse=reverse)
     return table.__html__()
 
 
-@app.route("/item/<int:id>")
+@app.route('/item/<int:id>')
 def flask_link(id):
     element = Item.get_element_by_id(id)
-    return "<h1>{}</h1><p>{}</p><hr><small>id: {}</small>".format(
+    return '<h1>{}</h1><p>{}</p><hr><small>id: {}</small>'.format(
         element.name, element.description, element.id)
 
 

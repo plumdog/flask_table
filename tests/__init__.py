@@ -7,7 +7,7 @@ for name in ['LANGUAGE', 'LC_ALL', 'LC_CTYPE', 'LC_MESSAGES']:
     os.environ[name] = ''
 os.environ['LANGUAGE'] = 'en_GB.UTF-8'
 
-from flask import Flask
+from flask import Flask, url_for
 from flask_table import (Table, Col, LinkCol, ButtonCol, OptCol, BoolCol,
                          DateCol, DatetimeCol)
 import flask.ext.testing as flask_testing
@@ -64,6 +64,12 @@ class TableTest(unittest.TestCase):
 
 def test_app():
     app = Flask(__name__)
+
+    @app.route('/', defaults=dict(sort=None, direction=None))
+    @app.route('/sort/<string:sort>/', defaults=dict(direction=None))
+    @app.route('/sort/<string:sort>/direction/<string:direction>/')
+    def index(sort, direction):
+        return 'Index'
 
     @app.route('/view/<int:id_>')
     def view(id_):
@@ -386,3 +392,31 @@ class EscapeTest(TableTest):
     def test_one(self):
         items = [Item(name='<&"\'')]
         self.assert_html_equivalent_from_file('escape_test', 'test_one', items)
+
+class SortingTest(FlaskTableTest):
+    def setUp(self):
+        class SortingTable(Table):
+            allow_sort = True
+            name = Col('Name')
+
+            def sort_url(self, col_key, reverse=False):
+                kwargs = {'sort': col_key}
+                if reverse:
+                    kwargs['direction'] =  'desc'
+                return url_for('index', **kwargs)
+
+        self.table_cls = SortingTable
+
+    def test_start(self):
+        items = [Item(name='name')]
+        self.assert_html_equivalent_from_file('sorting_test', 'test_start', items)
+
+    def test_sorted(self):
+        items = [Item(name='name')]
+        tab = self.table_cls(items, sort_by='name')
+        self.assert_html_equivalent_from_file('sorting_test', 'test_sorted', items, tab=tab)
+
+    def test_sorted_reverse(self):
+        items = [Item(name='name')]
+        tab = self.table_cls(items, sort_by='name', sort_reverse=True)
+        self.assert_html_equivalent_from_file('sorting_test', 'test_sorted_reverse', items, tab=tab)
