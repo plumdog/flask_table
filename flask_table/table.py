@@ -53,10 +53,9 @@ class Table(with_metaclass(TableMeta)):
                 self.thead(), self.tbody())
 
     def thead(self):
-        out = []
-        for h in self._cols.values():
-            out.append('<th>%s</th>' % Markup.escape(h.name))
-        return '<thead><tr>%s</tr></thead>' % ''.join(out)
+        return '<thead><tr>%s</tr></thead>' % ''.join(
+            (self.th(col_key, col) for col_key, col in self._cols.items())
+        )
 
     def tbody(self):
         out = []
@@ -69,3 +68,6 @@ class Table(with_metaclass(TableMeta)):
         for attr, c in self._cols.items():
             out.append(c.td(i, attr))
         return '<tr>%s</tr>' % ''.join(out)
+
+    def th(self, col_key, col):
+        return '<th>%s</th>' % Markup.escape(col.name)
