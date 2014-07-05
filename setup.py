@@ -8,7 +8,7 @@ install_requires = [
 setup(
     name='Flask-Table',
     packages=['flask_table'],
-    version='0.2.1',
+    version='0.2.2',
     author='Andrew Plummer',
     author_email='plummer574@gmail.com',
     url='https://github.com/plumdog/flask_table',
