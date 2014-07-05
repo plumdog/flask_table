@@ -99,6 +99,38 @@ you override these methods. Also, because of the way that the Markup
 class works, you need to be careful about how you concatenate these
 with other strings.
 
+Sortable Tables
+===============
+
+(Look in examples/sortable.py for a more concrete example)
+
+Define a table and set its allow_sort attribute to True. Now all
+columns will be default try to turn their header into a link for
+sorting, unless you set allow_sort to False for a column.
+
+You also must declare a sort_url method for that table. Given a
+col_key, this determines the url for link in the header. If reverse is
+True, then that means that the table has just been sorted by that
+column and the url can adjust accordingly, ie to now give the address
+for the table sorted in the reverse direction. It is, however,
+entirely up to your flask view method to interpret the values given to
+it from this url and to order the results before giving the to the
+table. The table itself will not do any reordering of the items it is
+given.
+
+```python
+class SortableTable(Table):
+    name = Col('Name')
+    allow_sort = True
+
+    def sort_url(self, col_key, reverse=False):
+        if reverse:
+            direction =  'desc'
+        else:
+            direction = 'asc'
+        return url_for('index', sort=col_key, direction=direction)
+```
+
 Other Things
 ============
 
