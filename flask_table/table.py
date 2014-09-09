@@ -34,7 +34,7 @@ class Table(with_metaclass(TableMeta)):
     classes = []
     allow_sort = False
 
-    def __init__(self, items, *, classes=None, sort_by=None, sort_reverse=False):
+    def __init__(self, items, classes=None, sort_by=None, sort_reverse=False):
         self.items = items
         self.sort_by = sort_by
         self.sort_reverse = sort_reverse
