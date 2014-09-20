@@ -4,6 +4,8 @@ Flask Table
 Because writing HTML is fiddly and all of your tables are basically
 the same.
 
+[![Build Status](https://travis-ci.org/plumdog/flask_table.svg?branch=master)](https://travis-ci.org/plumdog/flask_table)
+
 Quick Start
 ===========
 
