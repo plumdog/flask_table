@@ -27,8 +27,8 @@ items = [Item('Name1', 'Desc1'), Item('Name2', 'Desc2')]
 # Or, equivalently, some dicts
 items = [dict(name='Name1', description='Desc1'),
          dict(name='Name2', description='Desc2')]
-# Or, more likely, something like
-items = Item.query.all()
+# Or, more likely, load items from your database with something like
+items = ItemModel.query.all()
 
 # Populate the table
 table = MyTable(items)
