@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+
+from __future__ import unicode_literals
 import os
 import io
 import unittest
@@ -106,7 +108,7 @@ class ColTest(TableTest):
         self.assert_html_equivalent_from_file('col_test', 'test_ten', items)
 
     def test_encoding(self):
-        items = [Item(name=u'äöüß')]
+        items = [Item(name='äöüß')]
         self.assert_html_equivalent_from_file('col_test', 'test_encoding', items)
 
 
@@ -135,7 +137,7 @@ class ColDictTest(ColTest):
         self.assert_html_equivalent_from_file('col_test', 'test_ten', items)
 
     def test_encoding(self):
-        items = [dict(name=u'äöüß')]
+        items = [dict(name='äöüß')]
         self.assert_html_equivalent_from_file('col_test', 'test_encoding', items)
 
 
@@ -163,7 +165,7 @@ class ColCallableTest(ColTest):
         self.assert_html_equivalent_from_file('col_test', 'test_ten', items)
 
     def test_encoding(self):
-        items = [FuncItem(name=u'äöüß')]
+        items = [FuncItem(name='äöüß')]
         self.assert_html_equivalent_from_file('col_test', 'test_encoding', items)
 
 
