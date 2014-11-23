@@ -60,7 +60,7 @@ class Col(object):
         self.attr_list = attr_list
         if attr:
             self.attr_list = attr.split('.')
-        
+
         Col._counter += 1
 
     def get_attr_list(self, attr):
@@ -113,7 +113,8 @@ class Col(object):
 
 
 class OptCol(Col):
-    def __init__(self, name, choices={}, default_key=None, default_value='', coerce_fn=None, **kwargs):
+    def __init__(self, name, choices={}, default_key=None, default_value='',
+                 coerce_fn=None, **kwargs):
         Col.__init__(self, name, **kwargs)
         self.choices = choices
         self.default_value = choices.get(default_key, default_value)
@@ -126,12 +127,14 @@ class OptCol(Col):
             return content
 
     def td_format(self, content):
-        return self.choices.get(self.coerce_content(content), self.default_value)
+        return self.choices.get(
+            self.coerce_content(content), self.default_value)
 
 
 class BoolCol(OptCol):
     def __init__(self, name, **kwargs):
-        OptCol.__init__(self, name, choices={True: 'Yes', False: 'No'}, coerce_fn=bool, **kwargs)
+        OptCol.__init__(self, name, choices={True: 'Yes', False: 'No'},
+                        coerce_fn=bool, **kwargs)
 
 
 class DateCol(Col):
@@ -180,7 +183,8 @@ class LinkCol(Col):
     id=item.id) for each item in the iterable.
 
     """
-    def __init__(self, name, endpoint, attr=None, attr_list=[], url_kwargs={}, **kwargs):
+    def __init__(self, name, endpoint, attr=None, attr_list=[], url_kwargs={},
+                 **kwargs):
         Col.__init__(self, name, attr=attr, attr_list=attr_list, **kwargs)
         self.endpoint = endpoint
         self._url_kwargs = url_kwargs
@@ -222,8 +226,8 @@ class ButtonCol(LinkCol):
     """
 
     def td_contents(self, i, attr_list):
-        return ('<form method="post" action="{url}">'
-                '<button type="submit">{text}</button>'
-                '</form>').format(
-                    url=self.url(i),
-                    text=Markup.escape(self.text(i, attr_list)))
+        return '<form method="post" action="{url}">'\
+            '<button type="submit">{text}</button>'\
+            '</form>'.format(
+                url=self.url(i),
+                text=Markup.escape(self.text(i, attr_list)))

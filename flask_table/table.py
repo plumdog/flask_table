@@ -83,11 +83,14 @@ class Table(with_metaclass(TableMeta)):
 
         if self.sort_by == col_key:
             if self.sort_reverse:
-                return '<a href="{}">↑{}</a>'.format(self.sort_url(col_key), escaped)
+                return '<a href="{}">↑{}</a>'.format(
+                    self.sort_url(col_key), escaped)
             else:
-                return '<a href="{}">↓{}</a>'.format(self.sort_url(col_key, reverse=True), escaped)
+                return '<a href="{}">↓{}</a>'.format(
+                    self.sort_url(col_key, reverse=True), escaped)
         else:
-            return '<a href="{}">{}</a>'.format(self.sort_url(col_key), escaped)
+            return '<a href="{}">{}</a>'.format(
+                self.sort_url(col_key), escaped)
 
     def th(self, col_key, col):
         return '<th>{}</th>'.format(self.th_contents(col_key, col))
