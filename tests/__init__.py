@@ -33,14 +33,14 @@ def html_reduce(s):
 class TableTest(unittest.TestCase):
     def assert_in(self, x, y):
         if x not in y:
-            raise AssertionError('%s is not in %s, but should be.' % (x, y))
+            raise AssertionError('{x} is not in {}, but should be.'.format(x=x, y=y))
 
     def assert_in_html(self, x, y):
         return self.assert_in(x, y.__html__())
 
     def assert_not_in(self, x, y):
         if x in y:
-            raise AssertionError('%s is in %s, but shouldn\'t be.' % (x, y))
+            raise AssertionError('{x} is in {y}, but shouldn\'t be.'.format(x=x, y=y))
 
     def assert_not_in_html(self, x, y):
         return self.assert_not_in(x, y.__html__())
@@ -75,11 +75,11 @@ def test_app():
 
     @app.route('/view/<int:id_>')
     def view(id_):
-        return 'View %s' % id_
+        return 'View {}'.format(id_)
 
     @app.route('/delete/<int:id_>', methods=['POST'])
     def delete(id_):
-        return 'Delete %s' % id_
+        return 'Delete {}'.format(id_)
 
     return app
 
