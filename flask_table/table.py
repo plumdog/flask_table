@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+from __future__ import unicode_literals
 from collections import OrderedDict
 from flask import Markup
 from .columns import Col
@@ -81,14 +82,14 @@ class Table(with_metaclass(TableMeta)):
 
         if self.sort_by == col_key:
             if self.sort_reverse:
-                return u'<a href="{}">↑{}</a>'.format(self.sort_url(col_key), escaped)
+                return '<a href="{}">↑{}</a>'.format(self.sort_url(col_key), escaped)
             else:
-                return u'<a href="{}">↓{}</a>'.format(self.sort_url(col_key, reverse=True), escaped)
+                return '<a href="{}">↓{}</a>'.format(self.sort_url(col_key, reverse=True), escaped)
         else:
-            return u'<a href="{}">{}</a>'.format(self.sort_url(col_key), escaped)
+            return '<a href="{}">{}</a>'.format(self.sort_url(col_key), escaped)
 
     def th(self, col_key, col):
-        return u'<th>{}</th>'.format(self.th_contents(col_key, col))
+        return '<th>{}</th>'.format(self.th_contents(col_key, col))
 
     def sort_url(self, col_id, reverse=False):
         raise NotImplementedError('sort_url not implemented')
