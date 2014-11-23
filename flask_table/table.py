@@ -48,32 +48,32 @@ class Table(with_metaclass(TableMeta)):
         if not self.classes:
             return ''
         else:
-            return ' class="%s"' % ' '.join(self.classes)
+            return ' class="{}"'.format(' '.join(self.classes))
 
     def __html__(self):
         if len(self.items) == 0:
             return '<p>No Items</p>'
         else:
-            return '<table%s>%s\n%s</table>' % (
-                self.classes_html_attr(),
-                self.thead(), self.tbody())
+            return '<table{attrs}>{thead}\n{tbody}</table>'.format(
+                attrs=self.classes_html_attr(),
+                thead=self.thead(),
+                tbody=self.tbody())
 
     def thead(self):
-        return '<thead><tr>%s</tr></thead>' % ''.join(
-            (self.th(col_key, col) for col_key, col in self._cols.items())
-        )
+        return '<thead><tr>{}</tr></thead>'.format(''.join(
+            (self.th(col_key, col) for col_key, col in self._cols.items())))
 
     def tbody(self):
         out = []
         for i in self.items:
             out.append(self.tr(i))
-        return '<tbody>%s</tbody>' % ''.join(out)
+        return '<tbody>{}</tbody>'.format(''.join(out))
 
     def tr(self, i):
         out = []
         for attr, c in self._cols.items():
             out.append(c.td(i, attr))
-        return '<tr>%s</tr>' % ''.join(out)
+        return '<tr>{}</tr>'.format(''.join(out))
 
     def th_contents(self, col_key, col):
         escaped = Markup.escape(col.name)

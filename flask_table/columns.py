@@ -78,7 +78,8 @@ class Col(object):
             return out
 
     def td(self, i, attr):
-        return '<td>%s</td>' % self.td_contents(i, self.get_attr_list(attr))
+        return '<td>{}</td>'.format(
+            self.td_contents(i, self.get_attr_list(attr)))
 
     def td_contents(self, i, attr_list):
         """Given an item and an attr, return the contents of the
@@ -202,8 +203,9 @@ class LinkCol(Col):
         return url_for(self.endpoint, **self.url_kwargs(i))
 
     def td_contents(self, i, attr_list):
-        return '<a href="%s">%s</a>' % (self.url(i),
-                                        Markup.escape(self.text(i, attr_list)))
+        return '<a href="{url}">{text}</a>'.format(
+            url=self.url(i),
+            text=Markup.escape(self.text(i, attr_list)))
 
 
 class ButtonCol(LinkCol):
@@ -219,7 +221,8 @@ class ButtonCol(LinkCol):
     """
 
     def td_contents(self, i, attr_list):
-        return ('<form method="post" action="%s">'
-                '<button type="submit">%s</button>'
-                '</form>') % (self.url(i),
-                              Markup.escape(self.text(i, attr_list)))
+        return ('<form method="post" action="{url}">'
+                '<button type="submit">{text}</button>'
+                '</form>').format(
+                    url=self.url(i),
+                    text=Markup.escape(self.text(i, attr_list)))
