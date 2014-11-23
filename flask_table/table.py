@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
-
 from __future__ import unicode_literals
 from collections import OrderedDict
+
 from flask import Markup
+
 from .columns import Col
 from .compat import with_metaclass
 

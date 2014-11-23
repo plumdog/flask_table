@@ -1,4 +1,5 @@
 from __future__ import unicode_literals
+
 from flask import Markup, url_for
 from babel.dates import format_date, format_datetime
 
