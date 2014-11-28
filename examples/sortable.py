@@ -1,6 +1,3 @@
-#!/usr/bin/env python
-# -*- coding: utf-8 -*-
-
 from flask_table import Table, Col, LinkCol
 from flask import Flask, Markup, request, url_for
 
