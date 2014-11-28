@@ -133,6 +133,27 @@ class SortableTable(Table):
         return url_for('index', sort=col_key, direction=direction)
 ```
 
+The Examples
+============
+
+The `examples` directory contains a few pieces of sample code to show
+some of the concepts and features. They are all intended to be
+runnable. Some of them just output the code they generate, but some
+(just one, `sortable.py`, at present) actually creates a Flask app
+that you can access.
+
+You should be able to just run them directly with `python`, but if you
+have cloned the repository for the sake of dev, and created a
+virtualenv, you may find that they generate an import error for
+`flask_table`. This is because `flask_table` hasn't been installed,
+and can be rectified by running something like
+`PYTHONPATH=$PYTHONPATH:. examples/simple.py`.
+
+Also, if there is anything that you think is not clear and would be
+helped by an example, please just ask and I'll happily write one. Only
+you can help me realise which bits are tricky or non-obvious and help
+me to work on explaining the bits that need explaining.
+
 Other Things
 ============
 
