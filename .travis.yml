@@ -3,4 +3,5 @@ python:
   - "2.7"
   - "3.3"
 install: "pip install -r requirements.txt"
+before_script: "pep8 flask_table/*.py"
 script: "LANGUAGE=en_GB:en python setup.py test"
