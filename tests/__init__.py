@@ -33,20 +33,24 @@ def html_reduce(s):
 class TableTest(unittest.TestCase):
     def assert_in(self, x, y):
         if x not in y:
-            raise AssertionError('{x} is not in {}, but should be.'.format(x=x, y=y))
+            raise AssertionError(
+                '{x} is not in {}, but should be.'.format(x=x, y=y))
 
     def assert_in_html(self, x, y):
         return self.assert_in(x, y.__html__())
 
     def assert_not_in(self, x, y):
         if x in y:
-            raise AssertionError('{x} is in {y}, but shouldn\'t be.'.format(x=x, y=y))
+            raise AssertionError(
+                '{x} is in {y}, but shouldn\'t be.'.format(x=x, y=y))
 
     def assert_not_in_html(self, x, y):
         return self.assert_not_in(x, y.__html__())
 
     def assert_html_equivalent(self, test_tab, reference):
-        self.assertEqual(html_reduce(test_tab.__html__()), html_reduce(reference))
+        self.assertEqual(
+            html_reduce(test_tab.__html__()),
+            html_reduce(reference))
 
     @classmethod
     def get_html(cls, d, name):
@@ -97,19 +101,23 @@ class ColTest(TableTest):
 
     def test_one(self):
         items = [Item(name='one')]
-        self.assert_html_equivalent_from_file('col_test', 'test_one', items)
+        self.assert_html_equivalent_from_file(
+            'col_test', 'test_one', items)
 
     def test_two(self):
         items = [Item(name='one'), Item(name='two')]
-        self.assert_html_equivalent_from_file('col_test', 'test_two', items)
+        self.assert_html_equivalent_from_file(
+            'col_test', 'test_two', items)
 
     def test_ten(self):
         items = [Item(name=str(i)) for i in range(10)]
-        self.assert_html_equivalent_from_file('col_test', 'test_ten', items)
+        self.assert_html_equivalent_from_file(
+            'col_test', 'test_ten', items)
 
     def test_encoding(self):
         items = [Item(name='äöüß')]
-        self.assert_html_equivalent_from_file('col_test', 'test_encoding', items)
+        self.assert_html_equivalent_from_file(
+            'col_test', 'test_encoding', items)
 
 
 class EmptyTest(TableTest):
@@ -120,25 +128,30 @@ class EmptyTest(TableTest):
 
     def test_none(self):
         items = []
-        self.assert_html_equivalent_from_file('empty_test', 'test_none', items)
+        self.assert_html_equivalent_from_file(
+            'empty_test', 'test_none', items)
 
 
 class ColDictTest(ColTest):
     def test_one(self):
         items = [dict(name='one')]
-        self.assert_html_equivalent_from_file('col_test', 'test_one', items)
+        self.assert_html_equivalent_from_file(
+            'col_test', 'test_one', items)
 
     def test_two(self):
         items = [dict(name='one'), dict(name='two')]
-        self.assert_html_equivalent_from_file('col_test', 'test_two', items)
+        self.assert_html_equivalent_from_file(
+            'col_test', 'test_two', items)
 
     def test_ten(self):
         items = [dict(name=str(i)) for i in range(10)]
-        self.assert_html_equivalent_from_file('col_test', 'test_ten', items)
+        self.assert_html_equivalent_from_file(
+            'col_test', 'test_ten', items)
 
     def test_encoding(self):
         items = [dict(name='äöüß')]
-        self.assert_html_equivalent_from_file('col_test', 'test_encoding', items)
+        self.assert_html_equivalent_from_file(
+            'col_test', 'test_encoding', items)
 
 
 class FuncItem(Item):
@@ -154,19 +167,23 @@ class ColCallableTest(ColTest):
 
     def test_one(self):
         items = [FuncItem(name='one')]
-        self.assert_html_equivalent_from_file('col_test', 'test_one', items)
+        self.assert_html_equivalent_from_file(
+            'col_test', 'test_one', items)
 
     def test_two(self):
         items = [FuncItem(name='one'), FuncItem(name='two')]
-        self.assert_html_equivalent_from_file('col_test', 'test_two', items)
+        self.assert_html_equivalent_from_file(
+            'col_test', 'test_two', items)
 
     def test_ten(self):
         items = [FuncItem(name=str(i)) for i in range(10)]
-        self.assert_html_equivalent_from_file('col_test', 'test_ten', items)
+        self.assert_html_equivalent_from_file(
+            'col_test', 'test_ten', items)
 
     def test_encoding(self):
         items = [FuncItem(name='äöüß')]
-        self.assert_html_equivalent_from_file('col_test', 'test_encoding', items)
+        self.assert_html_equivalent_from_file(
+            'col_test', 'test_encoding', items)
 
 
 class AttrListTest(TableTest):
@@ -189,7 +206,8 @@ class AttrListTest(TableTest):
 class WeirdAttrListTest(TableTest):
     def setUp(self):
         class MyTable(Table):
-            name = Col('Subitem Name Heading', attr_list=['subi.tem.', '.nam.e'])
+            name = Col(
+                'Subitem Name Heading', attr_list=['subi.tem.', '.nam.e'])
         self.table_cls = MyTable
 
     def test_one(self):
@@ -221,7 +239,8 @@ class ClassTest(TableTest):
 
     def test_one(self):
         items = [Item(name='one')]
-        self.assert_html_equivalent_from_file('class_test', 'test_one', items)
+        self.assert_html_equivalent_from_file(
+            'class_test', 'test_one', items)
 
 
 class ClassTestAtPopulate(TableTest):
@@ -246,25 +265,29 @@ class LinkTest(FlaskTableTest):
 
     def test_one(self):
         items = [Item(name='one', id=1)]
-        self.assert_html_equivalent_from_file('link_test', 'test_one', items)
+        self.assert_html_equivalent_from_file(
+            'link_test', 'test_one', items)
 
 
 class LinkDictTest(LinkTest):
     def test_one(self):
         items = [dict(name='one', id=1)]
-        self.assert_html_equivalent_from_file('link_test', 'test_one', items)
+        self.assert_html_equivalent_from_file(
+            'link_test', 'test_one', items)
 
 
 class LinkTestSubItemAttrList(LinkTest):
     def setUp(self):
         class LinkTable(Table):
             name = Col('Name')
-            view = LinkCol('View', 'view', url_kwargs=dict(id_=['subitem', 'id']))
+            view = LinkCol(
+                'View', 'view', url_kwargs=dict(id_=['subitem', 'id']))
         self.table_cls = LinkTable
 
     def test_one(self):
         items = [Item(name='one', subitem=Subitem(id=1))]
-        self.assert_html_equivalent_from_file('link_test', 'test_one', items)
+        self.assert_html_equivalent_from_file(
+            'link_test', 'test_one', items)
 
 
 class LinkTestSubItemAttrDots(LinkTestSubItemAttrList):
@@ -278,12 +301,14 @@ class LinkTestSubItemAttrDots(LinkTestSubItemAttrList):
 class LinkTestCustomContent(FlaskTableTest):
     def setUp(self):
         class LinkTable(Table):
-            name = LinkCol('View', 'view', attr='name', url_kwargs=dict(id_='id'))
+            name = LinkCol(
+                'View', 'view', attr='name', url_kwargs=dict(id_='id'))
         self.table_cls = LinkTable
 
     def test_one(self):
         items = [Item(name='one', id=1)]
-        self.assert_html_equivalent_from_file('link_test', 'test_one_custom_content', items)
+        self.assert_html_equivalent_from_file(
+            'link_test', 'test_one_custom_content', items)
 
 
 class ButtonTest(FlaskTableTest):
@@ -295,7 +320,8 @@ class ButtonTest(FlaskTableTest):
 
     def test_one(self):
         items = [Item(name='one', id=1)]
-        self.assert_html_equivalent_from_file('button_test', 'test_one', items)
+        self.assert_html_equivalent_from_file(
+            'button_test', 'test_one', items)
 
 
 class BoolTest(TableTest):
@@ -308,12 +334,14 @@ class BoolTest(TableTest):
         items = [Item(yesno=True),
                  Item(yesno='Truthy'),
                  Item(yesno='')]
-        self.assert_html_equivalent_from_file('bool_test', 'test_one', items)
+        self.assert_html_equivalent_from_file(
+            'bool_test', 'test_one', items)
 
 
 class OptTest(TableTest):
     def setUp(self):
         choices = {'a': 'A', 'b': 'Bbb', 'c': 'Ccccc'}
+
         class MyTable(Table):
             choice = OptCol('Choice Heading', choices=choices)
         self.table_cls = MyTable
@@ -323,12 +351,14 @@ class OptTest(TableTest):
                  Item(choice='b'),
                  Item(choice='c'),
                  Item(choice='d')]
-        self.assert_html_equivalent_from_file('opt_test', 'test_one', items)
+        self.assert_html_equivalent_from_file(
+            'opt_test', 'test_one', items)
 
 
 class OptTestDefaultKey(TableTest):
     def setUp(self):
         choices = {'a': 'A', 'b': 'Bbb', 'c': 'Ccccc'}
+
         class MyTable(Table):
             choice = OptCol('Choice Heading', choices=choices, default_key='c')
         self.table_cls = MyTable
@@ -338,13 +368,17 @@ class OptTestDefaultKey(TableTest):
                  Item(choice='b'),
                  Item(choice='c'),
                  Item(choice='d')]
-        self.assert_html_equivalent_from_file('opt_test', 'test_one_default_key', items)
+        self.assert_html_equivalent_from_file(
+            'opt_test', 'test_one_default_key', items)
+
 
 class OptTestDefaultValue(TableTest):
     def setUp(self):
         choices = {'a': 'A', 'b': 'Bbb', 'c': 'Ccccc'}
+
         class MyTable(Table):
-            choice = OptCol('Choice Heading', choices=choices, default_value='Ddddddd')
+            choice = OptCol(
+                'Choice Heading', choices=choices, default_value='Ddddddd')
         self.table_cls = MyTable
 
     def test_one(self):
@@ -352,7 +386,9 @@ class OptTestDefaultValue(TableTest):
                  Item(choice='b'),
                  Item(choice='c'),
                  Item(choice='d')]
-        self.assert_html_equivalent_from_file('opt_test', 'test_one_default_value', items)
+        self.assert_html_equivalent_from_file(
+            'opt_test', 'test_one_default_value', items)
+
 
 class DateTest(TableTest):
     def setUp(self):
@@ -362,41 +398,54 @@ class DateTest(TableTest):
 
     def test_one(self):
         items = [Item(date=date(2014, 1, 1)), Item(date=None)]
-        self.assert_html_equivalent_from_file('date_test', 'test_one', items)
+        self.assert_html_equivalent_from_file(
+            'date_test', 'test_one', items)
+
 
 class DateTestFormat(TableTest):
     def setUp(self):
+
         class MyTable(Table):
             date = DateCol('Date Heading', date_format="YYYY-MM-dd")
         self.table_cls = MyTable
 
     def test_one(self):
         items = [Item(date=date(2014, 2, 1)), Item(date=None)]
-        self.assert_html_equivalent_from_file('date_test_format', 'test_one', items)
+        self.assert_html_equivalent_from_file(
+            'date_test_format', 'test_one', items)
+
 
 class DatetimeTest(TableTest):
     def setUp(self):
+
         class MyTable(Table):
             datetime = DatetimeCol('DateTime Heading')
         self.table_cls = MyTable
 
     def test_one(self):
-        items = [Item(datetime=datetime(2014, 1, 1, 10, 20, 30)), Item(datetime=None)]
-        self.assert_html_equivalent_from_file('datetime_test', 'test_one', items)
+        items = [
+            Item(datetime=datetime(2014, 1, 1, 10, 20, 30)),
+            Item(datetime=None)]
+        self.assert_html_equivalent_from_file(
+            'datetime_test', 'test_one', items)
 
 
 class EscapeTest(TableTest):
     def setUp(self):
+
         class EscapeTable(Table):
             name = Col('Name')
         self.table_cls = EscapeTable
 
     def test_one(self):
         items = [Item(name='<&"\'')]
-        self.assert_html_equivalent_from_file('escape_test', 'test_one', items)
+        self.assert_html_equivalent_from_file(
+            'escape_test', 'test_one', items)
+
 
 class SortingTest(FlaskTableTest):
     def setUp(self):
+
         class SortingTable(Table):
             allow_sort = True
             name = Col('Name')
@@ -404,21 +453,24 @@ class SortingTest(FlaskTableTest):
             def sort_url(self, col_key, reverse=False):
                 kwargs = {'sort': col_key}
                 if reverse:
-                    kwargs['direction'] =  'desc'
+                    kwargs['direction'] = 'desc'
                 return url_for('index', **kwargs)
 
         self.table_cls = SortingTable
 
     def test_start(self):
         items = [Item(name='name')]
-        self.assert_html_equivalent_from_file('sorting_test', 'test_start', items)
+        self.assert_html_equivalent_from_file(
+            'sorting_test', 'test_start', items)
 
     def test_sorted(self):
         items = [Item(name='name')]
         tab = self.table_cls(items, sort_by='name')
-        self.assert_html_equivalent_from_file('sorting_test', 'test_sorted', items, tab=tab)
+        self.assert_html_equivalent_from_file(
+            'sorting_test', 'test_sorted', items, tab=tab)
 
     def test_sorted_reverse(self):
         items = [Item(name='name')]
         tab = self.table_cls(items, sort_by='name', sort_reverse=True)
-        self.assert_html_equivalent_from_file('sorting_test', 'test_sorted_reverse', items, tab=tab)
+        self.assert_html_equivalent_from_file(
+            'sorting_test', 'test_sorted_reverse', items, tab=tab)
