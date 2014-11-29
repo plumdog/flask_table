@@ -7,16 +7,18 @@ A example for creating a Table that is sortable by its header
 
 app = Flask(__name__)
 
+
 class SortableTable(Table):
     id = Col('ID')
     name = Col('Name')
     description = Col('Description')
-    link = LinkCol('Link', 'flask_link', url_kwargs=dict(id='id'), allow_sort=False)
+    link = LinkCol(
+        'Link', 'flask_link', url_kwargs=dict(id='id'), allow_sort=False)
     allow_sort = True
 
     def sort_url(self, col_key, reverse=False):
         if reverse:
-            direction =  'desc'
+            direction = 'desc'
         else:
             direction = 'asc'
         return url_for('index', sort=col_key, direction=direction)
@@ -26,7 +28,9 @@ class SortableTable(Table):
 def index():
     sort = request.args.get('sort', 'id')
     reverse = (request.args.get('direction', 'asc') == 'desc')
-    table = SortableTable(Item.get_sorted_by(sort, reverse), sort_by=sort, sort_reverse=reverse)
+    table = SortableTable(Item.get_sorted_by(sort, reverse),
+                          sort_by=sort,
+                          sort_reverse=reverse)
     return table.__html__()
 
 
@@ -49,12 +53,14 @@ class Item(object):
         return [
             Item(1, 'Z', 'zzzzz'),
             Item(2, 'K', 'aaaaa'),
-            Item(3, 'B', 'bbbbb'),
-        ]
+            Item(3, 'B', 'bbbbb')]
 
     @classmethod
     def get_sorted_by(cls, sort, reverse=False):
-        return sorted(cls.get_elements(), key=lambda x: getattr(x, sort), reverse=reverse)
+        return sorted(
+            cls.get_elements(),
+            key=lambda x: getattr(x, sort),
+            reverse=reverse)
 
     @classmethod
     def get_element_by_id(cls, id):
