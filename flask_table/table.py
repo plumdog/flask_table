@@ -55,7 +55,7 @@ class Table(with_metaclass(TableMeta)):
         if len(self.items) == 0:
             return '<p>No Items</p>'
         else:
-            return '<table{attrs}>{thead}\n{tbody}</table>'.format(
+            return '<table{attrs}>\n{thead}\n{tbody}\n</table>'.format(
                 attrs=self.classes_html_attr(),
                 thead=self.thead(),
                 tbody=self.tbody())
@@ -68,7 +68,7 @@ class Table(with_metaclass(TableMeta)):
         out = []
         for i in self.items:
             out.append(self.tr(i))
-        return '<tbody>{}</tbody>'.format(''.join(out))
+        return '<tbody>\n{}\n</tbody>'.format('\n'.join(out))
 
     def tr(self, i):
         out = []

@@ -42,14 +42,24 @@ print(table.__html__())
 Which gives something like:
 
 ```html
-<table><thead><tr><th>Name</th><th>Description</th></tr></thead>
-<tbody><tr><td>Name1</td><td>Description1</td></tr><tr><td>Name2</td><td>Description2</td></tr></tbody></table>
+<table>
+<thead><tr><th>Name</th><th>Description</th></tr></thead>
+<tbody>
+<tr><td>Name1</td><td>Description1</td></tr>
+<tr><td>Name2</td><td>Description2</td></tr>
+</tbody>
+</table>
 ```
 
 Or as HTML:
 
-<table><thead><tr><th>Name</th><th>Description</th></tr></thead>
-<tbody><tr><td>Name1</td><td>Description1</td></tr><tr><td>Name2</td><td>Description2</td></tr></tbody></table>
+<table>
+<thead><tr><th>Name</th><th>Description</th></tr></thead>
+<tbody>
+<tr><td>Name1</td><td>Description1</td></tr>
+<tr><td>Name2</td><td>Description2</td></tr>
+</tbody>
+</table>
 
 Extra things:
 -------------
