@@ -32,12 +32,24 @@ items = [dict(name='Name1', description='Desc1'),
 items = ItemModel.query.all()
 
 # Populate the table
-table = MyTable(items)
+table = ItemTable(items)
 
 # Print the html
 print(table.__html__())
 # or just {{ table }} from within a Jinja template
 ```
+
+Which gives something like:
+
+```html
+<table><thead><tr><th>Name</th><th>Description</th></tr></thead>
+<tbody><tr><td>Name1</td><td>Description1</td></tr><tr><td>Name2</td><td>Description2</td></tr></tbody></table>
+```
+
+Or as HTML:
+
+<table><thead><tr><th>Name</th><th>Description</th></tr></thead>
+<tbody><tr><td>Name1</td><td>Description1</td></tr><tr><td>Name2</td><td>Description2</td></tr></tbody></table>
 
 Extra things:
 -------------
