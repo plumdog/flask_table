@@ -20,13 +20,13 @@ class ItemTable(Table):
 
 
 def main():
-    items = [Item('A', 'aaa'),
-             Item('B', 'bbb')]
+    items = [Item('Name1', 'Description1'),
+             Item('Name2', 'Description2')]
 
-    tab = ItemTable(items)
+    table = ItemTable(items)
 
-    # or {{ tab }} in jinja
-    print(tab.__html__())
+    # or {{ table }} in jinja
+    print(table.__html__())
 
     """Outputs:
 
@@ -38,12 +38,12 @@ def main():
       </thead>
       <tbody>
         <tr>
-          <td>A</td>
-          <td>aaa</td>
+          <td>Name1</td>
+          <td>Description1</td>
         </tr>
         <tr>
-          <td>B</td>
-          <td>bbb</td>
+          <td>Name2</td>
+          <td>Description2</td>
         </tr>
       </tbody>
     </table>

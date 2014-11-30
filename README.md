@@ -14,7 +14,7 @@ Quick Start
 from flask_table import Table, Col
 
 # Declare your table
-class MyTable(Table):
+class ItemTable(Table):
     name = Col('Name')
     description = Col('Description')
 
@@ -23,7 +23,8 @@ class Item(object):
     def __init__(self, name, description):
         self.name = name
         self.description = description
-items = [Item('Name1', 'Desc1'), Item('Name2', 'Desc2')]
+items = [Item('Name1', 'Desc1'),
+         Item('Name2', 'Desc2')]
 # Or, equivalently, some dicts
 items = [dict(name='Name1', description='Desc1'),
          dict(name='Name2', description='Desc2')]
