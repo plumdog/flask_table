@@ -5,5 +5,5 @@ python:
 install:
   - "pip install pep8"
   - "pip install -r requirements.txt"
-before_script: "pep8 flask_table/*.py examples/*.py tests/*.py setup.py"
+before_script: "./pep8.sh"
 script: "LANGUAGE=en_GB:en python setup.py test"
