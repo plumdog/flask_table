@@ -21,7 +21,8 @@ class ItemTable(Table):
 
 def main():
     items = [Item('Name1', 'Description1'),
-             Item('Name2', 'Description2')]
+             Item('Name2', 'Description2'),
+             Item('Name3', 'Description3')]
 
     table = ItemTable(items)
 
@@ -44,6 +45,10 @@ def main():
         <tr>
           <td>Name2</td>
           <td>Description2</td>
+        </tr>
+        <tr>
+          <td>Name3</td>
+          <td>Description3</td>
         </tr>
       </tbody>
     </table>

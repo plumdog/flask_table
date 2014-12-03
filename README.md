@@ -23,11 +23,14 @@ class Item(object):
     def __init__(self, name, description):
         self.name = name
         self.description = description
-items = [Item('Name1', 'Desc1'),
-         Item('Name2', 'Desc2')]
+items = [Item('Name1', 'Description1'),
+         Item('Name2', 'Description2'),
+         Item('Name3', 'Description3')]
 # Or, equivalently, some dicts
-items = [dict(name='Name1', description='Desc1'),
-         dict(name='Name2', description='Desc2')]
+items = [dict(name='Name1', description='Description1'),
+         dict(name='Name2', description='Description2'),
+         dict(name='Name3', description='Description3')]
+
 # Or, more likely, load items from your database with something like
 items = ItemModel.query.all()
 
@@ -47,6 +50,7 @@ Which gives something like:
 <tbody>
 <tr><td>Name1</td><td>Description1</td></tr>
 <tr><td>Name2</td><td>Description2</td></tr>
+<tr><td>Name3</td><td>Description3</td></tr>
 </tbody>
 </table>
 ```
@@ -58,6 +62,7 @@ Or as HTML:
 <tbody>
 <tr><td>Name1</td><td>Description1</td></tr>
 <tr><td>Name2</td><td>Description2</td></tr>
+<tr><td>Name3</td><td>Description3</td></tr>
 </tbody>
 </table>
 
