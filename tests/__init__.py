@@ -474,3 +474,36 @@ class SortingTest(FlaskTableTest):
         tab = self.table_cls(items, sort_by='name', sort_reverse=True)
         self.assert_html_equivalent_from_file(
             'sorting_test', 'test_sorted_reverse', items, tab=tab)
+
+
+class GeneratorTest(TableTest):
+    def setUp(self):
+
+        class GeneratorTable(Table):
+            number = Col('Number')
+        self.table_cls = GeneratorTable
+
+        def gen_nums(upto):
+            i = 1
+            while True:
+                if i > upto:
+                    return
+                yield {'number': i}
+                i += 1
+
+        self.gen_nums = gen_nums
+
+    def test_one(self):
+        items = self.gen_nums(1)
+        self.assert_html_equivalent_from_file(
+            'generator_test', 'test_one', items)
+
+    def test_empty(self):
+        items = self.gen_nums(0)
+        self.assert_html_equivalent_from_file(
+            'generator_test', 'test_empty', items)
+
+    def test_ten(self):
+        items = self.gen_nums(10)
+        self.assert_html_equivalent_from_file(
+            'generator_test', 'test_ten', items)

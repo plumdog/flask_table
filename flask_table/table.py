@@ -52,13 +52,14 @@ class Table(with_metaclass(TableMeta)):
             return ' class="{}"'.format(' '.join(self.classes))
 
     def __html__(self):
-        if len(self.items) == 0:
-            return '<p>No Items</p>'
-        else:
+        tbody = self.tbody()
+        if tbody:
             return '<table{attrs}>\n{thead}\n{tbody}\n</table>'.format(
                 attrs=self.classes_html_attr(),
                 thead=self.thead(),
-                tbody=self.tbody())
+                tbody=tbody)
+        else:
+            return '<p>No Items</p>'
 
     def thead(self):
         return '<thead><tr>{}</tr></thead>'.format(''.join(
@@ -68,7 +69,10 @@ class Table(with_metaclass(TableMeta)):
         out = []
         for i in self.items:
             out.append(self.tr(i))
-        return '<tbody>\n{}\n</tbody>'.format('\n'.join(out))
+        if out:
+            return '<tbody>\n{}\n</tbody>'.format('\n'.join(out))
+        else:
+            return ''
 
     def tr(self, i):
         out = []
