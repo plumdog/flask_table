@@ -31,11 +31,12 @@ def main():
 
     """Outputs:
 
-    <table class="table">
+    <table>
       <thead>
         <tr>
           <th>Name</th>
-          <th>Description</th></tr>
+          <th>Description</th>
+        </tr>
       </thead>
       <tbody>
         <tr>
