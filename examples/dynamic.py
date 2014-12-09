@@ -2,7 +2,7 @@ from flask_table import create_table, Col
 
 
 def main():
-    tablecls = create_table()\
+    TableCls = create_table()\
         .add_column('name', Col('Name'))\
         .add_column('description', Col('Description'))
 
@@ -10,7 +10,7 @@ def main():
              dict(name='Name2', description='Description2'),
              dict(name='Name3', description='Description3')]
 
-    table = tablecls(items)
+    table = TableCls(items)
 
     print(table.__html__())
 
