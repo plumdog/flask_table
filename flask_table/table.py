@@ -101,3 +101,16 @@ class Table(with_metaclass(TableMeta)):
 
     def sort_url(self, col_id, reverse=False):
         raise NotImplementedError('sort_url not implemented')
+
+    @classmethod
+    def add_column(cls, name, col):
+        cls._cols[name] = col
+        return cls
+
+
+def create_table(name=str('_Table')):
+    """Creates and returns a new table class. You can specify a name for
+    you class if you wish.
+
+    """
+    return type(name, (Table,), {})

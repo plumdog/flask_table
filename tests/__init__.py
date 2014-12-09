@@ -11,7 +11,7 @@ os.environ['LANGUAGE'] = 'en_GB.UTF-8'
 
 from flask import Flask, url_for
 from flask_table import (Table, Col, LinkCol, ButtonCol, OptCol, BoolCol,
-                         DateCol, DatetimeCol)
+                         DateCol, DatetimeCol, create_table)
 import flask.ext.testing as flask_testing
 from datetime import date, datetime
 
@@ -118,6 +118,11 @@ class ColTest(TableTest):
         items = [Item(name='äöüß')]
         self.assert_html_equivalent_from_file(
             'col_test', 'test_encoding', items)
+
+
+class DynamicColsTest(ColTest):
+    def setUp(self):
+        self.table_cls = create_table().add_column('name', Col('Name Heading'))
 
 
 class EmptyTest(TableTest):
