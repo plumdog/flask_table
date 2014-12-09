@@ -128,6 +128,29 @@ you override these methods. Also, because of the way that the Markup
 class works, you need to be careful about how you concatenate these
 with other strings.
 
+Dynamically Creating Tables
+===========================
+
+(Look in examples/dynamic.py for a more concrete example)
+
+You can define a table dynamically too.
+
+```python
+TableCls = create_table('TableCls')\
+    .add_column('name', Col('Name'))\
+    .add_column('description', Col('Description'))
+```
+
+which is equivalent to
+
+```python
+class TableCls(Table):
+    name = Col('Name')
+    description = Col('Description')
+```
+
+but makes it easier to add columns dynamically.
+
 Sortable Tables
 ===============
 
