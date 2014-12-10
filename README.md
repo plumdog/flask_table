@@ -197,7 +197,9 @@ have cloned the repository for the sake of dev, and created a
 virtualenv, you may find that they generate an import error for
 `flask_table`. This is because `flask_table` hasn't been installed,
 and can be rectified by running something like
-`PYTHONPATH=$PYTHONPATH:. python examples/simple.py`.
+`PYTHONPATH=.:./lib/python3.3/site-packages python examples/simple.py`,
+which will use the local version of `flask_table`
+including any changes.
 
 Also, if there is anything that you think is not clear and would be
 helped by an example, please just ask and I'll happily write one. Only
