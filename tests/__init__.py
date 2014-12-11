@@ -133,6 +133,23 @@ class DynamicColsTest(ColTest):
         self.table_cls = create_table().add_column('name', Col('Name Heading'))
 
 
+class DynamicColsNumColsTest(TableTest):
+    def setUp(self):
+        self.table_cls = create_table()
+        for i in range(3):
+            self.table_cls.add_column(str(i), Col(str(i)))
+
+    def test_one(self):
+        items = [{str(i): i for i in range(3)}]
+        self.assert_html_equivalent_from_file(
+            'dynamic_cols_num_cols_test', 'test_one', items)
+
+    def test_ten(self):
+        items = [{str(i): i for i in range(3)} for i in range(10)]
+        self.assert_html_equivalent_from_file(
+            'dynamic_cols_num_cols_test', 'test_ten', items)
+
+
 class EmptyTest(TableTest):
     def setUp(self):
         class MyTable(Table):
