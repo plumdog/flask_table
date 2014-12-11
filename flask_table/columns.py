@@ -190,10 +190,8 @@ class LinkCol(Col):
         self._url_kwargs = url_kwargs
 
     def url_kwargs(self, item):
-        url_kwargs_out = {}
-        for k, v in self._url_kwargs.items():
-            url_kwargs_out[k] = _recursive_getattr(item, v)
-        return url_kwargs_out
+        return {k: _recursive_getattr(item, v)
+                for k, v in self._url_kwargs.items()}
 
     def get_attr_list(self, attr):
         return Col.get_attr_list(self, None)

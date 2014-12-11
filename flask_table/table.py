@@ -66,19 +66,15 @@ class Table(with_metaclass(TableMeta)):
             (self.th(col_key, col) for col_key, col in self._cols.items())))
 
     def tbody(self):
-        out = []
-        for i in self.items:
-            out.append(self.tr(i))
+        out = [self.tr(i) for i in self.items]
         if out:
             return '<tbody>\n{}\n</tbody>'.format('\n'.join(out))
         else:
             return ''
 
     def tr(self, i):
-        out = []
-        for attr, c in self._cols.items():
-            out.append(c.td(i, attr))
-        return '<tr>{}</tr>'.format(''.join(out))
+        return '<tr>{}</tr>'.format(
+            ''.join(c.td(i, attr) for attr, c in self._cols.items()))
 
     def th_contents(self, col_key, col):
         escaped = Markup.escape(col.name)
