@@ -151,6 +151,34 @@ class TableCls(Table):
 
 but makes it easier to add columns dynamically.
 
+For example, you may wish to only add a column based on a condition.
+
+```python
+TableCls = create_table('TableCls')\
+    .add_column('name', Col('Name'))
+
+if condition:
+    TableCls.add_column('description', Col('Description'))
+```
+
+which is equivalent to
+
+```python
+class TableCls(Table):
+    name = Col('Name')
+    description = Col('Description', show=condition)
+```
+
+thanks to the `show` option. Use whichever you think makes your code
+more readable. Though you may still need the dynamic option for
+something like
+
+```python
+TableCls = create_table('TableCls')
+for i in range(num):
+    TableCls.add_column(str(i), Col(str(i)))
+```
+
 Sortable Tables
 ===============
 

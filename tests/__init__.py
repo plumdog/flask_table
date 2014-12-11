@@ -120,6 +120,14 @@ class ColTest(TableTest):
             'col_test', 'test_encoding', items)
 
 
+class HideTest(ColTest):
+    def setUp(self):
+        class MyTable(Table):
+            name = Col('Name Heading')
+            hidden = Col('Hidden', show=False)
+        self.table_cls = MyTable
+
+
 class DynamicColsTest(ColTest):
     def setUp(self):
         self.table_cls = create_table().add_column('name', Col('Name Heading'))

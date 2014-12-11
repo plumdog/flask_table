@@ -68,7 +68,8 @@ class Table(with_metaclass(TableMeta)):
 
     def thead(self):
         return '<thead><tr>{}</tr></thead>'.format(''.join(
-            (self.th(col_key, col) for col_key, col in self._cols.items())))
+            (self.th(col_key, col) for col_key, col in self._cols.items()
+             if col.show)))
 
     def tbody(self):
         out = [self.tr(i) for i in self.items]
@@ -79,7 +80,8 @@ class Table(with_metaclass(TableMeta)):
 
     def tr(self, i):
         return '<tr>{}</tr>'.format(
-            ''.join(c.td(i, attr) for attr, c in self._cols.items()))
+            ''.join(c.td(i, attr) for attr, c in self._cols.items()
+                    if c.show))
 
     def th_contents(self, col_key, col):
         escaped = Markup.escape(col.name)

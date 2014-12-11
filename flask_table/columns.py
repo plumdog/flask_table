@@ -53,13 +53,15 @@ class Col(object):
 
     _counter = 0
 
-    def __init__(self, name, attr=None, attr_list=[], allow_sort=True):
+    def __init__(self, name, attr=None, attr_list=[],
+                 allow_sort=True, show=True):
         self.name = name
         self.allow_sort = allow_sort
         self._counter_val = Col._counter
         self.attr_list = attr_list
         if attr:
             self.attr_list = attr.split('.')
+        self.show = show
 
         Col._counter += 1
 
