@@ -31,19 +31,24 @@ class Table(with_metaclass(TableMeta)):
     table. Initialise with an iterable of objects. Then either use the
     __html__ method, or just output in a template to output the table
     as html. Can also set a list of classes, either when declaring the
-    table, or when initialising.
+    table, or when initialising. Can also set the text to display if
+    there are no items to display.
 
     """
 
     classes = []
     allow_sort = False
+    no_items = 'No Items'
 
-    def __init__(self, items, classes=None, sort_by=None, sort_reverse=False):
+    def __init__(self, items, classes=None, sort_by=None,
+                 sort_reverse=False, no_items=None):
         self.items = items
         self.sort_by = sort_by
         self.sort_reverse = sort_reverse
         if classes is not None:
             self.classes = classes
+        if no_items is not None:
+            self.no_items = no_items
 
     def classes_html_attr(self):
         if not self.classes:
@@ -59,7 +64,7 @@ class Table(with_metaclass(TableMeta)):
                 thead=self.thead(),
                 tbody=tbody)
         else:
-            return '<p>No Items</p>'
+            return '<p>{}</p>'.format(self.no_items)
 
     def thead(self):
         return '<thead><tr>{}</tr></thead>'.format(''.join(

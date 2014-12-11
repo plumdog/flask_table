@@ -248,6 +248,19 @@ class ClassTest(TableTest):
             'class_test', 'test_one', items)
 
 
+class NoItemsTest(TableTest):
+    def setUp(self):
+        class MyTable(Table):
+            no_items = 'There is nothing here'
+            name = Col('Name Heading')
+        self.table_cls = MyTable
+
+    def test_one(self):
+        items = []
+        self.assert_html_equivalent_from_file(
+            'no_items_test', 'test_zero', items)
+
+
 class ClassTestAtPopulate(TableTest):
     def setUp(self):
         class MyTable(Table):
