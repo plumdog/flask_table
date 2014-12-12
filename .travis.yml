@@ -9,6 +9,6 @@ install:
 before_script:
   "./pep8.sh"
 script:
-  "LANGUAGE=en_GB:en ./bin/coverage run --source=flask_table setup.py test"
+  "LANGUAGE=en_GB:en coverage run --source=flask_table setup.py test"
 after_success:
   coveralls
