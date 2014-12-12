@@ -314,7 +314,7 @@ class NoItemsTest(TableTest):
             name = Col('Name Heading')
         self.table_cls = MyTable
 
-    def test_one(self):
+    def test_zero(self):
         items = []
         self.assert_html_equivalent_from_file(
             'no_items_test', 'test_zero', items)
@@ -326,7 +326,7 @@ class NoItemsDynamicTest(TableTest):
             name = Col('Name Heading')
         self.table_cls = MyTable
 
-    def test_one(self):
+    def test_zero(self):
         items = []
         tab = self.table_cls(items, no_items='There is nothing here')
         self.assert_html_equivalent_from_file(
