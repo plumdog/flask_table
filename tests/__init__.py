@@ -273,6 +273,40 @@ class ClassTest(TableTest):
             'class_test', 'test_one', items)
 
 
+class SortUrlNotSetTest(TableTest):
+    def setUp(self):
+        class MyTable1(Table):
+            allow_sort = True
+            name = Col('Name Heading')
+        self.table_cls1 = MyTable1
+
+        class MyTable2(Table):
+            allow_sort = True
+            name = Col('Name Heading')
+
+            def sort_url(self, col_id, reverse=False):
+                return '?sort={}&reverse={}'.format(col_id, reverse)
+
+        self.table_cls2 = MyTable2
+
+    def test_fail(self):
+        items = [{'name': 'TestName'}]
+
+        def _create_table1():
+            html = self.table_cls1(items, sort_by='name').__html__()
+
+        def _create_table2():
+            html = self.table_cls2(items, sort_by='name').__html__()
+
+        # table1 should raise a NotImplementedError
+        self.assertRaises(NotImplementedError, _create_table1)
+        # table2 should work fine
+        try:
+            _create_table2()
+        except Exception:
+            self.fail('Table creation failed unexpectedly')
+
+
 class NoItemsTest(TableTest):
     def setUp(self):
         class MyTable(Table):
