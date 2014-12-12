@@ -185,8 +185,8 @@ class ColDictTest(ColTest):
 
 
 class FuncItem(Item):
-        def get_name(self):
-            return self.name
+    def get_name(self):
+        return self.name
 
 
 class ColCallableTest(ColTest):
