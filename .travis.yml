@@ -4,7 +4,7 @@ python:
   - "3.3"
   - "3.4"
 install:
-  - "pip install pep8 coveralls"
+  - "pip install pep8 coverage coveralls"
   - "pip install -r requirements.txt"
 before_script:
   "./pep8.sh"
