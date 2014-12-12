@@ -5,6 +5,7 @@ Because writing HTML is fiddly and all of your tables are basically
 the same.
 
 [![Build Status](https://travis-ci.org/plumdog/flask_table.svg?branch=master)](https://travis-ci.org/plumdog/flask_table)
+[![Coverage Status](https://coveralls.io/repos/plumdog/flask_table/badge.png?branch=master)](https://coveralls.io/r/plumdog/flask_table?branch=master)
 
 Quick Start
 ===========
