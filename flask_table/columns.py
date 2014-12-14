@@ -115,10 +115,13 @@ class Col(object):
 
 
 class OptCol(Col):
-    def __init__(self, name, choices={}, default_key=None, default_value='',
+    def __init__(self, name, choices=None, default_key=None, default_value='',
                  coerce_fn=None, **kwargs):
         Col.__init__(self, name, **kwargs)
-        self.choices = choices
+        if choices is None:
+            self.choices = {}
+        else:
+            self.choices = choices
         self.default_value = choices.get(default_key, default_value)
         self.coerce_fn = coerce_fn
 
@@ -185,11 +188,14 @@ class LinkCol(Col):
     id=item.id) for each item in the iterable.
 
     """
-    def __init__(self, name, endpoint, attr=None, attr_list=[], url_kwargs={},
-                 **kwargs):
+    def __init__(self, name, endpoint, attr=None, attr_list=None,
+                 url_kwargs=None, **kwargs):
         Col.__init__(self, name, attr=attr, attr_list=attr_list, **kwargs)
         self.endpoint = endpoint
-        self._url_kwargs = url_kwargs
+        if url_kwargs is None:
+            self._url_kwargs = {}
+        else:
+            self._url_kwargs = url_kwargs
 
     def url_kwargs(self, item):
         return {k: _recursive_getattr(item, v)
