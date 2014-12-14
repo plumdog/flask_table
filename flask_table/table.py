@@ -78,8 +78,17 @@ class Table(with_metaclass(TableMeta)):
         else:
             return ''
 
+    def tr_format(self, item):
+        """Returns the string that is formatted with the contents of the
+        tr. Override this if you want to alter the attributes of the
+        tr.
+
+        """
+
+        return '<tr>{}</tr>'
+
     def tr(self, item):
-        return '<tr>{}</tr>'.format(
+        return self.tr_format(item).format(
             ''.join(c.td(item, attr) for attr, c in self._cols.items()
                     if c.show))
 
