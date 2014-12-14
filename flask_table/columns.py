@@ -53,7 +53,7 @@ class Col(object):
 
     _counter = 0
 
-    def __init__(self, name, attr=None, attr_list=[],
+    def __init__(self, name, attr=None, attr_list=None,
                  allow_sort=True, show=True):
         self.name = name
         self.allow_sort = allow_sort
