@@ -115,6 +115,10 @@ class Col(object):
 
 
 class OptCol(Col):
+    """Translate the contents according to a dictionary of choices.
+
+    """
+
     def __init__(self, name, choices=None, default_key=None, default_value='',
                  coerce_fn=None, **kwargs):
         Col.__init__(self, name, **kwargs)
@@ -137,6 +141,10 @@ class OptCol(Col):
 
 
 class BoolCol(OptCol):
+    """Output Yes/No values for truthy or falsey values.
+
+    """
+
     def __init__(self, name, **kwargs):
         OptCol.__init__(self, name, choices={True: 'Yes', False: 'No'},
                         coerce_fn=bool, **kwargs)
