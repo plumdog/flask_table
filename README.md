@@ -129,6 +129,39 @@ you override these methods. Also, because of the way that the Markup
 class works, you need to be careful about how you concatenate these
 with other strings.
 
+Manipulating `<tr>`s
+====================
+
+(Look in examples/rows.py for a more concrete example)
+
+Suppose you want to change something about the tr element for some or
+all items. You can do this by overriding your table's `tr_format`
+method. By default, this method returns:
+
+```python
+'<tr>{}</tr>'
+```
+
+which betrays the fact that it has `.format()` called on it, to put in
+the tds. If you override the method, keep that in mind.
+
+So, we might want to use something like:
+
+```python
+class ItemTable(Table):
+    name = Col('Name')
+    description = Col('Description')
+
+    def tr_format(self, item):
+        if item.important():
+            return '<tr class="important">{}</tr>'
+        else:
+            return '<tr>{}</tr>'
+```
+
+which would give all trs for items that returned a true value for the
+`important()` method, a class of "important".
+
 Dynamically Creating Tables
 ===========================
 
