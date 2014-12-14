@@ -466,6 +466,18 @@ class OptTest(TableTest):
             'opt_test', 'test_one', items)
 
 
+class OptNoChoicesTest(TableTest):
+    def setUp(self):
+        class MyTable(Table):
+            choice = OptCol('Choice Heading')
+        self.table_cls = MyTable
+
+    def test_one(self):
+        items = [Item(choice='a')]
+        self.assert_html_equivalent_from_file(
+            'opt_test', 'test_one_no_choices', items)
+
+
 class OptTestDefaultKey(TableTest):
     def setUp(self):
         choices = {'a': 'A', 'b': 'Bbb', 'c': 'Ccccc'}
