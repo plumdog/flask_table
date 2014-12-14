@@ -72,15 +72,15 @@ class Table(with_metaclass(TableMeta)):
              if col.show)))
 
     def tbody(self):
-        out = [self.tr(i) for i in self.items]
+        out = [self.tr(item) for item in self.items]
         if out:
             return '<tbody>\n{}\n</tbody>'.format('\n'.join(out))
         else:
             return ''
 
-    def tr(self, i):
+    def tr(self, item):
         return '<tr>{}</tr>'.format(
-            ''.join(c.td(i, attr) for attr, c in self._cols.items()
+            ''.join(c.td(item, attr) for attr, c in self._cols.items()
                     if c.show))
 
     def th_contents(self, col_key, col):

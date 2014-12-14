@@ -73,18 +73,18 @@ class Col(object):
         else:
             return None
 
-    def from_attr_list(self, i, attr_list):
-        out = _recursive_getattr(i, attr_list)
+    def from_attr_list(self, item, attr_list):
+        out = _recursive_getattr(item, attr_list)
         if out is None:
             return ''
         else:
             return out
 
-    def td(self, i, attr):
+    def td(self, item, attr):
         return '<td>{}</td>'.format(
-            self.td_contents(i, self.get_attr_list(attr)))
+            self.td_contents(item, self.get_attr_list(attr)))
 
-    def td_contents(self, i, attr_list):
+    def td_contents(self, item, attr_list):
         """Given an item and an attr, return the contents of the
         <td>.
 
@@ -96,7 +96,7 @@ class Col(object):
         Note that the output of this function is NOT escaped.
 
         """
-        return self.td_format(self.from_attr_list(i, attr_list))
+        return self.td_format(self.from_attr_list(item, attr_list))
 
     def td_format(self, content):
         """Given just the value extracted from the item, return what should
@@ -198,19 +198,19 @@ class LinkCol(Col):
     def get_attr_list(self, attr):
         return Col.get_attr_list(self, None)
 
-    def text(self, i, attr_list):
+    def text(self, item, attr_list):
         if attr_list:
-            return self.from_attr_list(i, attr_list)
+            return self.from_attr_list(item, attr_list)
         else:
             return self.name
 
-    def url(self, i):
-        return url_for(self.endpoint, **self.url_kwargs(i))
+    def url(self, item):
+        return url_for(self.endpoint, **self.url_kwargs(item))
 
-    def td_contents(self, i, attr_list):
+    def td_contents(self, item, attr_list):
         return '<a href="{url}">{text}</a>'.format(
-            url=self.url(i),
-            text=Markup.escape(self.text(i, attr_list)))
+            url=self.url(item),
+            text=Markup.escape(self.text(item, attr_list)))
 
 
 class ButtonCol(LinkCol):
@@ -225,9 +225,9 @@ class ButtonCol(LinkCol):
 
     """
 
-    def td_contents(self, i, attr_list):
+    def td_contents(self, item, attr_list):
         return '<form method="post" action="{url}">'\
             '<button type="submit">{text}</button>'\
             '</form>'.format(
-                url=self.url(i),
-                text=Markup.escape(self.text(i, attr_list)))
+                url=self.url(item),
+                text=Markup.escape(self.text(item, attr_list)))
