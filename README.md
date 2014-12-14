@@ -88,6 +88,24 @@ Extra things:
 
 * But most importantly, Col is easy to subclass.
 
+Included Col Types
+==================
+
+* `OptCol` - converts values according to a dictionary of choices. Eg
+  for turning stored codes into human readable text.
+
+* `BoolCol` (subclass of OptCol) - converts values to yes/no.
+
+* `DateCol` - for dates (uses `format_date` from `babel.dates`).
+
+* `DatetimeCol` - for date-times (uses `format_datetime` from
+  `babel.dates`).
+
+* `LinkCol` - creates a link by specifying an endpoint and url_kwargs.
+
+* `ButtonCol` (subclass of LinkCol) creates a button that posts the
+  the given address.
+
 Subclassing Col
 ===============
 
