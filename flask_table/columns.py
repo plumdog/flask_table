@@ -126,7 +126,7 @@ class OptCol(Col):
             self.choices = {}
         else:
             self.choices = choices
-        self.default_value = choices.get(default_key, default_value)
+        self.default_value = self.choices.get(default_key, default_value)
         self.coerce_fn = coerce_fn
 
     def coerce_content(self, content):
