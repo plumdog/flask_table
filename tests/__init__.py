@@ -145,7 +145,7 @@ class DynamicColsNumColsTest(TableTest):
             'dynamic_cols_num_cols_test', 'test_one', items)
 
     def test_ten(self):
-        items = [{str(i): i for i in range(3)} for i in range(10)]
+        items = [{str(i): i for i in range(3)}] * 10
         self.assert_html_equivalent_from_file(
             'dynamic_cols_num_cols_test', 'test_ten', items)
 
