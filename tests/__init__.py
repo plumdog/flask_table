@@ -387,6 +387,19 @@ class LinkDictTest(LinkTest):
             'link_test', 'test_one', items)
 
 
+class LinkNoUrlKwargsTest(FlaskTableTest):
+    def setUp(self):
+        class LinkTable(Table):
+            name = Col('Name')
+            view = LinkCol('View', 'index')
+        self.table_cls = LinkTable
+
+    def test_one(self):
+        items = [Item(name='one')]
+        self.assert_html_equivalent_from_file(
+            'link_test', 'test_one_no_url_kwargs', items)
+
+
 class LinkTestSubItemAttrList(LinkTest):
     def setUp(self):
         class LinkTable(Table):
