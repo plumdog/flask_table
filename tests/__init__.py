@@ -150,6 +150,27 @@ class DynamicColsNumColsTest(TableTest):
             'dynamic_cols_num_cols_test', 'test_ten', items)
 
 
+class OverrideTrTest(TableTest):
+    def setUp(self):
+        class MyTable(Table):
+            number = Col('Number')
+
+            def tr_format(self, item):
+                if item['number'] % 3 == 1:
+                    return '<tr class="threes-plus-one">{}</tr>'
+                elif item['number'] % 3 == 2:
+                    return '<tr class="threes-plus-two">{}</tr>'
+                else:
+                    return '<tr>{}</tr>'
+
+        self.table_cls = MyTable
+
+    def test_ten(self):
+        items = [{'number': i} for i in range(10)]
+        self.assert_html_equivalent_from_file(
+            'override_tr_test', 'test_ten', items)
+
+
 class EmptyTest(TableTest):
     def setUp(self):
         class MyTable(Table):
