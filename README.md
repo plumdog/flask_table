@@ -164,7 +164,7 @@ class MyTable(Table):
 
 Then the table created would be:
 ```html
-<table classes="class1 class2>
+<table class="class1 class2">
     ...
 </table>
 ```
