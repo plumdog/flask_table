@@ -147,6 +147,28 @@ you override these methods. Also, because of the way that the Markup
 class works, you need to be careful about how you concatenate these
 with other strings.
 
+Setting a class on the `<table>` element
+========================================
+
+If you set a classes attribute on the Table class, this gets added as
+a class on the `<table>` element. The classes attribute should be an
+iterable of strings, all of which will be added.
+
+For example, if:
+
+```python
+class MyTable(Table):
+    classes = ['class1', 'class2']
+	...
+```
+
+Then the table created would be:
+```html
+<table classes="class1 class2>
+    ...
+</table>
+```
+
 Manipulating `<tr>`s
 ====================
 
