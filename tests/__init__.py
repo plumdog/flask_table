@@ -1,19 +1,18 @@
 # -*- coding: utf-8 -*-
-
 from __future__ import unicode_literals
 import os
 import io
 import unittest
-
-for name in ['LANGUAGE', 'LC_ALL', 'LC_CTYPE', 'LC_MESSAGES']:
-    os.environ[name] = ''
-os.environ['LANGUAGE'] = 'en_GB.UTF-8'
-
 from flask import Flask, url_for
 from flask_table import (Table, Col, LinkCol, ButtonCol, OptCol, BoolCol,
                          DateCol, DatetimeCol, create_table)
 import flask.ext.testing as flask_testing
 from datetime import date, datetime
+
+
+for name in ['LANGUAGE', 'LC_ALL', 'LC_CTYPE', 'LC_MESSAGES']:
+    os.environ[name] = ''
+os.environ['LANGUAGE'] = 'en_GB.UTF-8'
 
 
 class Item(object):
