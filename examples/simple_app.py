@@ -12,7 +12,8 @@ app = Flask(__name__)
 
 
 class ItemTable(Table):
-    name = LinkCol('Name', 'single_item', url_kwargs=dict(id='id'), attr='name')
+    name = LinkCol('Name', 'single_item',
+                   url_kwargs=dict(id='id'), attr='name')
     description = Col('Description')
 
 
