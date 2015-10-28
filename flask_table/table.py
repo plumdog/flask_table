@@ -21,8 +21,21 @@ class TableMeta(type):
 
         """
         cls = type.__new__(meta, name, bases, attrs)
-        cols = [(k, v) for k, v in attrs.items() if isinstance(v, Col)]
-        cls._cols = OrderedDict(sorted(cols, key=lambda x: x[1]._counter_val))
+        cls._cols = OrderedDict()
+        # If there are any base classes with a `_cols` attribute, add
+        # them to the columns for this table.
+        for parent in bases:
+            try:
+                parent_cols = parent._cols
+            except AttributeError:
+                continue
+            else:
+                cls._cols.update(parent_cols)
+        # Then add the columns from this class.
+        this_cls_cols = sorted(
+            ((k, v) for k, v in attrs.items() if isinstance(v, Col)),
+            key=lambda x: x[1]._counter_val)
+        cls._cols.update(OrderedDict(this_cls_cols))
         return cls
 
 
@@ -120,9 +133,16 @@ class Table(with_metaclass(TableMeta)):
         return cls
 
 
-def create_table(name=str('_Table')):
+def create_table(name=str('_Table'), base=Table):
     """Creates and returns a new table class. You can specify a name for
-    you class if you wish.
+    you class if you wish. You can also set the base class (or
+    classes) that should be used when creating the class.
 
     """
-    return type(name, (Table,), {})
+    try:
+        base = tuple(base)
+    except TypeError:
+        # Then assume that what we have is a single class, so make it
+        # into a 1-tuple.
+        base = (base,)
+    return TableMeta(name, base, {})
