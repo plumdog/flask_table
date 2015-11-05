@@ -37,16 +37,19 @@ class Table(with_metaclass(TableMeta)):
     """
 
     classes = []
+    thead_classes = []
     allow_sort = False
     no_items = 'No Items'
 
-    def __init__(self, items, classes=None, sort_by=None,
-                 sort_reverse=False, no_items=None):
+    def __init__(self, items, classes=None, thead_classes=None,
+                 sort_by=None, sort_reverse=False, no_items=None):
         self.items = items
         self.sort_by = sort_by
         self.sort_reverse = sort_reverse
         if classes is not None:
             self.classes = classes
+        if thead_classes is not None:
+            self.thead_classes = thead_classes
         if no_items is not None:
             self.no_items = no_items
 
@@ -55,6 +58,12 @@ class Table(with_metaclass(TableMeta)):
             return ''
         else:
             return ' class="{}"'.format(' '.join(self.classes))
+
+    def thead_classes_html_attr(self):
+        if not self.thead_classes:
+            return ''
+        else:
+            return ' class="{}"'.format(' '.join(self.thead_classes))
 
     def __html__(self):
         tbody = self.tbody()
@@ -67,9 +76,11 @@ class Table(with_metaclass(TableMeta)):
             return '<p>{}</p>'.format(self.no_items)
 
     def thead(self):
-        return '<thead><tr>{}</tr></thead>'.format(''.join(
-            (self.th(col_key, col) for col_key, col in self._cols.items()
-             if col.show)))
+        return '<thead{attrs}><tr>{ths}</tr></thead>'.format(
+            attrs=self.thead_classes_html_attr(),
+            ths=''.join(
+                (self.th(col_key, col) for col_key, col in self._cols.items()
+                 if col.show)))
 
     def tbody(self):
         out = [self.tr(item) for item in self.items]

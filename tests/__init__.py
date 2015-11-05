@@ -293,6 +293,19 @@ class ClassTest(TableTest):
             'class_test', 'test_one', items)
 
 
+class TheadClassTest(TableTest):
+    def setUp(self):
+        class MyTable(Table):
+            thead_classes = ['table-head']
+            name = Col('Name Heading')
+        self.table_cls = MyTable
+
+    def test_one(self):
+        items = [Item(name='one')]
+        self.assert_html_equivalent_from_file(
+            'thead_class_test', 'test_one', items)
+
+
 class SortUrlNotSetTest(TableTest):
     def setUp(self):
         class MyTable1(Table):
@@ -364,6 +377,19 @@ class ClassTestAtPopulate(TableTest):
         tab = self.table_cls(items, classes=['table'])
         self.assert_html_equivalent_from_file(
             'class_test', 'test_one', tab=tab)
+
+
+class TheadClassTestAtPopulate(TableTest):
+    def setUp(self):
+        class MyTable(Table):
+            name = Col('Name Heading')
+        self.table_cls = MyTable
+
+    def test_one(self):
+        items = [Item(name='one')]
+        tab = self.table_cls(items, thead_classes=['table-head'])
+        self.assert_html_equivalent_from_file(
+            'thead_class_test', 'test_one', tab=tab)
 
 
 class LinkTest(FlaskTableTest):
