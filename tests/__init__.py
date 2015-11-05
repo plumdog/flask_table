@@ -149,6 +149,21 @@ class DynamicColsNumColsTest(TableTest):
             'dynamic_cols_num_cols_test', 'test_ten', items)
 
 
+class DynamicColsInheritTest(TableTest):
+    def setUp(self):
+        # Start with MyTable
+        class MyTable(Table):
+            name = Col('Name')
+        # Then dynamically extend it.
+        self.table_cls = create_table(base=MyTable)
+        self.table_cls.add_column('number', Col('Number'))
+
+    def test_one(self):
+        items = [{'name': 'TestName', 'number': 10}]
+        self.assert_html_equivalent_from_file(
+            'dynamic_cols_inherit_test', 'test_one', items)
+
+
 class OverrideTrTest(TableTest):
     def setUp(self):
         class MyTable(Table):
