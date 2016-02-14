@@ -129,10 +129,15 @@ item before looking it up in the dict.
 More about `BoolCol`
 --------------------
 
-A subclass of `OptCol` where the `choices` are `{True: 'Yes', False:
-'No'}` and the `coerce_fn` is `bool`. So the value from the item is
-coerced to a `bool` and then looked up in the choices to get the text
-to display.
+A subclass of `OptCol` where the `choices` are:
+
+```python
+{True: 'Yes', False: 'No'}
+```
+
+and the `coerce_fn` is `bool`. So the value from the item is coerced
+to a `bool` and then looked up in the choices to get the text to
+display.
 
 [[Possible future work: mark 'Yes' and 'No' for translation.]]
 
@@ -221,7 +226,6 @@ If you need access to all of information in the item, then we can go a
 stage earlier in the process and override the td_contents method:
 
 ```python
-
 from flask import Markup
 
 def td_contents(self, i, attr_list):
