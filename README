@@ -77,21 +77,107 @@ Extra things:
 Included Col Types
 ==================
 
--  ``OptCol`` - converts values according to a dictionary of choices. Eg
-   for turning stored codes into human readable text.
+-  ```OptCol`` <#more-about-optcol>`__ - converts values according to a
+   dictionary of choices. Eg for turning stored codes into human
+   readable text.
 
--  ``BoolCol`` (subclass of OptCol) - converts values to yes/no.
+-  ```BoolCol`` <#more-about-boolcol>`__ (subclass of OptCol) - converts
+   values to yes/no.
 
--  ``DateCol`` - for dates (uses ``format_date`` from ``babel.dates``).
+-  ```DateCol`` <#more-about-datecol>`__ - for dates (uses
+   ``format_date`` from ``babel.dates``).
 
--  ``DatetimeCol`` - for date-times (uses ``format_datetime`` from
-   ``babel.dates``).
+-  ```DatetimeCol`` <#more-about-datetimecol>`__ - for date-times (uses
+   ``format_datetime`` from ``babel.dates``).
 
--  ``LinkCol`` - creates a link by specifying an endpoint and
-   url\_kwargs.
+-  ```LinkCol`` <#more-about-linkcol>`__ - creates a link by specifying
+   an endpoint and url\_kwargs.
 
--  ``ButtonCol`` (subclass of LinkCol) creates a button that posts the
-   the given address.
+-  ```ButtonCol`` <#more-about-buttoncol>`__ (subclass of LinkCol)
+   creates a button that posts the the given address.
+
+More about ``OptCol``
+---------------------
+
+When creating the column, you pass some ``choices``. This should be a
+dict with the keys being the values that will be found on the item's
+attribute, and the values will be the text to be displayed.
+
+You can also set a ``default_key``, or a ``default_value``. The default
+value will be used if the value found from the item isn't in the choices
+dict. The default key works in much the same way, but means that if your
+default is already in your choices, you can just point to it rather than
+repeat it.
+
+And you can use ``coerce_fn`` if you need to alter the value from the
+item before looking it up in the dict.
+
+More about ``BoolCol``
+----------------------
+
+A subclass of ``OptCol`` where the ``choices`` are
+``{True: 'Yes', False: 'No'}`` and the ``coerce_fn`` is ``bool``. So the
+value from the item is coerced to a ``bool`` and then looked up in the
+choices to get the text to display.
+
+[[Possible future work: mark 'Yes' and 'No' for translation.]]
+
+[[Possible future work: make it easier to override 'Yes' and 'No'.]]
+
+[[Possible future work: add a ``BoolNaCol`` or similar that has a
+separate option for ``None``]]
+
+More about ``DateCol``
+----------------------
+
+Formats a date from the item. Can specify a ``date_format`` to use,
+which defaults to ``'short'``, which is passed to
+``babel.dates.format_date``.
+
+More about ``DatetimeCol``
+--------------------------
+
+Formats a datetime from the item. Can specify a ``datetime_format`` to
+use, which defaults to ``'short'``, which is passed to
+``babel.dates.format_datetime``.
+
+More about ``LinkCol``
+----------------------
+
+Gives a way of putting a link into a ``td``. You must specify an
+``endpoint`` for the url. You should also specify some ``url_kwargs``.
+This should be a dict which will be passed as the second argument of
+``url_for``, except the values will be treated as attributes to be
+looked up on the item. These keys obey the same rules as elsewhere, so
+can be things like ``'category.name'`` or ``('category', 'name')``.
+
+[[Possible future work: make it so some constants can be passed as part
+of the ``url_kwargs``]]
+
+The text for the link is acquired in *almost* the same way as with other
+columns. However, other columns can be given no ``attr`` or
+``attr_list`` and will use the attribute that the column was given in
+the table class, but ``LinkCol`` does not, and instead falls back to the
+heading of the column. This make more sense for things like an "Edit"
+link.
+
+[[Possible future work: make it so you can specify a specific fallback
+for the ``td`` that is different to the ``th``]]
+
+[[Possible future work: make it so you can specify attributes for the
+HTML anchor element.]]
+
+More about ``ButtonCol``
+------------------------
+
+Has all the same options as ``LinkCol`` but instead adds a form and a
+button that gets posted to the url.
+
+[[Possible future work: make it so you can specify hidden fields to be
+added into the form.]]
+
+[[Possible future work: make it so you can specify attributes for the
+HTML form or button elements.]]
 
 Subclassing Col
 ===============
