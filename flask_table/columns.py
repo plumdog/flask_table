@@ -224,7 +224,7 @@ class LinkCol(Col):
     def td_contents(self, item, attr_list):
         return '<a href="{url}">{text}</a>'.format(
             url=self.url(item),
-            text=Markup.escape(self.text(item, attr_list)))
+            text=self.td_format(self.text(item, attr_list)))
 
 
 class ButtonCol(LinkCol):
