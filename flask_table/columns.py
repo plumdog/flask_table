@@ -184,16 +184,16 @@ class DatetimeCol(Col):
 
 class LinkCol(Col):
     """Format the content as a link. Requires a endpoint to use to find
-    the url and can also take a dict of url_kwargs which is expected
-    to have values that are strings which are used to get data from
-    the item.
+    the url and can also take a dict of url_kwargs which can
+    have values that are strings which are used to get data from
+    the item or not.
 
     Eg:
 
-    view = LinkCol('View', 'view_fn', url_kwargs=dict(id='id'))
+    view = LinkCol('View', 'view_fn', url_kwargs=dict(id='id', notItemProp='otherParam'))
 
     This will create a link to the address given by url_for('view_fn',
-    id=item.id) for each item in the iterable.
+    id=item.id, notItemProp='otherParam') for each item in the iterable.
 
     """
     def __init__(self, name, endpoint, attr=None, attr_list=None,
@@ -206,8 +206,14 @@ class LinkCol(Col):
             self._url_kwargs = url_kwargs
 
     def url_kwargs(self, item):
-        return {k: _recursive_getattr(item, v)
-                for k, v in self._url_kwargs.items()}
+        s = {}
+        for k, v in self._url_kwargs.items():
+            if hasattr(item, v):
+                v = getattr(item, v)
+
+            s[k] = v
+            
+        return s
 
     def get_attr_list(self, attr):
         return Col.get_attr_list(self, None)
@@ -219,7 +225,8 @@ class LinkCol(Col):
             return self.name
 
     def url(self, item):
-        return url_for(self.endpoint, **self.url_kwargs(item))
+        t = url_for(self.endpoint, **self.url_kwargs(item))
+        return t
 
     def td_contents(self, item, attr_list):
         return '<a href="{url}">{text}</a>'.format(
