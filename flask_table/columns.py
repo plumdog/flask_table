@@ -245,4 +245,4 @@ class ButtonCol(LinkCol):
             '</form>'.format(
                 url=self.url(item),
                 text=Markup.escape(self.text(item, attr_list)),
-                btn_class = btn_class)
+                btn_class=btn_class)
