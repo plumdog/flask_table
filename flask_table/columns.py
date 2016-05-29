@@ -239,7 +239,7 @@ class ButtonCol(LinkCol):
 
     """
 
-    def td_contents(self, btn_class="", item, attr_list):
+    def td_contents(self, item, attr_list, btn_class=""):
         return '<form method="post" action="{url}">'\
             '<button class="{btn_class}" type="submit">{text}</button>'\
             '</form>'.format(
