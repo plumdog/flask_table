@@ -239,9 +239,10 @@ class ButtonCol(LinkCol):
 
     """
 
-    def td_contents(self, item, attr_list):
+    def td_contents(self, btn_class="", item, attr_list):
         return '<form method="post" action="{url}">'\
-            '<button type="submit">{text}</button>'\
+            '<button class="{btn_class}" type="submit">{text}</button>'\
             '</form>'.format(
                 url=self.url(item),
-                text=Markup.escape(self.text(item, attr_list)))
+                text=Markup.escape(self.text(item, attr_list)),
+                btn_class = btn_class)
