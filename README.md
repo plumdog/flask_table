@@ -374,7 +374,7 @@ class SortableTable(Table):
             direction =  'desc'
         else:
             direction = 'asc'
-        return url_for('index', sort=col_key, direction=direction)
+        return url_for('index', sort_by=col_key, direction=direction)
 ```
 
 The Examples
