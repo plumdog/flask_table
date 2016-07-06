@@ -121,7 +121,7 @@ class OptCol(Col):
 
     def __init__(self, name, choices=None, default_key=None, default_value='',
                  coerce_fn=None, **kwargs):
-        Col.__init__(self, name, **kwargs)
+        super(OptCol, self).__init__(name, **kwargs)
         if choices is None:
             self.choices = {}
         else:
@@ -146,8 +146,11 @@ class BoolCol(OptCol):
     """
 
     def __init__(self, name, **kwargs):
-        OptCol.__init__(self, name, choices={True: 'Yes', False: 'No'},
-                        coerce_fn=bool, **kwargs)
+        super(BoolCol, self).__init__(
+            name,
+            choices={True: 'Yes', False: 'No'},
+            coerce_fn=bool,
+            **kwargs)
 
 
 class DateCol(Col):
@@ -156,7 +159,7 @@ class DateCol(Col):
 
     """
     def __init__(self, name, date_format='short', **kwargs):
-        Col.__init__(self, name, **kwargs)
+        super(DateCol, self).__init__(name, **kwargs)
         self.date_format = date_format
 
     def td_format(self, content):
@@ -172,7 +175,7 @@ class DatetimeCol(Col):
 
     """
     def __init__(self, name, **kwargs):
-        Col.__init__(self, name, **kwargs)
+        super(DatetimeCol, self).__init__(name, **kwargs)
         self.datetime_format = kwargs.get('datetime_format', 'short')
 
     def td_format(self, content):
@@ -198,7 +201,11 @@ class LinkCol(Col):
     """
     def __init__(self, name, endpoint, attr=None, attr_list=None,
                  url_kwargs=None, **kwargs):
-        Col.__init__(self, name, attr=attr, attr_list=attr_list, **kwargs)
+        super(LinkCol, self).__init__(
+            name,
+            attr=attr,
+            attr_list=attr_list,
+            **kwargs)
         self.endpoint = endpoint
         if url_kwargs is None:
             self._url_kwargs = {}
