@@ -174,9 +174,9 @@ class DatetimeCol(Col):
     output empty.
 
     """
-    def __init__(self, name, **kwargs):
+    def __init__(self, name, datetime_format='short', **kwargs):
         super(DatetimeCol, self).__init__(name, **kwargs)
-        self.datetime_format = kwargs.get('datetime_format', 'short')
+        self.datetime_format = datetime_format
 
     def td_format(self, content):
         if content:

@@ -606,6 +606,23 @@ class DatetimeTest(TableTest):
             'datetime_test', 'test_one', items)
 
 
+class DatetimeTestFormat(TableTest):
+    def setUp(self):
+
+        class MyTable(Table):
+            datetime = DatetimeCol(
+                'DateTime Heading',
+                datetime_format="YYYY-MM-dd hh:mm")
+        self.table_cls = MyTable
+
+    def test_one(self):
+        items = [
+            Item(datetime=datetime(2014, 1, 1, 10, 20, 30)),
+            Item(datetime=None)]
+        self.assert_html_equivalent_from_file(
+            'datetime_test_format', 'test_one', items)
+
+
 class EscapeTest(TableTest):
     def setUp(self):
 
