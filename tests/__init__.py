@@ -5,7 +5,7 @@ import io
 import unittest
 from flask import Flask, url_for
 from flask_table import (Table, Col, LinkCol, ButtonCol, OptCol, BoolCol,
-                         DateCol, DatetimeCol, create_table)
+                         DateCol, DatetimeCol, NestedTableCol, create_table)
 import flask.ext.testing as flask_testing
 from datetime import date, datetime
 
@@ -700,3 +700,24 @@ class GeneratorTest(TableTest):
         items = self.gen_nums(10)
         self.assert_html_equivalent_from_file(
             'generator_test', 'test_ten', items)
+
+
+class NestedColTest(TableTest):
+    def setUp(self):
+        class MySubTable(Table):
+            b = Col('b')
+            c = Col('c')
+
+        class MyMainTable(Table):
+            a = Col('a')
+            nest = NestedTableCol('Nested column', MySubTable)
+
+        self.table_cls = MyMainTable
+
+    def test_one(self):
+        items = [Item(a='row1', nest=[Item(b='r1asc1', c='r1asc2'),
+                                      Item(b='r1bsc1', c='r1bsc2')]),
+                 Item(a='row2', nest=[Item(b='r2asc1', c='r2asc2'),
+                                      Item(b='r2bsc1', c='r2bsc2')])]
+        self.assert_html_equivalent_from_file(
+            'nestedcol_test', 'test_one', items)
