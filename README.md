@@ -110,6 +110,9 @@ Included Col Types
 * [`ButtonCol`](#more-about-buttoncol) (subclass of LinkCol) creates a
   button that posts the the given address.
 
+* [`NestedTableCol`](#more-about-nestedtablecol) - allows nesting of
+  tables inside columns
+
 More about `OptCol`
 -------------------
 
@@ -198,6 +201,26 @@ added into the form.]]
 
 [[Possible future work: make it so you can specify attributes for the
 HTML form or button elements.]]
+
+More about `NestedTableCol`
+---------------------------
+
+This column type makes it possible to nest tables in columns. For each
+nested table column you need to define a subclass of Table as you
+normally would when defining a table. The name of that Table sub-class
+is the second argument to NestedTableCol.
+
+Eg:
+
+```python
+class MySubTable(Table):
+    a = Col('1st nested table col')
+    b = Col('2nd nested table col')
+
+class MainTable(Table):
+    id = Col('id')
+    objects = NestedTableCol('objects', MySubTable)
+```
 
 Subclassing Col
 ===============
