@@ -252,3 +252,31 @@ class ButtonCol(LinkCol):
             '</form>'.format(
                 url=self.url(item),
                 text=Markup.escape(self.text(item, attr_list)))
+
+
+class NestedTableCol(Col):
+    """This column type allows for nesting tables into a column.  The
+    nested table is defined as a sub-class of Table as usual. Then in
+    the main table, a column is defined using NestedTableCol with the
+    second argument being the name of the Table sub-class object
+    defined for the nested table.
+
+    Eg:
+
+    class MySubTable(Table):
+        a = Col('1st nested table col')
+        b = Col('2nd nested table col')
+
+    class MainTable(Table):
+        id = Col('id')
+        objects = NestedTableCol('objects', MySubTable)
+
+    """
+
+    def __init__(self, name, table_class, **kwargs):
+        super(NestedTableCol, self).__init__(name, **kwargs)
+        self.table_class = table_class
+
+    def td_format(self, content):
+        t = self.table_class(content).__html__()
+        return t
