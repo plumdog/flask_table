@@ -7,4 +7,5 @@ from .columns import (
     LinkCol,
     ButtonCol,
     OptCol,
+    NestedTableCol,
 )
