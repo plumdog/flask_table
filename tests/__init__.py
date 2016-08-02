@@ -60,7 +60,8 @@ class TableTest(unittest.TestCase):
             return f.read()
 
     def assert_html_equivalent_from_file(self, d, name, items=[], **kwargs):
-        tab = kwargs.get('tab', self.table_cls(items))
+        table_id = kwargs.get('table_id', None)
+        tab = kwargs.get('tab', self.table_cls(items, table_id=table_id))
         if kwargs.get('print_html'):
             print(tab.__html__())
         html = self.get_html(d, name)
@@ -90,6 +91,18 @@ def test_app():
 class FlaskTableTest(flask_testing.TestCase, TableTest):
     def create_app(self):
         return test_app()
+
+
+class TableIDTest(TableTest):
+    def setUp(self):
+        class MyTable(Table):
+            name = Col('Name Heading')
+        self.table_cls = MyTable
+
+    def test_one(self):
+        items = [Item(name='one')]
+        self.assert_html_equivalent_from_file(
+            'tableid_test', 'test_one', items, table_id='Test table ID')
 
 
 class ColTest(TableTest):
