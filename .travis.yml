@@ -7,8 +7,10 @@ install:
   - "pip install pep8 coverage coveralls"
   - "pip install -r requirements.txt"
 before_script:
-  "./pep8.sh"
+  - "./pep8.sh"
+  - "export LC_TIME=en_GB"
+  - "export LANGUAGE=en_GB"
 script:
-  "LANGUAGE=en_GB:en coverage run --source=flask_table setup.py test"
+  "coverage run --source=flask_table setup.py test"
 after_success:
   coveralls
