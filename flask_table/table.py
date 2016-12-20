@@ -56,7 +56,7 @@ class Table(with_metaclass(TableMeta)):
 
     def __init__(self, items, classes=None, thead_classes=None,
                  sort_by=None, sort_reverse=False, no_items=None,
-                 table_id=None):
+                 table_id=None, border=False):
         self.items = items
         self.sort_by = sort_by
         self.sort_reverse = sort_reverse
@@ -67,6 +67,7 @@ class Table(with_metaclass(TableMeta)):
         if no_items is not None:
             self.no_items = no_items
         self.table_id = table_id
+        self.border = border
 
     def classes_html_attr(self):
         s = ''
@@ -74,6 +75,8 @@ class Table(with_metaclass(TableMeta)):
             s += ' id="{}"'.format(self.table_id)
         if self.classes:
             s += ' class="{}"'.format(' '.join(self.classes))
+        if self.border:
+            s += ' border="1"'
         return s
 
     def thead_classes_html_attr(self):

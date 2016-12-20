@@ -24,7 +24,7 @@ def main():
              Item('Name2', 'Description2'),
              Item('Name3', 'Description3')]
 
-    table = ItemTable(items)
+    table = ItemTable(items, border=True)
 
     # or {{ table }} in jinja
     print(table.__html__())
