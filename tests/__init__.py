@@ -61,7 +61,8 @@ class TableTest(unittest.TestCase):
     def assert_html_equivalent_from_file(self, d, name, items=[], **kwargs):
         table_id = kwargs.get('table_id', None)
         border = kwargs.get('border', False)
-        tab = kwargs.get('tab', self.table_cls(items, table_id=table_id, border=border))
+        tab = kwargs.get('tab', self.table_cls(
+            items, table_id=table_id, border=border))
         if kwargs.get('print_html'):
             print(tab.__html__())
         html = self.get_html(d, name)
@@ -113,9 +114,9 @@ class BorderTest(TableTest):
             description = Col('Description')
         self.table_cls = MyTable
 
-        self.items = [Item(name='Name1',description='Description1'),
-                      Item(name='Name2',description='Description2'),
-                      Item(name='Name3',description='Description3')]
+        self.items = [Item(name='Name1', description='Description1'),
+                      Item(name='Name2', description='Description2'),
+                      Item(name='Name3', description='Description3')]
 
     def test_one(self):
         self.assert_html_equivalent_from_file(
