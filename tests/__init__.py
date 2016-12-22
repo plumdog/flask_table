@@ -9,7 +9,6 @@ from flask_table import (Table, Col, LinkCol, ButtonCol, OptCol, BoolCol,
 import flask.ext.testing as flask_testing
 from datetime import date, datetime
 
-
 for name in ['LANGUAGE', 'LC_ALL', 'LC_CTYPE', 'LC_MESSAGES']:
     os.environ[name] = ''
 os.environ['LANGUAGE'] = 'en_GB.UTF-8'
@@ -61,7 +60,9 @@ class TableTest(unittest.TestCase):
 
     def assert_html_equivalent_from_file(self, d, name, items=[], **kwargs):
         table_id = kwargs.get('table_id', None)
-        tab = kwargs.get('tab', self.table_cls(items, table_id=table_id))
+        border = kwargs.get('border', False)
+        tab = kwargs.get('tab', self.table_cls(
+            items, table_id=table_id, border=border))
         if kwargs.get('print_html'):
             print(tab.__html__())
         html = self.get_html(d, name)
@@ -97,6 +98,7 @@ class TableIDTest(TableTest):
     def setUp(self):
         class MyTable(Table):
             name = Col('Name Heading')
+
         self.table_cls = MyTable
 
     def test_one(self):
@@ -105,10 +107,32 @@ class TableIDTest(TableTest):
             'tableid_test', 'test_one', items, table_id='Test table ID')
 
 
+class BorderTest(TableTest):
+    def setUp(self):
+        class MyTable(Table):
+            name = Col('Name')
+            description = Col('Description')
+        self.table_cls = MyTable
+
+        self.items = [Item(name='Name1', description='Description1'),
+                      Item(name='Name2', description='Description2'),
+                      Item(name='Name3', description='Description3')]
+
+    def test_one(self):
+        self.assert_html_equivalent_from_file(
+            'border_test', 'table_bordered', self.items, border=True)
+
+    def test_two(self):
+        table_bordered = self.table_cls(self.items, border=True)
+        self.assert_html_equivalent_from_file(
+            'border_test', 'table_bordered', tab=table_bordered)
+
+
 class ColTest(TableTest):
     def setUp(self):
         class MyTable(Table):
             name = Col('Name Heading')
+
         self.table_cls = MyTable
 
     def test_one(self):
@@ -137,6 +161,7 @@ class HideTest(ColTest):
         class MyTable(Table):
             name = Col('Name Heading')
             hidden = Col('Hidden', show=False)
+
         self.table_cls = MyTable
 
 
@@ -167,6 +192,7 @@ class DynamicColsInheritTest(TableTest):
         # Start with MyTable
         class MyTable(Table):
             name = Col('Name')
+
         # Then dynamically extend it.
         self.table_cls = create_table(base=MyTable)
         self.table_cls.add_column('number', Col('Number'))
@@ -202,6 +228,7 @@ class EmptyTest(TableTest):
     def setUp(self):
         class MyTable(Table):
             name = Col('Name Heading')
+
         self.table_cls = MyTable
 
     def test_none(self):
@@ -241,6 +268,7 @@ class ColCallableTest(ColTest):
     def setUp(self):
         class MyTable(Table):
             get_name = Col('Name Heading')
+
         self.table_cls = MyTable
 
     def test_one(self):
@@ -268,6 +296,7 @@ class AttrListTest(TableTest):
     def setUp(self):
         class MyTable(Table):
             name = Col('Subitem Name Heading', attr_list=['subitem', 'name'])
+
         self.table_cls = MyTable
 
     def test_one(self):
@@ -286,6 +315,7 @@ class WeirdAttrListTest(TableTest):
         class MyTable(Table):
             name = Col(
                 'Subitem Name Heading', attr_list=['subi.tem.', '.nam.e'])
+
         self.table_cls = MyTable
 
     def test_one(self):
@@ -298,6 +328,7 @@ class AltAttrTest(ColTest):
     def setUp(self):
         class MyTable(Table):
             alt_name = Col('Name Heading', attr='name')
+
         self.table_cls = MyTable
 
 
@@ -305,6 +336,7 @@ class AttrListDotsTest(AttrListTest):
     def setUp(self):
         class MyTable(Table):
             name = Col('Subitem Name Heading', attr='subitem.name')
+
         self.table_cls = MyTable
 
 
@@ -313,6 +345,7 @@ class ClassTest(TableTest):
         class MyTable(Table):
             classes = ['table']
             name = Col('Name Heading')
+
         self.table_cls = MyTable
 
     def test_one(self):
@@ -326,6 +359,7 @@ class TheadClassTest(TableTest):
         class MyTable(Table):
             thead_classes = ['table-head']
             name = Col('Name Heading')
+
         self.table_cls = MyTable
 
     def test_one(self):
@@ -339,6 +373,7 @@ class SortUrlNotSetTest(TableTest):
         class MyTable1(Table):
             allow_sort = True
             name = Col('Name Heading')
+
         self.table_cls1 = MyTable1
 
         class MyTable2(Table):
@@ -373,6 +408,7 @@ class NoItemsTest(TableTest):
         class MyTable(Table):
             no_items = 'There is nothing here'
             name = Col('Name Heading')
+
         self.table_cls = MyTable
 
     def test_zero(self):
@@ -385,6 +421,7 @@ class NoItemsDynamicTest(TableTest):
     def setUp(self):
         class MyTable(Table):
             name = Col('Name Heading')
+
         self.table_cls = MyTable
 
     def test_zero(self):
@@ -398,6 +435,7 @@ class ClassTestAtPopulate(TableTest):
     def setUp(self):
         class MyTable(Table):
             name = Col('Name Heading')
+
         self.table_cls = MyTable
 
     def test_one(self):
@@ -411,6 +449,7 @@ class TheadClassTestAtPopulate(TableTest):
     def setUp(self):
         class MyTable(Table):
             name = Col('Name Heading')
+
         self.table_cls = MyTable
 
     def test_one(self):
@@ -425,6 +464,7 @@ class LinkTest(FlaskTableTest):
         class LinkTable(Table):
             name = Col('Name')
             view = LinkCol('View', 'view', url_kwargs=dict(id_='id'))
+
         self.table_cls = LinkTable
 
     def test_one(self):
@@ -445,6 +485,7 @@ class LinkNoUrlKwargsTest(FlaskTableTest):
         class LinkTable(Table):
             name = Col('Name')
             view = LinkCol('View', 'index')
+
         self.table_cls = LinkTable
 
     def test_one(self):
@@ -459,6 +500,7 @@ class LinkTestSubItemAttrList(LinkTest):
             name = Col('Name')
             view = LinkCol(
                 'View', 'view', url_kwargs=dict(id_=['subitem', 'id']))
+
         self.table_cls = LinkTable
 
     def test_one(self):
@@ -472,6 +514,7 @@ class LinkTestSubItemAttrDots(LinkTestSubItemAttrList):
         class LinkTable(Table):
             name = Col('Name')
             view = LinkCol('View', 'view', url_kwargs=dict(id_='subitem.id'))
+
         self.table_cls = LinkTable
 
 
@@ -480,6 +523,7 @@ class LinkTestCustomContent(FlaskTableTest):
         class LinkTable(Table):
             name = LinkCol(
                 'View', 'view', attr='name', url_kwargs=dict(id_='id'))
+
         self.table_cls = LinkTable
 
     def test_one(self):
@@ -493,6 +537,7 @@ class ButtonTest(FlaskTableTest):
         class ButtonTable(Table):
             name = Col('Name')
             view = ButtonCol('Delete', 'delete', url_kwargs=dict(id_='id'))
+
         self.table_cls = ButtonTable
 
     def test_one(self):
@@ -505,6 +550,7 @@ class BoolTest(TableTest):
     def setUp(self):
         class MyTable(Table):
             yesno = BoolCol('YesNo Heading')
+
         self.table_cls = MyTable
 
     def test_one(self):
@@ -521,6 +567,7 @@ class OptTest(TableTest):
 
         class MyTable(Table):
             choice = OptCol('Choice Heading', choices=choices)
+
         self.table_cls = MyTable
 
     def test_one(self):
@@ -536,6 +583,7 @@ class OptNoChoicesTest(TableTest):
     def setUp(self):
         class MyTable(Table):
             choice = OptCol('Choice Heading')
+
         self.table_cls = MyTable
 
     def test_one(self):
@@ -550,6 +598,7 @@ class OptTestDefaultKey(TableTest):
 
         class MyTable(Table):
             choice = OptCol('Choice Heading', choices=choices, default_key='c')
+
         self.table_cls = MyTable
 
     def test_one(self):
@@ -568,6 +617,7 @@ class OptTestDefaultValue(TableTest):
         class MyTable(Table):
             choice = OptCol(
                 'Choice Heading', choices=choices, default_value='Ddddddd')
+
         self.table_cls = MyTable
 
     def test_one(self):
@@ -583,6 +633,7 @@ class DateTest(TableTest):
     def setUp(self):
         class MyTable(Table):
             date = DateCol('Date Heading')
+
         self.table_cls = MyTable
 
     def test_one(self):
@@ -593,9 +644,9 @@ class DateTest(TableTest):
 
 class DateTestFormat(TableTest):
     def setUp(self):
-
         class MyTable(Table):
             date = DateCol('Date Heading', date_format="YYYY-MM-dd")
+
         self.table_cls = MyTable
 
     def test_one(self):
@@ -606,9 +657,9 @@ class DateTestFormat(TableTest):
 
 class DatetimeTest(TableTest):
     def setUp(self):
-
         class MyTable(Table):
             datetime = DatetimeCol('DateTime Heading')
+
         self.table_cls = MyTable
 
     def test_one(self):
@@ -621,11 +672,11 @@ class DatetimeTest(TableTest):
 
 class DatetimeTestFormat(TableTest):
     def setUp(self):
-
         class MyTable(Table):
             datetime = DatetimeCol(
                 'DateTime Heading',
                 datetime_format="YYYY-MM-dd hh:mm")
+
         self.table_cls = MyTable
 
     def test_one(self):
@@ -638,9 +689,9 @@ class DatetimeTestFormat(TableTest):
 
 class EscapeTest(TableTest):
     def setUp(self):
-
         class EscapeTable(Table):
             name = Col('Name')
+
         self.table_cls = EscapeTable
 
     def test_one(self):
@@ -651,7 +702,6 @@ class EscapeTest(TableTest):
 
 class SortingTest(FlaskTableTest):
     def setUp(self):
-
         class SortingTable(Table):
             allow_sort = True
             name = Col('Name')
@@ -687,6 +737,7 @@ class GeneratorTest(TableTest):
 
         class GeneratorTable(Table):
             number = Col('Number')
+
         self.table_cls = GeneratorTable
 
         def gen_nums(upto):

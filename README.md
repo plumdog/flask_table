@@ -78,6 +78,8 @@ Extra things:
   * contain dicts or objects - there's nothing saying it can't contain
     some of each
 
+* Adding border to your table by just setting attribute `border=True` while creating a table.
+
 * There are also LinkCol and ButtonCol that allow links and buttons,
   which is where the Flask-specific-ness comes in.
 
