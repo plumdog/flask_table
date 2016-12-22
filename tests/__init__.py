@@ -100,7 +100,6 @@ class TableIDTest(TableTest):
 
         self.table_cls = MyTable
 
-    # 要测试的方法以test开头
     def test_one(self):
         items = [Item(name='one')]
         self.assert_html_equivalent_from_file(
