@@ -350,7 +350,7 @@ class ClassTest(TableTest):
         items = [Item(name='one')]
         self.assert_html_equivalent_from_file(
             'class_test', 'test_one', items)
-        
+
 
 class DynamicClassTest(TableTest):
     def setUp(self):
