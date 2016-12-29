@@ -32,7 +32,7 @@ class TableTest(unittest.TestCase):
     def assert_in(self, x, y):
         if x not in y:
             raise AssertionError(
-                '{x} is not in {}, but should be.'.format(x=x, y=y))
+                '{x} is not in {y}, but should be.'.format(x=x, y=y))
 
     def assert_in_html(self, x, y):
         return self.assert_in(x, y.__html__())
