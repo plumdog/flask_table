@@ -279,6 +279,11 @@ class MyTable(Table):
 	...
 ```
 
+We can also dynamically add classes into our table just by passing them as arguments of `add_classes()` function:
+```python
+Mytable = create_table().add_classes('class1', 'class2')
+```
+
 Then the table created would be:
 ```html
 <table class="class1 class2">
