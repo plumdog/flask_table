@@ -69,14 +69,18 @@ class Table(with_metaclass(TableMeta)):
         self.table_id = table_id
         self.border = border
 
+    def get_border(self):
+        if self.border:
+            return ' border="1"'
+        else:
+            return ''
+
     def classes_html_attr(self):
         s = ''
         if self.table_id:
             s += ' id="{}"'.format(self.table_id)
         if self.classes:
             s += ' class="{}"'.format(' '.join(self.classes))
-        if self.border:
-            s += ' border="1"'
         return s
 
     def thead_classes_html_attr(self):
@@ -88,7 +92,8 @@ class Table(with_metaclass(TableMeta)):
     def __html__(self):
         tbody = self.tbody()
         if tbody:
-            return '<table{attrs}>\n{thead}\n{tbody}\n</table>'.format(
+            return '<table{border}{attrs}>\n{thead}\n{tbody}\n</table>'.format(
+                border=self.get_border(),
                 attrs=self.classes_html_attr(),
                 thead=self.thead(),
                 tbody=tbody)
