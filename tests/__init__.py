@@ -346,10 +346,22 @@ class ClassTest(TableTest):
 
         self.table_cls = MyTable
 
+
     def test_one(self):
         items = [Item(name='one')]
         self.assert_html_equivalent_from_file(
             'class_test', 'test_one', items)
+
+class DynamicClassTest(TableTest):
+    def setUp(self):
+        self.table_cls = create_table() \
+            .add_column('name', Col('Name Heading')) \
+            .add_classes('table', 'table-sm', 'table-pos')
+
+    def test_dynamic(self):
+        items = [Item(name='one')]
+        self.assert_html_equivalent_from_file(
+            'class_test', 'test_dynamic', items)
 
 
 class TheadClassTest(TableTest):

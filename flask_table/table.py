@@ -155,6 +155,15 @@ class Table(with_metaclass(TableMeta)):
         cls._cols[name] = col
         return cls
 
+    @classmethod
+    def add_classes(cls, *args):
+        if len(args) > 0:
+            classes = ''
+            for arg in args:
+                classes += ' ' + arg
+            cls.classes = [classes.strip()]
+            return cls
+
 
 def create_table(name=str('_Table'), base=Table):
     """Creates and returns a new table class. You can specify a name for
