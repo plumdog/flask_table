@@ -80,11 +80,11 @@ class Col(object):
         else:
             return out
 
-    def td(self, item, attr):
+    def td(self, item, attr, convert):
         return '<td>{}</td>'.format(
-            self.td_contents(item, self.get_attr_list(attr)))
+            self.td_contents(item, self.get_attr_list(attr), convert))
 
-    def td_contents(self, item, attr_list):
+    def td_contents(self, item, attr_list, convert):
         """Given an item and an attr, return the contents of the
         <td>.
 
@@ -96,9 +96,9 @@ class Col(object):
         Note that the output of this function is NOT escaped.
 
         """
-        return self.td_format(self.from_attr_list(item, attr_list))
+        return self.td_format(self.from_attr_list(item, attr_list), convert)
 
-    def td_format(self, content):
+    def td_format(self, content, convert):
         """Given just the value extracted from the item, return what should
         appear within the td.
 
@@ -111,7 +111,10 @@ class Col(object):
         Note that the output of this function is escaped.
 
         """
-        return Markup.escape(content)
+        if convert:
+            return Markup.escape(content)
+        else:
+            return content
 
 
 class OptCol(Col):
@@ -228,10 +231,10 @@ class LinkCol(Col):
     def url(self, item):
         return url_for(self.endpoint, **self.url_kwargs(item))
 
-    def td_contents(self, item, attr_list):
+    def td_contents(self, item, attr_list, convert):
         return '<a href="{url}">{text}</a>'.format(
             url=self.url(item),
-            text=self.td_format(self.text(item, attr_list)))
+            text=self.td_format(self.text(item, attr_list), convert))
 
 
 class ButtonCol(LinkCol):
