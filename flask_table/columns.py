@@ -108,7 +108,7 @@ class Col(object):
         data that attr_list gets from the item, but need to adjust how
         it is represented.
 
-        Note that the output of this function is escaped.
+        Using convert to choose the output if escaped or not.
 
         """
         if convert:
@@ -138,9 +138,10 @@ class OptCol(Col):
         else:
             return content
 
-    def td_format(self, content):
-        return self.choices.get(
+    def td_format(self, content, convert):
+        data = self.choices.get(
             self.coerce_content(content), self.default_value)
+        return super(OptCol, self).td_format(data, convert)
 
 
 class BoolCol(OptCol):
@@ -165,9 +166,10 @@ class DateCol(Col):
         super(DateCol, self).__init__(name, **kwargs)
         self.date_format = date_format
 
-    def td_format(self, content):
+    def td_format(self, content, convert):
         if content:
-            return format_date(content, self.date_format)
+            return super(DateCol, self).td_format(
+                format_date(content, self.date_format), convert)
         else:
             return ''
 
@@ -181,9 +183,10 @@ class DatetimeCol(Col):
         super(DatetimeCol, self).__init__(name, **kwargs)
         self.datetime_format = datetime_format
 
-    def td_format(self, content):
+    def td_format(self, content, convert):
         if content:
-            return format_datetime(content, self.datetime_format)
+            return super(DatetimeCol, self).td_format(
+                format_datetime(content, self.datetime_format), convert)
         else:
             return ''
 
@@ -249,12 +252,14 @@ class ButtonCol(LinkCol):
 
     """
 
-    def td_contents(self, item, attr_list):
+    def td_contents(self, item, attr_list, convert):
+        content = Markup.escape(self.text(item, attr_list))\
+            if convert else self.text(item, attr_list)
         return '<form method="post" action="{url}">'\
             '<button type="submit">{text}</button>'\
             '</form>'.format(
                 url=self.url(item),
-                text=Markup.escape(self.text(item, attr_list)))
+                text=content)
 
 
 class NestedTableCol(Col):
@@ -280,6 +285,6 @@ class NestedTableCol(Col):
         super(NestedTableCol, self).__init__(name, **kwargs)
         self.table_class = table_class
 
-    def td_format(self, content):
-        t = self.table_class(content).__html__()
+    def td_format(self, content, convert):
+        t = self.table_class(content).__html__(convert)
         return t
