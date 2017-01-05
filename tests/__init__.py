@@ -300,6 +300,7 @@ class ColCallableTest(ColTest):
         self.assert_html_equivalent_from_file(
             'col_test', 'test_markupsafe', items, convert=False)
 
+
 class AttrListTest(TableTest):
     def setUp(self):
         class MyTable(Table):
@@ -797,7 +798,8 @@ class NestedColTest(TableTest):
     def test_markupsafe(self):
         items = [Item(a='row1', nest=[Item(b='r1asc1', c='r1asc2'),
                                       Item(b='r1bsc1', c='r1bsc2')]),
-                 Item(a='row2', nest=[Item(b='<b>r2asc1</b>', c='<b>r2asc2</b>'),
-                                      Item(b='<b>r2bsc1</b>', c='<b>r2bsc2</b>')])]
+                 Item(a='row2',
+                      nest=[Item(b='<b>r2asc1</b>', c='<b>r2asc2</b>'),
+                            Item(b='<b>r2bsc1</b>', c='<b>r2bsc2</b>')])]
         self.assert_html_equivalent_from_file(
             'nestedcol_test', 'test_markupsafe', items, convert=False)
