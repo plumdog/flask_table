@@ -80,11 +80,11 @@ class Col(object):
         else:
             return out
 
-    def td(self, item, attr):
+    def td(self, item, attr, convert):
         return '<td>{}</td>'.format(
-            self.td_contents(item, self.get_attr_list(attr)))
+            self.td_contents(item, self.get_attr_list(attr), convert))
 
-    def td_contents(self, item, attr_list):
+    def td_contents(self, item, attr_list, convert):
         """Given an item and an attr, return the contents of the
         <td>.
 
@@ -96,9 +96,9 @@ class Col(object):
         Note that the output of this function is NOT escaped.
 
         """
-        return self.td_format(self.from_attr_list(item, attr_list))
+        return self.td_format(self.from_attr_list(item, attr_list), convert)
 
-    def td_format(self, content):
+    def td_format(self, content, convert):
         """Given just the value extracted from the item, return what should
         appear within the td.
 
@@ -108,10 +108,13 @@ class Col(object):
         data that attr_list gets from the item, but need to adjust how
         it is represented.
 
-        Note that the output of this function is escaped.
+        Using convert to choose the output if escaped or not.
 
         """
-        return Markup.escape(content)
+        if convert:
+            return Markup.escape(content)
+        else:
+            return content
 
 
 class OptCol(Col):
@@ -135,9 +138,10 @@ class OptCol(Col):
         else:
             return content
 
-    def td_format(self, content):
-        return self.choices.get(
+    def td_format(self, content, convert):
+        data = self.choices.get(
             self.coerce_content(content), self.default_value)
+        return super(OptCol, self).td_format(data, convert)
 
 
 class BoolCol(OptCol):
@@ -162,9 +166,10 @@ class DateCol(Col):
         super(DateCol, self).__init__(name, **kwargs)
         self.date_format = date_format
 
-    def td_format(self, content):
+    def td_format(self, content, convert):
         if content:
-            return format_date(content, self.date_format)
+            return super(DateCol, self).td_format(
+                format_date(content, self.date_format), convert)
         else:
             return ''
 
@@ -178,9 +183,10 @@ class DatetimeCol(Col):
         super(DatetimeCol, self).__init__(name, **kwargs)
         self.datetime_format = datetime_format
 
-    def td_format(self, content):
+    def td_format(self, content, convert):
         if content:
-            return format_datetime(content, self.datetime_format)
+            return super(DatetimeCol, self).td_format(
+                format_datetime(content, self.datetime_format), convert)
         else:
             return ''
 
@@ -228,10 +234,10 @@ class LinkCol(Col):
     def url(self, item):
         return url_for(self.endpoint, **self.url_kwargs(item))
 
-    def td_contents(self, item, attr_list):
+    def td_contents(self, item, attr_list, convert):
         return '<a href="{url}">{text}</a>'.format(
             url=self.url(item),
-            text=self.td_format(self.text(item, attr_list)))
+            text=self.td_format(self.text(item, attr_list), convert))
 
 
 class ButtonCol(LinkCol):
@@ -246,12 +252,14 @@ class ButtonCol(LinkCol):
 
     """
 
-    def td_contents(self, item, attr_list):
+    def td_contents(self, item, attr_list, convert):
+        content = Markup.escape(self.text(item, attr_list))\
+            if convert else self.text(item, attr_list)
         return '<form method="post" action="{url}">'\
             '<button type="submit">{text}</button>'\
             '</form>'.format(
                 url=self.url(item),
-                text=Markup.escape(self.text(item, attr_list)))
+                text=content)
 
 
 class NestedTableCol(Col):
@@ -277,6 +285,6 @@ class NestedTableCol(Col):
         super(NestedTableCol, self).__init__(name, **kwargs)
         self.table_class = table_class
 
-    def td_format(self, content):
-        t = self.table_class(content).__html__()
+    def td_format(self, content, convert):
+        t = self.table_class(content).__html__(convert)
         return t

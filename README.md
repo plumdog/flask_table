@@ -90,6 +90,10 @@ Extra things:
 
 * But most importantly, Col is easy to subclass.
 
+Markup Safe Option
+------------------
+By default, table content is escaped to keep Markup Safe, but if you don't want it to be escaped and want to keep as it is. Setting `convert` of you `__html__()` function like `table.__html__(convert=False)`.
+
 Included Col Types
 ==================
 

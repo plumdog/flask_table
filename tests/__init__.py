@@ -32,7 +32,7 @@ class TableTest(unittest.TestCase):
     def assert_in(self, x, y):
         if x not in y:
             raise AssertionError(
-                '{x} is not in {}, but should be.'.format(x=x, y=y))
+                '{x} is not in {y}, but should be.'.format(x=x, y=y))
 
     def assert_in_html(self, x, y):
         return self.assert_in(x, y.__html__())
@@ -45,9 +45,9 @@ class TableTest(unittest.TestCase):
     def assert_not_in_html(self, x, y):
         return self.assert_not_in(x, y.__html__())
 
-    def assert_html_equivalent(self, test_tab, reference):
+    def assert_html_equivalent(self, test_tab, reference, convert):
         self.assertEqual(
-            html_reduce(test_tab.__html__()),
+            html_reduce(test_tab.__html__(convert)),
             html_reduce(reference))
 
     @classmethod
@@ -58,15 +58,14 @@ class TableTest(unittest.TestCase):
         with io.open(path, encoding="utf8") as f:
             return f.read()
 
-    def assert_html_equivalent_from_file(self, d, name, items=[], **kwargs):
+    def assert_html_equivalent_from_file(
+            self, d, name, items=[], convert=True, **kwargs):
         table_id = kwargs.get('table_id', None)
         border = kwargs.get('border', False)
         tab = kwargs.get('tab', self.table_cls(
             items, table_id=table_id, border=border))
-        if kwargs.get('print_html'):
-            print(tab.__html__())
         html = self.get_html(d, name)
-        self.assert_html_equivalent(tab, html)
+        self.assert_html_equivalent(tab, html, convert)
 
 
 def test_app():
@@ -154,6 +153,11 @@ class ColTest(TableTest):
         items = [Item(name='äöüß')]
         self.assert_html_equivalent_from_file(
             'col_test', 'test_encoding', items)
+
+    def test_markupsafe(self):
+        items = [Item(name='<input id="0718" name="Panda" type="text">')]
+        self.assert_html_equivalent_from_file(
+            'col_test', 'test_markupsafe', items, convert=False)
 
 
 class HideTest(ColTest):
@@ -290,6 +294,11 @@ class ColCallableTest(ColTest):
         items = [FuncItem(name='äöüß')]
         self.assert_html_equivalent_from_file(
             'col_test', 'test_encoding', items)
+
+    def test_markupsafe(self):
+        items = [FuncItem(name='<input id="0718" name="Panda" type="text">')]
+        self.assert_html_equivalent_from_file(
+            'col_test', 'test_markupsafe', items, convert=False)
 
 
 class AttrListTest(TableTest):
@@ -785,3 +794,12 @@ class NestedColTest(TableTest):
                                       Item(b='r2bsc1', c='r2bsc2')])]
         self.assert_html_equivalent_from_file(
             'nestedcol_test', 'test_one', items)
+
+    def test_markupsafe(self):
+        items = [Item(a='row1', nest=[Item(b='r1asc1', c='r1asc2'),
+                                      Item(b='r1bsc1', c='r1bsc2')]),
+                 Item(a='row2',
+                      nest=[Item(b='<b>r2asc1</b>', c='<b>r2asc2</b>'),
+                            Item(b='<b>r2bsc1</b>', c='<b>r2bsc2</b>')])]
+        self.assert_html_equivalent_from_file(
+            'nestedcol_test', 'test_markupsafe', items, convert=False)

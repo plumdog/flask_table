@@ -20,14 +20,14 @@ class ItemTable(Table):
 
 
 def main():
-    items = [Item('Name1', 'Description1'),
+    items = [Item('Name1', '<'),
              Item('Name2', 'Description2'),
              Item('Name3', 'Description3')]
 
     table = ItemTable(items)
 
     # or {{ table }} in jinja
-    print(table.__html__())
+    print(table.__html__(convert=False))
 
     """Outputs:
 

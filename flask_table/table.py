@@ -85,8 +85,8 @@ class Table(with_metaclass(TableMeta)):
         else:
             return ' class="{}"'.format(' '.join(self.thead_classes))
 
-    def __html__(self):
-        tbody = self.tbody()
+    def __html__(self, convert=True):
+        tbody = self.tbody(convert)
         if tbody:
             return '<table{attrs}>\n{thead}\n{tbody}\n</table>'.format(
                 attrs=self.classes_html_attr(),
@@ -102,8 +102,8 @@ class Table(with_metaclass(TableMeta)):
                 (self.th(col_key, col) for col_key, col in self._cols.items()
                  if col.show)))
 
-    def tbody(self):
-        out = [self.tr(item) for item in self.items]
+    def tbody(self, convert):
+        out = [self.tr(item, convert) for item in self.items]
         if out:
             return '<tbody>\n{}\n</tbody>'.format('\n'.join(out))
         else:
@@ -118,9 +118,9 @@ class Table(with_metaclass(TableMeta)):
 
         return '<tr>{}</tr>'
 
-    def tr(self, item):
+    def tr(self, item, convert):
         return self.tr_format(item).format(
-            ''.join(c.td(item, attr) for attr, c in self._cols.items()
+            ''.join(c.td(item, attr, convert) for attr, c in self._cols.items()
                     if c.show))
 
     def th_contents(self, col_key, col):
