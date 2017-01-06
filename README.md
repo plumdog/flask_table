@@ -279,11 +279,6 @@ class MyTable(Table):
 	...
 ```
 
-We can also dynamically add classes into our table just by passing them as arguments of `add_classes()` function:
-```python
-Mytable = create_table().add_classes('class1', 'class2')
-```
-
 Then the table created would be:
 ```html
 <table class="class1 class2">
@@ -373,6 +368,22 @@ something like
 TableCls = create_table('TableCls')
 for i in range(num):
     TableCls.add_column(str(i), Col(str(i)))
+```
+
+We can also set some extra options to the table class by passing `options` parameter to `create_table()`:
+```python
+tbl_options = dict(
+    classes = ['cls1', 'cls2'],
+    thead_classes = ['cls_head1', 'cls_head2'],
+    no_items = 'Empty')
+TableCls = create_table(options=tbl_options)
+
+# equals to
+
+class TableCls(Table):
+    classes = ['cls1', 'cls2'],
+    thead_classes = ['cls_head1', 'cls_head2'],
+    no_items = 'Empty'
 ```
 
 Sortable Tables

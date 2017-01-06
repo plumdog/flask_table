@@ -156,16 +156,12 @@ class Table(with_metaclass(TableMeta)):
         return cls
 
     @classmethod
-    def add_classes(cls, *args):
-        if len(args) > 0:
-            classes = ''
-            for arg in args:
-                classes += ' ' + arg
-            cls.classes = [classes.strip()]
-            return cls
+    def add_classes(cls, func):
+        cls.sort_url = func
+        return cls
 
 
-def create_table(name=str('_Table'), base=Table):
+def create_table(name=str('_Table'), base=Table, options={}):
     """Creates and returns a new table class. You can specify a name for
     you class if you wish. You can also set the base class (or
     classes) that should be used when creating the class.
@@ -177,4 +173,18 @@ def create_table(name=str('_Table'), base=Table):
         # Then assume that what we have is a single class, so make it
         # into a 1-tuple.
         base = (base,)
-    return TableMeta(name, base, {})
+
+    attr_dict = {}
+    done = False
+    for base_class in base:
+        if not done:
+            for option in options:
+                if option in base_class.__dict__:
+                    attr_dict[option] = options[option]
+                    if len(attr_dict) == len(options):
+                        done = True
+                        break
+        else:
+            break
+
+    return TableMeta(name, base, attr_dict)

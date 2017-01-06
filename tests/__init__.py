@@ -201,6 +201,26 @@ class DynamicColsInheritTest(TableTest):
             'dynamic_cols_inherit_test', 'test_one', items)
 
 
+class DynamicColsOptionsTest(TableTest):
+    def setUp(self):
+        tbl_options = dict(
+            classes = ['cls1', 'cls2'],
+            thead_classes = ['cls_head1', 'cls_head2'],
+            no_items = 'Empty')
+        self.table_cls = create_table(options=tbl_options)
+        self.table_cls.add_column('name', Col('Name Heading'))
+
+    def test_one(self):
+        items = [Item(name='one')]
+        self.assert_html_equivalent_from_file(
+            'dynamic_cols_options_test', 'test_one', items)
+
+    def test_none(self):
+        items = []
+        self.assert_html_equivalent_from_file(
+            'dynamic_cols_options_test', 'test_none', items)
+
+
 class OverrideTrTest(TableTest):
     def setUp(self):
         class MyTable(Table):
@@ -350,18 +370,6 @@ class ClassTest(TableTest):
         items = [Item(name='one')]
         self.assert_html_equivalent_from_file(
             'class_test', 'test_one', items)
-
-
-class DynamicClassTest(TableTest):
-    def setUp(self):
-        self.table_cls = create_table() \
-            .add_column('name', Col('Name Heading')) \
-            .add_classes('table', 'table-sm', 'table-pos')
-
-    def test_dynamic(self):
-        items = [Item(name='one')]
-        self.assert_html_equivalent_from_file(
-            'class_test', 'test_dynamic', items)
 
 
 class TheadClassTest(TableTest):
