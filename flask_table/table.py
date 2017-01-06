@@ -155,11 +155,6 @@ class Table(with_metaclass(TableMeta)):
         cls._cols[name] = col
         return cls
 
-    @classmethod
-    def add_classes(cls, func):
-        cls.sort_url = func
-        return cls
-
 
 def create_table(name=str('_Table'), base=Table, options={}):
     """Creates and returns a new table class. You can specify a name for
