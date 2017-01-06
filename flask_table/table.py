@@ -151,7 +151,7 @@ class Table(with_metaclass(TableMeta)):
         return cls
 
 
-def create_table(name=str('_Table'), base=Table):
+def create_table(name=str('_Table'), base=Table, options=None):
     """Creates and returns a new table class. You can specify a name for
     you class if you wish. You can also set the base class (or
     classes) that should be used when creating the class.
@@ -163,4 +163,5 @@ def create_table(name=str('_Table'), base=Table):
         # Then assume that what we have is a single class, so make it
         # into a 1-tuple.
         base = (base,)
-    return TableMeta(name, base, {})
+
+    return TableMeta(name, base, options or {})

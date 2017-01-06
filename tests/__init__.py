@@ -32,7 +32,7 @@ class TableTest(unittest.TestCase):
     def assert_in(self, x, y):
         if x not in y:
             raise AssertionError(
-                '{x} is not in {}, but should be.'.format(x=x, y=y))
+                '{x} is not in {y}, but should be.'.format(x=x, y=y))
 
     def assert_in_html(self, x, y):
         return self.assert_in(x, y.__html__())
@@ -201,6 +201,26 @@ class DynamicColsInheritTest(TableTest):
         items = [{'name': 'TestName', 'number': 10}]
         self.assert_html_equivalent_from_file(
             'dynamic_cols_inherit_test', 'test_one', items)
+
+
+class DynamicColsOptionsTest(TableTest):
+    def setUp(self):
+        tbl_options = dict(
+            classes=['cls1', 'cls2'],
+            thead_classes=['cls_head1', 'cls_head2'],
+            no_items='Empty')
+        self.table_cls = create_table(options=tbl_options)
+        self.table_cls.add_column('name', Col('Name Heading'))
+
+    def test_one(self):
+        items = [Item(name='one')]
+        self.assert_html_equivalent_from_file(
+            'dynamic_cols_options_test', 'test_one', items)
+
+    def test_none(self):
+        items = []
+        self.assert_html_equivalent_from_file(
+            'dynamic_cols_options_test', 'test_none', items)
 
 
 class OverrideTrTest(TableTest):
