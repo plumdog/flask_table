@@ -63,6 +63,8 @@ class TableTest(unittest.TestCase):
         border = kwargs.get('border', False)
         tab = kwargs.get('tab', self.table_cls(
             items, table_id=table_id, border=border))
+        if kwargs.get('print_html'):
+            print(tab.__html__())
         html = self.get_html(d, name)
         self.assert_html_equivalent(tab, html)
 

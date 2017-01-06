@@ -69,18 +69,14 @@ class Table(with_metaclass(TableMeta)):
         self.table_id = table_id
         self.border = border
 
-    def get_border(self):
-        if self.border:
-            return ' border="1"'
-        else:
-            return ''
-
     def classes_html_attr(self):
         s = ''
         if self.table_id:
             s += ' id="{}"'.format(self.table_id)
         if self.classes:
             s += ' class="{}"'.format(' '.join(self.classes))
+        if self.border:
+            s += ' border="1"'
         return s
 
     def thead_classes_html_attr(self):
@@ -92,8 +88,7 @@ class Table(with_metaclass(TableMeta)):
     def __html__(self):
         tbody = self.tbody()
         if tbody:
-            return '<table{border}{attrs}>\n{thead}\n{tbody}\n</table>'.format(
-                border=self.get_border(),
+            return '<table{attrs}>\n{thead}\n{tbody}\n</table>'.format(
                 attrs=self.classes_html_attr(),
                 thead=self.thead(),
                 tbody=tbody)
@@ -156,7 +151,7 @@ class Table(with_metaclass(TableMeta)):
         return cls
 
 
-def create_table(name=str('_Table'), base=Table, options={}):
+def create_table(name=str('_Table'), base=Table, options=None):
     """Creates and returns a new table class. You can specify a name for
     you class if you wish. You can also set the base class (or
     classes) that should be used when creating the class.
@@ -169,17 +164,4 @@ def create_table(name=str('_Table'), base=Table, options={}):
         # into a 1-tuple.
         base = (base,)
 
-    attr_dict = {}
-    done = False
-    for base_class in base:
-        if not done:
-            for option in options:
-                if option in base_class.__dict__:
-                    attr_dict[option] = options[option]
-                    if len(attr_dict) == len(options):
-                        done = True
-                        break
-        else:
-            break
-
-    return TableMeta(name, base, attr_dict)
+    return TableMeta(name, base, options or {})
