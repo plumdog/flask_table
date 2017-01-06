@@ -204,9 +204,9 @@ class DynamicColsInheritTest(TableTest):
 class DynamicColsOptionsTest(TableTest):
     def setUp(self):
         tbl_options = dict(
-            classes = ['cls1', 'cls2'],
-            thead_classes = ['cls_head1', 'cls_head2'],
-            no_items = 'Empty')
+            classes=['cls1', 'cls2'],
+            thead_classes=['cls_head1', 'cls_head2'],
+            no_items='Empty')
         self.table_cls = create_table(options=tbl_options)
         self.table_cls.add_column('name', Col('Name Heading'))
 
