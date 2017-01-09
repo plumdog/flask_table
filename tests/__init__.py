@@ -1,6 +1,14 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
+
 import os
+# Set all of our environment variables before we import other things
+# that may read these at import time. We also use noqa to stop pep8
+# from worrying about imports not being at the top of the file.
+for name in ['LANGUAGE', 'LC_ALL', 'LC_CTYPE', 'LC_MESSAGES', 'LC_TIME']:  # noqa
+    os.environ[name] = ''
+os.environ['LANGUAGE'] = 'en_GB.UTF-8'  # noqa
+
 import io
 import unittest
 from flask import Flask, url_for
@@ -8,10 +16,6 @@ from flask_table import (Table, Col, LinkCol, ButtonCol, OptCol, BoolCol,
                          DateCol, DatetimeCol, NestedTableCol, create_table)
 import flask.ext.testing as flask_testing
 from datetime import date, datetime
-
-for name in ['LANGUAGE', 'LC_ALL', 'LC_CTYPE', 'LC_MESSAGES']:
-    os.environ[name] = ''
-os.environ['LANGUAGE'] = 'en_GB.UTF-8'
 
 
 class Item(object):
