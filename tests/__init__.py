@@ -583,6 +583,23 @@ class ButtonTest(FlaskTableTest):
             'button_test', 'test_one', items)
 
 
+class ButtonAttrsTest(FlaskTableTest):
+    def setUp(self):
+        class ButtonTable(Table):
+            name = Col('Name')
+            view = ButtonCol(
+                'Delete',
+                'delete',
+                url_kwargs=dict(id_='id'),
+                button_attrs={'class': 'myclass'})
+        self.table_cls = ButtonTable
+
+    def test_one(self):
+        items = [Item(name='one', id=1)]
+        self.assert_html_equivalent_from_file(
+            'button_attrs_test', 'test_one', items)
+
+
 class BoolTest(TableTest):
     def setUp(self):
         class MyTable(Table):
