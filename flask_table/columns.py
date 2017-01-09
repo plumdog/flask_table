@@ -3,6 +3,8 @@ from __future__ import unicode_literals
 from flask import Markup, url_for
 from babel.dates import format_date, format_datetime
 
+from .html import element
+
 
 def _single_get(item, key):
     # First, try to lookup the key as if the item were a dict. If
@@ -81,12 +83,11 @@ class Col(object):
             return out
 
     def td(self, item, attr):
-        return '<td>{}</td>'.format(
-            self.td_contents(item, self.get_attr_list(attr)))
+        content = self.td_contents(item, self.get_attr_list(attr))
+        return element('td', content=content, escape_content=False)
 
     def td_contents(self, item, attr_list):
-        """Given an item and an attr, return the contents of the
-        <td>.
+        """Given an item and an attr, return the contents of the td.
 
         This method is a likely candidate to override when extending
         the Col class, which is done in LinkCol and
@@ -229,9 +230,9 @@ class LinkCol(Col):
         return url_for(self.endpoint, **self.url_kwargs(item))
 
     def td_contents(self, item, attr_list):
-        return '<a href="{url}">{text}</a>'.format(
-            url=self.url(item),
-            text=self.td_format(self.text(item, attr_list)))
+        attrs = dict(href=self.url(item))
+        text = self.td_format(self.text(item, attr_list))
+        return element('a', attrs=attrs, content=text, escape_content=False)
 
 
 class ButtonCol(LinkCol):
@@ -247,11 +248,22 @@ class ButtonCol(LinkCol):
     """
 
     def td_contents(self, item, attr_list):
-        return '<form method="post" action="{url}">'\
-            '<button type="submit">{text}</button>'\
-            '</form>'.format(
-                url=self.url(item),
-                text=Markup.escape(self.text(item, attr_list)))
+        button = element(
+            'button',
+            attrs=dict(
+                type='submit'
+            ),
+            content=self.text(item, attr_list),
+        )
+        return element(
+            'form',
+            attrs=dict(
+                method='post',
+                action=self.url(item),
+            ),
+            content=button,
+            escape_content=False,
+        )
 
 
 class NestedTableCol(Col):

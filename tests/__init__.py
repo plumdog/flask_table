@@ -228,13 +228,12 @@ class OverrideTrTest(TableTest):
         class MyTable(Table):
             number = Col('Number')
 
-            def tr_format(self, item):
+            def get_tr_attrs(self, item):
                 if item['number'] % 3 == 1:
-                    return '<tr class="threes-plus-one">{}</tr>'
+                    return {'class': 'threes-plus-one'}
                 elif item['number'] % 3 == 2:
-                    return '<tr class="threes-plus-two">{}</tr>'
-                else:
-                    return '<tr>{}</tr>'
+                    return {'class': 'threes-plus-two'}
+                return {}
 
         self.table_cls = MyTable
 
