@@ -176,8 +176,8 @@ to be looked up on the item. These keys obey the same rules as
 elsewhere, so can be things like `'category.name'` or `('category',
 'name')`.
 
-[[Possible future work: make it so some constants can be passed as
-part of the `url_kwargs`]]
+The kwarg `url_kwargs_extra` allows passing of contants to the
+url. This can be useful for adding constant GET params to a url.
 
 The text for the link is acquired in *almost* the same way as with
 other columns. However, other columns can be given no `attr` or
