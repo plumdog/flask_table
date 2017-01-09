@@ -217,7 +217,7 @@ class LinkCol(Col):
                 for k, v in self._url_kwargs.items()}
 
     def get_attr_list(self, attr):
-        return Col.get_attr_list(self, None)
+        return super(LinkCol, self).get_attr_list(None)
 
     def text(self, item, attr_list):
         if attr_list:
