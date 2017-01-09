@@ -184,11 +184,14 @@ More about ``ButtonCol``
 Has all the same options as ``LinkCol`` but instead adds a form and a
 button that gets posted to the url.
 
+You can pass a dict of attributes to add to the button element with the
+``button_attrs`` kwarg.
+
 [[Possible future work: make it so you can specify hidden fields to be
 added into the form.]]
 
 [[Possible future work: make it so you can specify attributes for the
-HTML form or button elements.]]
+HTML form.]]
 
 More about ``NestedTableCol``
 -----------------------------

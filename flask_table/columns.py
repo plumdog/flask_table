@@ -245,14 +245,27 @@ class ButtonCol(LinkCol):
 
     When clicked, this will post to url_for('delete_fn', id=item.id).
 
+    Can pass button_attrs to pass extra attributes to the button
+    element.
+
     """
 
+    def __init__(self, name, endpoint, attr=None, attr_list=None,
+                 url_kwargs=None, button_attrs=None, **kwargs):
+        super(ButtonCol, self).__init__(
+            name,
+            endpoint,
+            attr=attr,
+            attr_list=attr_list,
+            url_kwargs=url_kwargs, **kwargs)
+        self.button_attrs = button_attrs or {}
+
     def td_contents(self, item, attr_list):
+        button_attrs = dict(self.button_attrs)
+        button_attrs['type'] = 'submit'
         button = element(
             'button',
-            attrs=dict(
-                type='submit'
-            ),
+            attrs=button_attrs,
             content=self.text(item, attr_list),
         )
         return element(
