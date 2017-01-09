@@ -510,6 +510,47 @@ class LinkTest(FlaskTableTest):
             'link_test', 'test_one', items)
 
 
+class LinkExtraKwargsTest(FlaskTableTest):
+    def setUp(self):
+        class LinkTable(Table):
+            name = Col('Name')
+            view = LinkCol(
+                'View',
+                'view',
+                url_kwargs=dict(id_='id'),
+                url_kwargs_extra=dict(extra='extra'))
+
+        self.table_cls = LinkTable
+
+    def test_one(self):
+        items = [Item(name='one', id=1)]
+        self.assert_html_equivalent_from_file(
+            'link_test', 'test_one_extra_kwargs', items)
+
+
+class LinkExtraKwargsRepeatTest(FlaskTableTest):
+    """Check that if both `url_kwargs` and `url_kwargs_extra` are given
+    and share a key that we default to the value from the item, rather
+    than the static value from `url_kwargs_extra`.
+
+    """
+    def setUp(self):
+        class LinkTable(Table):
+            name = Col('Name')
+            view = LinkCol(
+                'View',
+                'view',
+                url_kwargs=dict(id_='id'),
+                url_kwargs_extra=dict(id_='id-from-extra', extra='extra'))
+
+        self.table_cls = LinkTable
+
+    def test_one(self):
+        items = [Item(name='one', id=1)]
+        self.assert_html_equivalent_from_file(
+            'link_test', 'test_one_extra_kwargs', items)
+
+
 class LinkDictTest(LinkTest):
     def test_one(self):
         items = [dict(name='one', id=1)]

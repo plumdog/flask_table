@@ -201,21 +201,24 @@ class LinkCol(Col):
 
     """
     def __init__(self, name, endpoint, attr=None, attr_list=None,
-                 url_kwargs=None, **kwargs):
+                 url_kwargs=None, url_kwargs_extra=None, **kwargs):
         super(LinkCol, self).__init__(
             name,
             attr=attr,
             attr_list=attr_list,
             **kwargs)
         self.endpoint = endpoint
-        if url_kwargs is None:
-            self._url_kwargs = {}
-        else:
-            self._url_kwargs = url_kwargs
+        self._url_kwargs = url_kwargs or {}
+        self._url_kwargs_extra = url_kwargs_extra or {}
 
     def url_kwargs(self, item):
-        return {k: _recursive_getattr(item, v)
-                for k, v in self._url_kwargs.items()}
+        # We give preference to the item kwargs, rather than the extra
+        # kwargs.
+        kwargs = self._url_kwargs_extra.copy()
+        item_kwargs = {k: _recursive_getattr(item, v)
+                       for k, v in self._url_kwargs.items()}
+        kwargs.update(item_kwargs)
+        return kwargs
 
     def get_attr_list(self, attr):
         return super(LinkCol, self).get_attr_list(None)
