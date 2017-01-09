@@ -450,6 +450,20 @@ class NoItemsDynamicTest(TableTest):
             'no_items_test', 'test_zero', tab=tab)
 
 
+class NoItemsAllowEmptyTest(TableTest):
+    def setUp(self):
+        class MyTable(Table):
+            name = Col('Name Heading')
+            allow_empty = True
+
+        self.table_cls = MyTable
+
+    def test_zero(self):
+        items = []
+        self.assert_html_equivalent_from_file(
+            'no_items_allow_empty', 'test_zero', items)
+
+
 class ClassTestAtPopulate(TableTest):
     def setUp(self):
         class MyTable(Table):
