@@ -56,6 +56,7 @@ class Table(with_metaclass(TableMeta)):
     thead_classes = []
     allow_sort = False
     no_items = 'No Items'
+    allow_empty = False
 
     def __init__(self, items, classes=None, thead_classes=None,
                  sort_by=None, sort_reverse=False, no_items=None,
@@ -90,7 +91,7 @@ class Table(with_metaclass(TableMeta)):
 
     def __html__(self):
         tbody = self.tbody()
-        if tbody:
+        if tbody or self.allow_empty:
             content = '\n{thead}\n{tbody}\n'.format(
                 thead=self.thead(),
                 tbody=tbody,
