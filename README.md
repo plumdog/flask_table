@@ -292,15 +292,8 @@ Manipulating `<tr>`s
 (Look in examples/rows.py for a more concrete example)
 
 Suppose you want to change something about the tr element for some or
-all items. You can do this by overriding your table's `tr_format`
-method. By default, this method returns:
-
-```python
-'<tr>{}</tr>'
-```
-
-which betrays the fact that it has `.format()` called on it, to put in
-the tds. If you override the method, keep that in mind.
+all items. You can do this by overriding your table's `get_tr_attrs`
+method. By default, this method returns an empty dict.
 
 So, we might want to use something like:
 
@@ -309,11 +302,11 @@ class ItemTable(Table):
     name = Col('Name')
     description = Col('Description')
 
-    def tr_format(self, item):
+    def get_tr_attrs(self, item):
         if item.important():
-            return '<tr class="important">{}</tr>'
+            return {'class': 'important'}
         else:
-            return '<tr>{}</tr>'
+            return {}
 ```
 
 which would give all trs for items that returned a true value for the

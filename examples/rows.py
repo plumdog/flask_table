@@ -18,11 +18,11 @@ class ItemTable(Table):
     name = Col('Name')
     description = Col('Description')
 
-    def tr_format(self, item):
+    def get_tr_attrs(self, item):
         if item.important():
-            return '<tr class="important">{}</tr>'
+            return {'class': 'important'}
         else:
-            return '<tr>{}</tr>'
+            return {}
 
 
 def main():

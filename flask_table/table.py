@@ -6,6 +6,7 @@ from flask import Markup
 
 from .columns import Col
 from .compat import with_metaclass
+from .html import element
 
 
 class TableMeta(type):
@@ -49,7 +50,9 @@ class Table(with_metaclass(TableMeta)):
 
     """
 
+    html_attrs = None
     classes = []
+    thead_attrs = None
     thead_classes = []
     allow_sort = False
     no_items = 'No Items'
@@ -69,78 +72,92 @@ class Table(with_metaclass(TableMeta)):
         self.table_id = table_id
         self.border = border
 
-    def classes_html_attr(self):
-        s = ''
+    def get_html_attrs(self):
+        attrs = dict(self.html_attrs) if self.html_attrs else {}
         if self.table_id:
-            s += ' id="{}"'.format(self.table_id)
+            attrs['id'] = self.table_id
         if self.classes:
-            s += ' class="{}"'.format(' '.join(self.classes))
+            attrs['class'] = ' '.join(self.classes)
         if self.border:
-            s += ' border="1"'
-        return s
+            attrs['border'] = 1
+        return attrs
 
-    def thead_classes_html_attr(self):
-        if not self.thead_classes:
-            return ''
-        else:
-            return ' class="{}"'.format(' '.join(self.thead_classes))
+    def get_thead_attrs(self):
+        attrs = dict(self.thead_attrs) if self.thead_attrs else {}
+        if self.thead_classes:
+            attrs['class'] = ' '.join(self.thead_classes)
+        return attrs
 
     def __html__(self):
         tbody = self.tbody()
         if tbody:
-            return '<table{attrs}>\n{thead}\n{tbody}\n</table>'.format(
-                attrs=self.classes_html_attr(),
+            content = '\n{thead}\n{tbody}\n'.format(
                 thead=self.thead(),
-                tbody=tbody)
+                tbody=tbody,
+            )
+            return element(
+                'table',
+                attrs=self.get_html_attrs(),
+                content=content,
+                escape_content=False)
         else:
-            return '<p>{}</p>'.format(self.no_items)
+            return element('p', content=self.no_items)
 
     def thead(self):
-        return '<thead{attrs}><tr>{ths}</tr></thead>'.format(
-            attrs=self.thead_classes_html_attr(),
-            ths=''.join(
-                (self.th(col_key, col) for col_key, col in self._cols.items()
-                 if col.show)))
+        ths = ''.join(
+            self.th(col_key, col)
+            for col_key, col in self._cols.items()
+            if col.show)
+        content = element('tr', content=ths, escape_content=False)
+        return element(
+            'thead',
+            attrs=self.get_thead_attrs(),
+            content=content,
+            escape_content=False,
+        )
 
     def tbody(self):
         out = [self.tr(item) for item in self.items]
-        if out:
-            return '<tbody>\n{}\n</tbody>'.format('\n'.join(out))
-        else:
+        if not out:
             return ''
+        content = '\n{}\n'.format('\n'.join(out))
+        return element('tbody', content=content, escape_content=False)
 
-    def tr_format(self, item):
-        """Returns the string that is formatted with the contents of the
-        tr. Override this if you want to alter the attributes of the
-        tr.
-
-        """
-
-        return '<tr>{}</tr>'
+    def get_tr_attrs(self, item):
+        return {}
 
     def tr(self, item):
-        return self.tr_format(item).format(
-            ''.join(c.td(item, attr) for attr, c in self._cols.items()
-                    if c.show))
+        content = ''.join(c.td(item, attr) for attr, c in self._cols.items()
+                          if c.show)
+        return element(
+            'tr',
+            attrs=self.get_tr_attrs(item),
+            content=content,
+            escape_content=False)
 
     def th_contents(self, col_key, col):
-        escaped = Markup.escape(col.name)
         if not (col.allow_sort and self.allow_sort):
-            return escaped
+            return Markup.escape(col.name)
 
         if self.sort_by == col_key:
             if self.sort_reverse:
-                return '<a href="{}">↑{}</a>'.format(
-                    self.sort_url(col_key), escaped)
+                href = self.sort_url(col_key)
+                label_prefix = '↑'
             else:
-                return '<a href="{}">↓{}</a>'.format(
-                    self.sort_url(col_key, reverse=True), escaped)
+                href = self.sort_url(col_key, reverse=True)
+                label_prefix = '↓'
         else:
-            return '<a href="{}">{}</a>'.format(
-                self.sort_url(col_key), escaped)
+            href = self.sort_url(col_key)
+            label_prefix = ''
+        label = '{prefix}{label}'.format(prefix=label_prefix, label=col.name)
+        return element('a', attrs=dict(href=href), content=label)
 
     def th(self, col_key, col):
-        return '<th>{}</th>'.format(self.th_contents(col_key, col))
+        return element(
+            'th',
+            content=self.th_contents(col_key, col),
+            escape_content=False,
+        )
 
     def sort_url(self, col_id, reverse=False):
         raise NotImplementedError('sort_url not implemented')
