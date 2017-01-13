@@ -57,3 +57,7 @@ docs/_build/
 
 # JetBrains
 .idea
+
+
+# README.md is the true source, README is generated from it.
+README
