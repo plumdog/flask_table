@@ -3,6 +3,7 @@ from __future__ import unicode_literals
 from collections import OrderedDict
 
 from flask import Markup
+from flask.ext.babel import gettext as _
 
 from .columns import Col
 from .compat import with_metaclass
@@ -55,7 +56,7 @@ class Table(with_metaclass(TableMeta)):
     thead_attrs = None
     thead_classes = []
     allow_sort = False
-    no_items = 'No Items'
+    no_items = _('No Items')
     allow_empty = False
 
     def __init__(self, items, classes=None, thead_classes=None,
