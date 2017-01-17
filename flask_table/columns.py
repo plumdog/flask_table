@@ -2,6 +2,7 @@ from __future__ import unicode_literals
 
 from flask import Markup, url_for
 from babel.dates import format_date, format_datetime
+from flask.ext.babel import gettext as _
 
 from .html import element
 
@@ -149,7 +150,7 @@ class BoolCol(OptCol):
     def __init__(self, name, **kwargs):
         super(BoolCol, self).__init__(
             name,
-            choices={True: 'Yes', False: 'No'},
+            choices={True: _('Yes'), False: _('No')},
             coerce_fn=bool,
             **kwargs)
 
