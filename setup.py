@@ -2,7 +2,7 @@ from setuptools import setup
 
 install_requires = [
     'Flask',
-    'Babel'
+    'Flask-Babel',
 ]
 
 setup(
