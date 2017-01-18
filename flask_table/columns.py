@@ -131,6 +131,10 @@ class OptCol(Col):
         self.default_value = self.choices.get(default_key, default_value)
         self.coerce_fn = coerce_fn
 
+    def from_attr_list(self, item, attr_list):
+        # Don't convert None to empty string here.
+        return _recursive_getattr(item, attr_list)
+
     def coerce_content(self, content):
         if self.coerce_fn:
             return self.coerce_fn(content)
@@ -159,6 +163,36 @@ class BoolCol(OptCol):
             name,
             choices={True: yes_display, False: no_display},
             coerce_fn=bool,
+            **kwargs)
+
+
+class BoolNaCol(OptCol):
+    """Output Yes/No values for truthy or falsey values, or N/A for None.
+
+    """
+
+    yes_display = _('Yes')
+    no_display = _('No')
+    na_display = _('N/A')
+
+    def __init__(self, name, yes_display=None, no_display=None,
+                 na_display=None, **kwargs):
+        if yes_display is None:
+            yes_display = self.yes_display
+        if no_display is None:
+            no_display = self.no_display
+        if na_display is None:
+            na_display = self.na_display
+
+        def bool_or_none(value):
+            if value is None:
+                return None
+            return bool(value)
+
+        super(BoolNaCol, self).__init__(
+            name,
+            choices={True: yes_display, False: no_display, None: na_display},
+            coerce_fn=bool_or_none,
             **kwargs)
 
 

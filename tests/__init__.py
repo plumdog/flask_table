@@ -13,7 +13,8 @@ import io
 import unittest
 from flask import Flask, url_for
 from flask_table import (Table, Col, LinkCol, ButtonCol, OptCol, BoolCol,
-                         DateCol, DatetimeCol, NestedTableCol, create_table)
+                         DateCol, DatetimeCol, NestedTableCol, create_table,
+                         BoolNaCol)
 import flask.ext.testing as flask_testing
 from datetime import date, datetime
 
@@ -672,6 +673,22 @@ class BoolCustomDisplayTest(TableTest):
                  Item(yesno='')]
         self.assert_html_equivalent_from_file(
             'bool_test', 'test_one_custom_display', items)
+
+
+class BoolNaTest(TableTest):
+    def setUp(self):
+        class MyTable(Table):
+            yesnona = BoolNaCol('YesNoNa Heading')
+
+        self.table_cls = MyTable
+
+    def test_one(self):
+        items = [Item(yesnona=True),
+                 Item(yesnona='Truthy'),
+                 Item(yesnona=''),
+                 Item(yesnona=None)]
+        self.assert_html_equivalent_from_file(
+            'bool_test', 'test_one_na', items)
 
 
 class OptTest(TableTest):

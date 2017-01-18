@@ -8,4 +8,5 @@ from .columns import (
     ButtonCol,
     OptCol,
     NestedTableCol,
+    BoolNaCol,
 )
