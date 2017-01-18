@@ -1,3 +1,5 @@
+import os
+
 from setuptools import setup
 
 install_requires = [
@@ -5,8 +7,11 @@ install_requires = [
     'Flask-Babel',
 ]
 
-with open('README') as f:
-    readme = f.read()
+if os.path.exists('README'):
+    with open('README') as f:
+        readme = f.read()
+else:
+    readme = None
 
 setup(
     name='Flask-Table',
