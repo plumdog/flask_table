@@ -656,6 +656,24 @@ class BoolTest(TableTest):
             'bool_test', 'test_one', items)
 
 
+class BoolCustomDisplayTest(TableTest):
+
+    def setUp(self):
+        class MyTable(Table):
+            yesno = BoolCol(
+                'YesNo Heading',
+                yes_display='Affirmative',
+                no_display='Negatory')
+        self.table_cls = MyTable
+
+    def test_one(self):
+        items = [Item(yesno=True),
+                 Item(yesno='Truthy'),
+                 Item(yesno='')]
+        self.assert_html_equivalent_from_file(
+            'bool_test', 'test_one_custom_display', items)
+
+
 class OptTest(TableTest):
     def setUp(self):
         choices = {'a': 'A', 'b': 'Bbb', 'c': 'Ccccc'}
