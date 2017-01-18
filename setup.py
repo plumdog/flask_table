@@ -5,6 +5,9 @@ install_requires = [
     'Flask-Babel',
 ]
 
+with open('README') as f:
+    readme = f.read()
+
 setup(
     name='Flask-Table',
     packages=['flask_table'],
@@ -16,6 +19,7 @@ setup(
     install_requires=install_requires,
     test_suite='tests',
     tests_require=['flask-testing'],
+    long_description=readme,
     classifiers=[
         'Development Status :: 3 - Alpha',
         'Programming Language :: Python',
