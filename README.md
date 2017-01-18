@@ -144,9 +144,13 @@ and the `coerce_fn` is `bool`. So the value from the item is coerced
 to a `bool` and then looked up in the choices to get the text to
 display.
 
-[[Possible future work: mark 'Yes' and 'No' for translation.]]
+If you want to specify something other than "Yes" and "No", you can
+pass `yes_display` and/or `no_display` when creating the column. Eg:
 
-[[Possible future work: make it easier to override 'Yes' and 'No'.]]
+```python
+class MyTable(Table):
+    mybool = BoolCol('myboolcol', yes_display='Affirmative', no_display='Negatory')
+```
 
 [[Possible future work: add a `BoolNaCol` or similar that has a
 separate option for `None`]]

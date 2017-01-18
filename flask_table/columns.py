@@ -147,10 +147,17 @@ class BoolCol(OptCol):
 
     """
 
-    def __init__(self, name, **kwargs):
+    yes_display = _('Yes')
+    no_display = _('No')
+
+    def __init__(self, name, yes_display=None, no_display=None, **kwargs):
+        if yes_display is None:
+            yes_display = self.yes_display
+        if no_display is None:
+            no_display = self.no_display
         super(BoolCol, self).__init__(
             name,
-            choices={True: _('Yes'), False: _('No')},
+            choices={True: yes_display, False: no_display},
             coerce_fn=bool,
             **kwargs)
 
