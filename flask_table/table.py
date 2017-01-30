@@ -3,7 +3,7 @@ from __future__ import unicode_literals
 from collections import OrderedDict
 
 from flask import Markup
-from flask.ext.babel import gettext as _
+from flask_babel import gettext as _
 
 from .columns import Col
 from .compat import with_metaclass
