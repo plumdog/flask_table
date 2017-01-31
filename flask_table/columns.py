@@ -2,7 +2,7 @@ from __future__ import unicode_literals
 
 from flask import Markup, url_for
 from babel.dates import format_date, format_datetime
-from flask.ext.babel import gettext as _
+from flask_babel import gettext as _
 
 from .html import element
 

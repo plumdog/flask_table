@@ -15,7 +15,7 @@ from flask import Flask, url_for
 from flask_table import (Table, Col, LinkCol, ButtonCol, OptCol, BoolCol,
                          DateCol, DatetimeCol, NestedTableCol, create_table,
                          BoolNaCol)
-import flask.ext.testing as flask_testing
+import flask_testing
 from datetime import date, datetime
 
 
