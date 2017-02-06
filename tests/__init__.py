@@ -840,3 +840,65 @@ class NestedColTest(TableTest):
                                       Item(b='r2bsc1', c='r2bsc2')])]
         self.assert_html_equivalent_from_file(
             'nestedcol_test', 'test_one', items)
+
+
+class ColumnAttrsTest(TableTest):
+
+    class MyTable(Table):
+        name = Col('Name Heading', column_html_attrs={'class': 'myclass'})
+
+    def test_column_html_attrs(self):
+        items = [Item(name='one')]
+        self.assert_html_equivalent_from_file(
+            'column_html_attrs_test', 'test_column_html_attrs', items)
+
+
+class TDAttrsTest(TableTest):
+
+    class MyTable(Table):
+        name = Col('Name Heading', td_html_attrs={'class': 'myclass'})
+
+    def test_td_html_attrs(self):
+        items = [Item(name='one')]
+        self.assert_html_equivalent_from_file(
+            'column_html_attrs_test', 'test_td_html_attrs', items)
+
+
+class THAttrsTest(TableTest):
+
+    class MyTable(Table):
+        name = Col('Name Heading', th_html_attrs={'class': 'myclass'})
+
+    def test_th_html_attrs(self):
+        items = [Item(name='one')]
+        self.assert_html_equivalent_from_file(
+            'column_html_attrs_test', 'test_th_html_attrs', items)
+
+
+class BothAttrsTest(TableTest):
+
+    class MyTable(Table):
+        name = Col(
+            'Name Heading',
+            th_html_attrs={'class': 'my-th-class'},
+            td_html_attrs={'class': 'my-td-class'})
+
+    def test_both_html_attrs(self):
+        items = [Item(name='one')]
+        self.assert_html_equivalent_from_file(
+            'column_html_attrs_test', 'test_both_html_attrs', items)
+
+
+class AttrsOverwriteTest(TableTest):
+
+    class MyTable(Table):
+        name = Col(
+            'Name Heading',
+            column_html_attrs={'data-other': 'mydata', 'class': 'myclass'},
+            th_html_attrs={'class': 'my-th-class'},
+            td_html_attrs={'class': 'my-td-class'})
+
+    def test_overwrite_attrs(self):
+        items = [Item(name='one')]
+        self.assert_html_equivalent_from_file(
+            'column_html_attrs_test', 'test_overwrite_attrs', items)
