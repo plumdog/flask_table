@@ -167,10 +167,11 @@ class Table(with_metaclass(TableMeta)):
     @classmethod
     def add_column(cls, name, col):
         if isinstance(col, Col):
-            cls._cols[name] = col
+            cols = cls._cols
+            cols.update({name : col})
         else:
             raise TypeError('Column type error.')
-        return cls
+        return type(cls(cols))
 
 
 def create_table(name=str('_Table'), base=Table, options=None):
