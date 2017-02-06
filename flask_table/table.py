@@ -168,7 +168,7 @@ class Table(with_metaclass(TableMeta)):
     def add_column(cls, name, col):
         if isinstance(col, Col):
             cols = cls._cols
-            cols.update({name : col})
+            cols.update({name: col})
         else:
             raise TypeError('Column type error.')
         return type(cls(cols))
