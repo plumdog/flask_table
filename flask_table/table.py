@@ -166,7 +166,10 @@ class Table(with_metaclass(TableMeta)):
 
     @classmethod
     def add_column(cls, name, col):
-        cls._cols[name] = col
+        if isinstance(col, Col):
+            cls._cols[name] = col
+        else:
+            raise TypeError('Column type error.')
         return cls
 
 
