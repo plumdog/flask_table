@@ -171,7 +171,7 @@ class Table(with_metaclass(TableMeta)):
             cols.update({name: col})
         else:
             raise TypeError('Column type error.')
-        return type(cls(cols))
+        return create_table(options=cols)
 
 
 def create_table(name=str('_Table'), base=Table, options=None):
