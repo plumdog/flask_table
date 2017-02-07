@@ -159,6 +159,7 @@ class Table(with_metaclass(TableMeta)):
             'th',
             content=self.th_contents(col_key, col),
             escape_content=False,
+            attrs=col.th_html_attrs,
         )
 
     def sort_url(self, col_id, reverse=False):

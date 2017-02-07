@@ -57,7 +57,9 @@ class Col(object):
     _counter = 0
 
     def __init__(self, name, attr=None, attr_list=None,
-                 allow_sort=True, show=True):
+                 allow_sort=True, show=True,
+                 th_html_attrs=None, td_html_attrs=None,
+                 column_html_attrs=None):
         self.name = name
         self.allow_sort = allow_sort
         self._counter_val = Col._counter
@@ -65,6 +67,12 @@ class Col(object):
         if attr:
             self.attr_list = attr.split('.')
         self.show = show
+
+        column_html_attrs = column_html_attrs or {}
+        self.td_html_attrs = column_html_attrs.copy()
+        self.td_html_attrs.update(td_html_attrs or {})
+        self.th_html_attrs = column_html_attrs.copy()
+        self.th_html_attrs.update(th_html_attrs or {})
 
         Col._counter += 1
 
@@ -85,7 +93,11 @@ class Col(object):
 
     def td(self, item, attr):
         content = self.td_contents(item, self.get_attr_list(attr))
-        return element('td', content=content, escape_content=False)
+        return element(
+            'td',
+            content=content,
+            escape_content=False,
+            attrs=self.td_html_attrs)
 
     def td_contents(self, item, attr_list):
         """Given an item and an attr, return the contents of the td.

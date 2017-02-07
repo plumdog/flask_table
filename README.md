@@ -80,6 +80,13 @@ Extra things:
 
 * Adding border to your table by just setting attribute `border=True` while creating a table.
 
+* You can pass attributes to the `td` and `th` elements by passing a
+  dict of attributes as `td_html_attrs` or `th_html_attrs` when creating a
+  Col. Or as `column_html_attrs` to apply the attributes to both the `th`s
+  and the `td`s. (Any that you pass in `th_html_attrs` or `td_html_attrs` will
+  overwrite any that you also pass with `column_html_attrs`.) See
+  examples/column_html_attrs.py for more.
+
 * There are also LinkCol and ButtonCol that allow links and buttons,
   which is where the Flask-specific-ness comes in.
 
