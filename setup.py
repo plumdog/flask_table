@@ -16,7 +16,7 @@ else:
 setup(
     name='Flask-Table',
     packages=['flask_table'],
-    version='0.3.4',
+    version='0.4.0',
     author='Andrew Plummer',
     author_email='plummer574@gmail.com',
     url='https://github.com/plumdog/flask_table',
