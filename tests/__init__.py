@@ -481,6 +481,19 @@ class LinkTest(FlaskTableTest):
             'link_test', 'test_one', items)
 
 
+class LinkAttrsTest(FlaskTableTest):
+    class MyTable(Table):
+        name = Col('Name')
+        view = LinkCol(
+            'View', 'view', url_kwargs=dict(id_='id'),
+            a_attrs={'class': 'btn btn-primary', 'role': 'button'})
+
+    def test_one_attrs(self):
+        items = [Item(name='one', id=1)]
+        self.assert_html_equivalent_from_file(
+            'link_test', 'test_one_attrs', items)
+
+
 class LinkExtraKwargsTest(FlaskTableTest):
 
     class MyTable(Table):
