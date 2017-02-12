@@ -486,7 +486,7 @@ class LinkAttrsTest(FlaskTableTest):
         name = Col('Name')
         view = LinkCol(
             'View', 'view', url_kwargs=dict(id_='id'),
-            a_attrs={'class': 'btn btn-primary', 'role': 'button'})
+            anchor_attrs={'class': 'btn btn-primary', 'role': 'button'})
 
     def test_one_attrs(self):
         items = [Item(name='one', id=1)]
