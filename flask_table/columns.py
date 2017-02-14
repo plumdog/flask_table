@@ -255,7 +255,8 @@ class LinkCol(Col):
 
     """
     def __init__(self, name, endpoint, attr=None, attr_list=None,
-                 url_kwargs=None, url_kwargs_extra=None, **kwargs):
+                 url_kwargs=None, url_kwargs_extra=None,
+                 anchor_attrs=None, **kwargs):
         super(LinkCol, self).__init__(
             name,
             attr=attr,
@@ -264,6 +265,7 @@ class LinkCol(Col):
         self.endpoint = endpoint
         self._url_kwargs = url_kwargs or {}
         self._url_kwargs_extra = url_kwargs_extra or {}
+        self.anchor_attrs = anchor_attrs or {}
 
     def url_kwargs(self, item):
         # We give preference to the item kwargs, rather than the extra
@@ -288,6 +290,7 @@ class LinkCol(Col):
 
     def td_contents(self, item, attr_list):
         attrs = dict(href=self.url(item))
+        attrs.update(self.anchor_attrs)
         text = self.td_format(self.text(item, attr_list))
         return element('a', attrs=attrs, content=text, escape_content=False)
 
