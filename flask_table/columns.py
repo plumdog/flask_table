@@ -125,7 +125,7 @@ class Col(object):
         Note that the output of this function is escaped.
 
         """
-        return Markup.escape(content)
+        return Markup.unescape(content)
 
 
 class OptCol(Col):
