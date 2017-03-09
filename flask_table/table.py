@@ -167,8 +167,12 @@ class Table(with_metaclass(TableMeta)):
 
     @classmethod
     def add_column(cls, name, col):
-        cls._cols[name] = col
-        return cls
+        if isinstance(col, Col):
+            cols = cls._cols
+            cols.update({name: col})
+        else:
+            raise TypeError('Column type error.')
+        return create_table(options=cols)
 
 
 def create_table(name=str('_Table'), base=Table, options=None):
