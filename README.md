@@ -202,15 +202,12 @@ other columns. However, other columns can be given no `attr` or
 `attr_list` and will use the attribute that the column was given in
 the table class, but `LinkCol` does not, and instead falls back to the
 heading of the column. This make more sense for things like an "Edit"
-link.
+link. You can override this fallback with the `text_fallback` kwarg.
 
 Set attributes for anchor tag by passing `anchor_attrs`:
 ```python
 name = LinkCol('Name', 'single_item', url_kwargs=dict(id='id'), anchor_attrs={'class': 'myclass'})
 ```
-
-[[Possible future work: make it so you can specify a specific fallback
-for the `td` that is different to the `th`]]
 
 More about `ButtonCol`
 ----------------------
