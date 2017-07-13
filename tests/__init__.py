@@ -601,6 +601,18 @@ class LinkTestCustomContent(FlaskTableTest):
             'link_test', 'test_one_custom_content', items)
 
 
+class LinkTestOverrideContent(FlaskTableTest):
+
+    class MyTable(Table):
+        name = LinkCol(
+            'View', 'view', text_fallback='MyText', url_kwargs=dict(id_='id'))
+
+    def test_one(self):
+        items = [Item(name='one', id=1)]
+        self.assert_html_equivalent_from_file(
+            'link_test', 'test_one_override_content', items)
+
+
 class ButtonTest(FlaskTableTest):
 
     class MyTable(Table):
