@@ -51,8 +51,12 @@ class Table(with_metaclass(TableMeta)):
 
     """
 
+    # For setting attributes on the <table> element.
     html_attrs = None
     classes = []
+    table_id = None
+    border = False
+
     thead_attrs = None
     thead_classes = []
     allow_sort = False
@@ -61,7 +65,7 @@ class Table(with_metaclass(TableMeta)):
 
     def __init__(self, items, classes=None, thead_classes=None,
                  sort_by=None, sort_reverse=False, no_items=None,
-                 table_id=None, border=False):
+                 table_id=None, border=None, html_attrs=None):
         self.items = items
         self.sort_by = sort_by
         self.sort_reverse = sort_reverse
@@ -71,8 +75,12 @@ class Table(with_metaclass(TableMeta)):
             self.thead_classes = thead_classes
         if no_items is not None:
             self.no_items = no_items
-        self.table_id = table_id
-        self.border = border
+        if table_id is not None:
+            self.table_id = table_id
+        if html_attrs is not None:
+            self.html_attrs = html_attrs
+        if border is not None:
+            self.border = border
 
     def get_html_attrs(self):
         attrs = dict(self.html_attrs) if self.html_attrs else {}
