@@ -76,7 +76,8 @@ Extra things:
 * The thing that you pass when you populate the table must:
   * be iterable
   * contain dicts or objects - there's nothing saying it can't contain
-    some of each
+    some of each. See `examples/simple_sqlalchemy.py` for a database
+    example.
 
 * Adding border to your table by just setting attribute `border=True` while creating a table.
 
