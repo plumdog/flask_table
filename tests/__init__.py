@@ -77,8 +77,9 @@ class TableTest(unittest.TestCase):
     def assert_html_equivalent_from_file(self, d, name, items=[], **kwargs):
         table_id = kwargs.get('table_id', None)
         border = kwargs.get('border', False)
+        html_attrs = kwargs.get('html_attrs', None)
         tab = kwargs.get('tab', self.table_cls(
-            items, table_id=table_id, border=border))
+            items, table_id=table_id, border=border, html_attrs=html_attrs))
         if kwargs.get('print_html'):
             print(tab.__html__())
         html = self.get_html(d, name)
@@ -119,6 +120,18 @@ class TableIDTest(TableTest):
         items = [Item(name='one')]
         self.assert_html_equivalent_from_file(
             'tableid_test', 'test_one', items, table_id='Test table ID')
+
+
+class TableIDOnClassTest(TableTest):
+
+    class MyTable(Table):
+        table_id = 'Test table ID'
+        name = Col('Name Heading')
+
+    def test_one(self):
+        items = [Item(name='one')]
+        self.assert_html_equivalent_from_file(
+            'tableid_test', 'test_one', items)
 
 
 class BorderTest(TableTest):
@@ -915,3 +928,36 @@ class AttrsOverwriteTest(TableTest):
         items = [Item(name='one')]
         self.assert_html_equivalent_from_file(
             'column_html_attrs_test', 'test_overwrite_attrs', items)
+
+
+class TableHTMLAttrsTest(TableTest):
+
+    class MyTable(Table):
+        name = Col('Name Heading')
+
+    def test_html_attrs(self):
+        items = [Item(name='one')]
+        html_attrs = {
+            'data-myattr': 'myval',
+        }
+        self.assert_html_equivalent_from_file(
+            'html_attrs_test',
+            'test_html_attrs',
+            items,
+            html_attrs=html_attrs)
+
+
+class TableHTMLAttrsOnClassTest(TableTest):
+
+    class MyTable(Table):
+        html_attrs = {
+            'data-myattr': 'myval',
+        }
+        name = Col('Name Heading')
+
+    def test_html_attrs(self):
+        items = [Item(name='one')]
+        self.assert_html_equivalent_from_file(
+            'html_attrs_test',
+            'test_html_attrs',
+            items)

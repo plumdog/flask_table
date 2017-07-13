@@ -80,6 +80,12 @@ Extra things:
 
 * Adding border to your table by just setting attribute `border=True` while creating a table.
 
+* You can set attributes on the `table` element by setting
+  `html_attrs` as a dict on the class element, or by passing it as a
+  kwarg to the table. Some common attributes have shortcuts, namely
+  `table_id` (a string), `classes` (a list of strings), and `border`
+  (a boolean).
+
 * You can pass attributes to the `td` and `th` elements by passing a
   dict of attributes as `td_html_attrs` or `th_html_attrs` when creating a
   Col. Or as `column_html_attrs` to apply the attributes to both the `th`s
