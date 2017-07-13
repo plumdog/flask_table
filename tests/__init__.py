@@ -74,16 +74,20 @@ class TableTest(unittest.TestCase):
     def table_cls(self, table_cls):
         self._table_cls = table_cls
 
-    def assert_html_equivalent_from_file(self, d, name, items=[], **kwargs):
-        table_id = kwargs.get('table_id', None)
-        border = kwargs.get('border', False)
-        html_attrs = kwargs.get('html_attrs', None)
-        tab = kwargs.get('tab', self.table_cls(
-            items, table_id=table_id, border=border, html_attrs=html_attrs))
-        if kwargs.get('print_html'):
+    def assert_html_equivalent_from_file(self, d, name, items=None, table=None,
+                                         table_kwargs=None, print_html=False):
+        if table is None:
+            items = items or []
+            table_kwargs = table_kwargs or {}
+
+            table = self.table_cls(
+                items,
+                **table_kwargs)
+
+        if print_html:
             print(tab.__html__())
         html = self.get_html(d, name)
-        self.assert_html_equivalent(tab, html)
+        self.assert_html_equivalent(table, html)
 
 
 def test_app():
@@ -119,7 +123,8 @@ class TableIDTest(TableTest):
     def test_one(self):
         items = [Item(name='one')]
         self.assert_html_equivalent_from_file(
-            'tableid_test', 'test_one', items, table_id='Test table ID')
+            'tableid_test', 'test_one', items,
+            table_kwargs=dict(table_id='Test table ID'))
 
 
 class TableIDOnClassTest(TableTest):
@@ -146,12 +151,13 @@ class BorderTest(TableTest):
 
     def test_one(self):
         self.assert_html_equivalent_from_file(
-            'border_test', 'table_bordered', self.items, border=True)
+            'border_test', 'table_bordered', self.items,
+            table_kwargs=dict(border=True))
 
     def test_two(self):
         table_bordered = self.table_cls(self.items, border=True)
         self.assert_html_equivalent_from_file(
-            'border_test', 'table_bordered', tab=table_bordered)
+            'border_test', 'table_bordered', table=table_bordered)
 
 
 class ColTest(TableTest):
@@ -443,7 +449,7 @@ class NoItemsDynamicTest(TableTest):
         items = []
         tab = self.table_cls(items, no_items='There is nothing here')
         self.assert_html_equivalent_from_file(
-            'no_items_test', 'test_zero', tab=tab)
+            'no_items_test', 'test_zero', table=tab)
 
 
 class NoItemsAllowEmptyTest(TableTest):
@@ -467,7 +473,7 @@ class ClassTestAtPopulate(TableTest):
         items = [Item(name='one')]
         tab = self.table_cls(items, classes=['table'])
         self.assert_html_equivalent_from_file(
-            'class_test', 'test_one', tab=tab)
+            'class_test', 'test_one', table=tab)
 
 
 class TheadClassTestAtPopulate(TableTest):
@@ -479,7 +485,7 @@ class TheadClassTestAtPopulate(TableTest):
         items = [Item(name='one')]
         tab = self.table_cls(items, thead_classes=['table-head'])
         self.assert_html_equivalent_from_file(
-            'thead_class_test', 'test_one', tab=tab)
+            'thead_class_test', 'test_one', table=tab)
 
 
 class LinkTest(FlaskTableTest):
@@ -809,13 +815,13 @@ class SortingTest(FlaskTableTest):
         items = [Item(name='name')]
         tab = self.table_cls(items, sort_by='name')
         self.assert_html_equivalent_from_file(
-            'sorting_test', 'test_sorted', items, tab=tab)
+            'sorting_test', 'test_sorted', items, table=tab)
 
     def test_sorted_reverse(self):
         items = [Item(name='name')]
         tab = self.table_cls(items, sort_by='name', sort_reverse=True)
         self.assert_html_equivalent_from_file(
-            'sorting_test', 'test_sorted_reverse', items, tab=tab)
+            'sorting_test', 'test_sorted_reverse', items, table=tab)
 
 
 class GeneratorTest(TableTest):
@@ -944,7 +950,7 @@ class TableHTMLAttrsTest(TableTest):
             'html_attrs_test',
             'test_html_attrs',
             items,
-            html_attrs=html_attrs)
+            table_kwargs=dict(html_attrs=html_attrs))
 
 
 class TableHTMLAttrsOnClassTest(TableTest):
