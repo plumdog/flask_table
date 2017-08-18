@@ -16,8 +16,7 @@ class LocalAttributeLinkTable(Table):
         super(LocalAttributeLinkTable, self).__init__(items)
         self.add_column('redirectWithLocalID',
                         ButtonCol('Select this', 'some_url',
-                                  url_kwargs_extra=
-                                  dict(someLocalID=local_attribute)))
+                                  url_kwargs_extra=dict(someLocalID=local_attribute)))
 
 
 @app.route('/')
