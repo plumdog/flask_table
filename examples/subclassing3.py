@@ -1,8 +1,8 @@
 from flask_table import Table, Col, ButtonCol
 from flask import Flask, request
 
-"""An example for creating LinkCol or ButtonCol with local attributes that can't be
-   initially set when subclassing Table
+"""An example for creating LinkCol or ButtonCol with local attributes
+   that can't be initially set when subclassing Table
 
 """
 
@@ -16,7 +16,8 @@ class LocalAttributeLinkTable(Table):
         super(LocalAttributeLinkTable, self).__init__(items)
         self.add_column('redirectWithLocalID',
                         ButtonCol('Select this', 'some_url',
-                                  url_kwargs_extra=dict(someLocalID=local_attribute)))
+                                  url_kwargs_extra=
+                                  dict(someLocalID=local_attribute)))
 
 
 @app.route('/')
