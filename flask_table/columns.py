@@ -315,7 +315,7 @@ class ButtonCol(LinkCol):
 
     def __init__(self, name, endpoint, attr=None, attr_list=None,
                  url_kwargs=None, button_attrs=None, form_attrs=None,
-                 **kwargs):
+                 form_hidden_fields=None, **kwargs):
         super(ButtonCol, self).__init__(
             name,
             endpoint,
@@ -324,6 +324,7 @@ class ButtonCol(LinkCol):
             url_kwargs=url_kwargs, **kwargs)
         self.button_attrs = button_attrs or {}
         self.form_attrs = form_attrs or {}
+        self.form_hidden_fields = form_hidden_fields or {}
 
     def td_contents(self, item, attr_list):
         button_attrs = dict(self.button_attrs)
@@ -338,10 +339,21 @@ class ButtonCol(LinkCol):
             method='post',
             action=self.url(item),
         ))
+        form_hidden_fields_elements = [
+            element(
+                'input',
+                attrs=dict(
+                    type='hidden',
+                    name=name,
+                    value=value))
+            for name, value in sorted(self.form_hidden_fields.items())]
         return element(
             'form',
             attrs=form_attrs,
-            content=button,
+            content=[
+                ''.join(form_hidden_fields_elements),
+                button
+            ],
             escape_content=False,
         )
 
