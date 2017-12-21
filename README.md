@@ -156,6 +156,9 @@ Included Col Types
 * [`BoolCol`](#more-about-boolcol) (subclass of OptCol) - converts
   values to yes/no.
 
+* [`BoolNaCol`](#more-about-boolnacol) (subclass of BoolCol) - converts
+  values to yes/no/na.
+
 * [`DateCol`](#more-about-datecol) - for dates (uses `format_date`
   from `babel.dates`).
 
@@ -208,8 +211,11 @@ class MyTable(Table):
     mybool = BoolCol('myboolcol', yes_display='Affirmative', no_display='Negatory')
 ```
 
-[[Possible future work: add a `BoolNaCol` or similar that has a
-separate option for `None`]]
+More about `BoolNaCol`
+----------------------
+
+Just like `BoolCol`, except displays `None` as "N/A". Can override
+with the `na_display` argument.
 
 More about `DateCol`
 --------------------
