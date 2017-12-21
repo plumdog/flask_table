@@ -641,6 +641,22 @@ class ButtonAttrsTest(FlaskTableTest):
             'button_attrs_test', 'test_one', items)
 
 
+class ButtonFormAttrsTest(FlaskTableTest):
+
+    class MyTable(Table):
+        name = Col('Name')
+        view = ButtonCol(
+            'Delete',
+            'delete',
+            url_kwargs=dict(id_='id'),
+            form_attrs={'class': 'myclass'})
+
+    def test_one(self):
+        items = [Item(name='one', id=1)]
+        self.assert_html_equivalent_from_file(
+            'button_form_attrs_test', 'test_one', items)
+
+
 class BoolTest(TableTest):
 
     class MyTable(Table):
