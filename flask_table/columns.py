@@ -314,7 +314,8 @@ class ButtonCol(LinkCol):
     """
 
     def __init__(self, name, endpoint, attr=None, attr_list=None,
-                 url_kwargs=None, button_attrs=None, **kwargs):
+                 url_kwargs=None, button_attrs=None, form_attrs=None,
+                 **kwargs):
         super(ButtonCol, self).__init__(
             name,
             endpoint,
@@ -322,6 +323,7 @@ class ButtonCol(LinkCol):
             attr_list=attr_list,
             url_kwargs=url_kwargs, **kwargs)
         self.button_attrs = button_attrs or {}
+        self.form_attrs = form_attrs or {}
 
     def td_contents(self, item, attr_list):
         button_attrs = dict(self.button_attrs)
@@ -331,12 +333,14 @@ class ButtonCol(LinkCol):
             attrs=button_attrs,
             content=self.text(item, attr_list),
         )
+        form_attrs = dict(self.form_attrs)
+        form_attrs.update(dict(
+            method='post',
+            action=self.url(item),
+        ))
         return element(
             'form',
-            attrs=dict(
-                method='post',
-                action=self.url(item),
-            ),
+            attrs=form_attrs,
             content=button,
             escape_content=False,
         )

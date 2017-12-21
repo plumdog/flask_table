@@ -260,11 +260,11 @@ button that gets posted to the url.
 You can pass a dict of attributes to add to the button element with
 the `button_attrs` kwarg.
 
+You can pass a dict of attributes to add to the form element with
+the `form_attrs` kwarg.
+
 [[Possible future work: make it so you can specify hidden fields to be
 added into the form.]]
-
-[[Possible future work: make it so you can specify attributes for the
-HTML form.]]
 
 More about `NestedTableCol`
 ---------------------------
