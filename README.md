@@ -79,14 +79,6 @@ Extra things:
     some of each. See `examples/simple_sqlalchemy.py` for a database
     example.
 
-* Adding border to your table by just setting attribute `border=True` while creating a table.
-
-* You can set attributes on the `table` element by setting
-  `html_attrs` as a dict on the class element, or by passing it as a
-  kwarg to the table. Some common attributes have shortcuts, namely
-  `table_id` (a string), `classes` (a list of strings), and `border`
-  (a boolean).
-
 * You can pass attributes to the `td` and `th` elements by passing a
   dict of attributes as `td_html_attrs` or `th_html_attrs` when creating a
   Col. Or as `column_html_attrs` to apply the attributes to both the `th`s
@@ -103,6 +95,56 @@ Extra things:
 * Oh, and BoolCol, which does Yes/No.
 
 * But most importantly, Col is easy to subclass.
+
+Table configuration and options
+===============================
+
+The following options configure table-level options:
+
+* `thead_classes` - a list of classes to set on the `<thead>` element.
+
+* `no_items` - a string to display if no items are passed, defaults to
+  `'No Items'`.
+
+* `html_attrs` - a dictionary of attributes to set on the `<table>` element.
+
+* `classes` - a list of strings to be set as the `class` attribute on
+  the `<table>` element.
+
+* `table_id` - a string to set as the `id` attribute on the `<table>` element.
+
+* `border` - whether the `border` should be set on the `<table>` element.
+
+These can be set in a few different ways:
+
+a) set when defining the table class
+```python
+class MyTable
+    classes = ['class1', 'class2']
+```
+
+b) passed in the `options` argument to `create_table`.
+```python
+MyTable = create_table(options={'table_id': 'my-table-id'})
+```
+
+c) passed to the table's `__init__`
+```python
+table = MyTable(items, no_items='There is nothing', ...)
+```
+
+Note that a) and b) define an attribute on the table class, but c)
+defines an attribute on the instance, so anything set like in c) will
+override anything set in a) or b).
+
+Eg:
+```python
+class ItemTable(Table):
+    classes = ['myclass']
+    name = Col('Name')
+table = ItemTable(items, classes=['otherclass'])
+```
+would create a table with `class="otherclass"`.
 
 Included Col Types
 ==================
@@ -283,28 +325,6 @@ At present, you do still need to be careful about escaping things as
 you override these methods. Also, because of the way that the Markup
 class works, you need to be careful about how you concatenate these
 with other strings.
-
-Setting a class on the `<table>` element
-========================================
-
-If you set a classes attribute on the Table class, this gets added as
-a class on the `<table>` element. The classes attribute should be an
-iterable of strings, all of which will be added.
-
-For example, if:
-
-```python
-class MyTable(Table):
-    classes = ['class1', 'class2']
-	...
-```
-
-Then the table created would be:
-```html
-<table class="class1 class2">
-    ...
-</table>
-```
 
 Manipulating `<tr>`s
 ====================
