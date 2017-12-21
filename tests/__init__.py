@@ -657,6 +657,28 @@ class ButtonFormAttrsTest(FlaskTableTest):
             'button_form_attrs_test', 'test_one', items)
 
 
+class ButtonHiddenFieldsTest(FlaskTableTest):
+
+    class MyTable(Table):
+        name = Col('Name')
+        view = ButtonCol(
+            'Delete',
+            'delete',
+            url_kwargs=dict(id_='id'),
+            form_hidden_fields=dict(
+                name1='value1',
+                name2='value2',
+            )
+        )
+
+    maxDiff = None
+
+    def test_one(self):
+        items = [Item(name='one', id=1)]
+        self.assert_html_equivalent_from_file(
+            'button_hidden_fields_test', 'test_one', items)
+
+
 class BoolTest(TableTest):
 
     class MyTable(Table):

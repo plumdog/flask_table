@@ -25,6 +25,8 @@ def _format_attrs(attrs, escape_attrs=True):
 
 
 def _format_content(content, escape_content=True):
+    if isinstance(content, (list, tuple)):
+        content = ''.join(content)
     if escape_content:
         return Markup.escape(content)
     return content

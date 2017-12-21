@@ -263,8 +263,9 @@ the `button_attrs` kwarg.
 You can pass a dict of attributes to add to the form element with
 the `form_attrs` kwarg.
 
-[[Possible future work: make it so you can specify hidden fields to be
-added into the form.]]
+You can pass a dict of hidden fields to add into the form element with
+the `form_hidden_fields` kwargs. The keys will be used as the `name`
+attributes and the values as the `value` attributes.
 
 More about `NestedTableCol`
 ---------------------------
