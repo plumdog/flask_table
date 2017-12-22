@@ -1,3 +1,14 @@
+0.5.0
+-----
+- Sort out html_attrs (#80)
+- Refactor test assert method (#81)
+- SQLAlchemy example (#82)
+- LinkCol and ButtonCol text_fallback option (#83)
+- Better docs for table options (#88)
+- ButtonCol form attributes (#89)
+- ButtonCol form hidden fields (#90)
+- Fix docs for BoolNaCol (#91)
+
 0.4.1
 -----
 - Add anchor_attrs to LinkCol (#73)
