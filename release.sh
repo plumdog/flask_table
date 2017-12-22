@@ -9,7 +9,11 @@ function error() {
 }
 
 function confirm() {
-    read -r -p "Are you sure? [Y/n] " response
+    msg="$1"
+    if [[ -z "$msg" ]]; then
+        msg="Are you sure?"
+    fi
+    read -r -p "$msg [Y/n] " response
     case $response in
         [yY][eE][sS]|[yY]|"")
             return
@@ -110,7 +114,24 @@ function tag() {
 
     sed -i "s/$current/$new/" setup.py
 
-    git add setup.py
+    underline="$(echo "$new" | sed 's/./-/g')"
+    log="$(git log "$(git describe --tags --abbrev=0)..." --pretty=format:'%s' --reverse | while read line; do echo "- $line"; done)"
+    changelog_entry="$new
+$underline
+$log
+"
+
+    touch CHANGELOG.md
+    cat <(echo "$changelog_entry") CHANGELOG.md > CHANGELOG.md.new
+    mv CHANGELOG.md.new CHANGELOG.md
+
+    echo "CHANGES:"
+    echo "$log"
+    echo "/CHANGES"
+
+    confirm "Written changes to CHANGELOG.md, but not yet added. Edit there and then continue."
+
+    git add setup.py CHANGELOG.md
     git commit -m "Bump to version $new"
     git push origin master
     git tag -a "v$new" -m "Version $new"
