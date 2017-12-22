@@ -6,6 +6,7 @@ the same.
 
 [![Build Status](https://travis-ci.org/plumdog/flask_table.svg?branch=master)](https://travis-ci.org/plumdog/flask_table)
 [![Coverage Status](https://coveralls.io/repos/plumdog/flask_table/badge.png?branch=master)](https://coveralls.io/r/plumdog/flask_table?branch=master)
+[![PyPI version](https://badge.fury.io/py/Flask-Table.svg)](https://badge.fury.io/py/Flask-Table)
 
 Quick Start
 ===========

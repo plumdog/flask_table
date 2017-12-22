@@ -41,6 +41,10 @@ function main() {
             publish
             exit 0;
             ;;
+        _generate_readme)
+            generate_readme
+            exit 0;
+            ;;
         *)
             error "Unrecognised argument: $arg. Choose from tag,publish"
             ;;
@@ -68,7 +72,7 @@ function _trim_from_upto() {
 function generate_readme() {
     pandoc --from=markdown --to=rst --output=README README.md || error "Unable to convert README.md"
     # Remove the Github status links
-    sed -i '/Build Status.*Coverage Status/,+1d' README
+    sed -i '/Build Status.*Coverage Status.*PyPI/,+1d' README
     # And remove a big chunk of html that gets a bit exploded
     _trim_from_upto README "Or as HTML:" "Extra things:"
 }
