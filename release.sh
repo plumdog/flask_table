@@ -143,7 +143,9 @@ function publish() {
 
     echo "Ready publish to PyPI."
     confirm
-    python setup.py sdist upload -r pypi
+    rm -rf dist
+    python setup.py sdist
+    twine upload dist/Flask-Table-*.tar.gz
 }
 
 main $@
