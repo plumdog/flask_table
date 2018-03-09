@@ -14,20 +14,20 @@ class LocalAttributeLinkTable(Table):
 
     def __init__(self, local_attribute, items):
         super(LocalAttributeLinkTable, self).__init__(items)
-        
+
         # Add a column depending on a attribute passed to
         # the constructor
         self.add_column('redirectWithLocalID',
                         ButtonCol('Select this', 'some_url',
-                                  url_kwargs_extra=
-                                  dict(someLocalID=local_attribute)))
+                                  url_kwargs_extra=dict(
+                                      someLocalID=local_attribute)))
 
 
 @app.route('/', methods=['POST'])
 def index():
     items = [{'name': 'A'},
              {'name': 'B'}]
-    
+
     # This local attribute could be changed on each call to this route
     some_local_attribute = '68f36d30-6600-4a67-b2d4-7cc011ceea0e'
 
@@ -42,7 +42,7 @@ def index():
 @app.route('/some_url', methods=['POST'])
 def some_url():
     local_attribute_passed = request.args.get('someLocalID')
-    
+
     # Display the local attribute for testing purposes
     return '<html>local_attribute: "' + local_attribute_passed + '"</html>'
 
