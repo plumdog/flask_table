@@ -221,6 +221,8 @@ with the `na_display` argument.
 More about `DateCol`
 --------------------
 
+[Requires Babel configuration](#babel-configuration)
+
 Formats a date from the item. Can specify a `date_format` to use,
 which defaults to `'short'`, which is passed to
 `babel.dates.format_date`.
@@ -228,9 +230,26 @@ which defaults to `'short'`, which is passed to
 More about `DatetimeCol`
 ------------------------
 
+[Requires Babel configuration](#babel-configuration)
+
 Formats a datetime from the item. Can specify a `datetime_format` to
 use, which defaults to `'short'`, which is passed to
 `babel.dates.format_datetime`.
+
+Babel configuration
+-------------------
+
+Babel uses a locale to determine how to format dates. It falls back to
+using environment variables (`LC_TIME`, `LANGUAGE`, `LC_ALL`,
+`LC_CTYPE`, `LANG`), or can be configured
+[within Flask](https://pythonhosted.org/Flask-Babel/#configuration),
+allowing dynamic selection of locale.
+
+Make sure that one of the following is true:
+
+- at least one of the above environment variables is set to a valid locale
+- `BABEL_DEFAULT_LOCALE` is set as config on the Flask app to a valid locale
+- a `@babel.localeselector` function is configured
 
 More about `LinkCol`
 --------------------
