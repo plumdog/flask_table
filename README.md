@@ -251,6 +251,11 @@ Make sure that one of the following is true:
 - `BABEL_DEFAULT_LOCALE` is set as config on the Flask app to a valid locale
 - a `@babel.localeselector` function is configured
 
+Note that Babel reads the environment variables at import time, so if
+you set these within Python, make sure it happens before you import
+Flask Table. The other two options would be considered "better",
+largely for this reason.
+
 More about `LinkCol`
 --------------------
 
