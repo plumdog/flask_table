@@ -1,15 +1,15 @@
 import os
 from datetime import datetime
 
-from flask_table import Table, Col, DatetimeCol
-
 # Run this example with LC_TIME=[other locale] to use a different
 # locale's datetime formatting, eg:
 #
 # LC_TIME=en_US python examples/datetimecol.py
 # or
 # LC_TIME=en_GB python examples/datetimecol.py
-os.environ.setdefault('LC_TIME', 'en_GB')
+os.environ.setdefault('LC_TIME', 'en_GB')  # noqa
+
+from flask_table import Table, Col, DatetimeCol
 
 
 class Item(object):
