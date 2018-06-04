@@ -8,6 +8,12 @@ the same.
 [![Coverage Status](https://coveralls.io/repos/plumdog/flask_table/badge.png?branch=master)](https://coveralls.io/r/plumdog/flask_table?branch=master)
 [![PyPI version](https://badge.fury.io/py/Flask-Table.svg)](https://badge.fury.io/py/Flask-Table)
 
+Installation
+============
+```
+pip install flask-table
+```
+
 Quick Start
 ===========
 
