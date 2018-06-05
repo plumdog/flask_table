@@ -8,6 +8,12 @@ the same.
 [![Coverage Status](https://coveralls.io/repos/plumdog/flask_table/badge.png?branch=master)](https://coveralls.io/r/plumdog/flask_table?branch=master)
 [![PyPI version](https://badge.fury.io/py/Flask-Table.svg)](https://badge.fury.io/py/Flask-Table)
 
+Installation
+============
+```
+pip install flask-table
+```
+
 Quick Start
 ===========
 
@@ -67,6 +73,9 @@ Or as HTML:
 <tr><td>Name3</td><td>Description3</td></tr>
 </tbody>
 </table>
+
+For more, see [the examples](#the-examples) for some complete,
+runnable demonstrations.
 
 Extra things:
 -------------
@@ -486,7 +495,7 @@ class SortableTable(Table):
 The Examples
 ============
 
-The `examples` directory contains a few pieces of sample code to show
+The [`examples`](/examples) directory contains a few pieces of sample code to show
 some of the concepts and features. They are all intended to be
 runnable. Some of them just output the code they generate, but some
 (just one, `sortable.py`, at present) actually creates a Flask app
