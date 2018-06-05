@@ -74,6 +74,9 @@ Or as HTML:
 </tbody>
 </table>
 
+For more, see [the examples](#the-examples) for some complete,
+runnable demonstrations.
+
 Extra things:
 -------------
 
@@ -492,7 +495,7 @@ class SortableTable(Table):
 The Examples
 ============
 
-The `examples` directory contains a few pieces of sample code to show
+The [`examples`](/examples) directory contains a few pieces of sample code to show
 some of the concepts and features. They are all intended to be
 runnable. Some of them just output the code they generate, but some
 (just one, `sortable.py`, at present) actually creates a Flask app
