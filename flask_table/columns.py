@@ -264,7 +264,7 @@ class LinkCol(Col):
             attr_list=attr_list,
             **kwargs)
         self.endpoint = endpoint
-        self.translation_enabled = False
+        self.translation_enabled = translation_enabled
         self._url_kwargs = url_kwargs or {}
         self._url_kwargs_extra = url_kwargs_extra or {}
         self.text_fallback = text_fallback

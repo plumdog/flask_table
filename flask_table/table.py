@@ -165,9 +165,11 @@ class Table(with_metaclass(TableMeta)):
             href = self.sort_url(col_key)
             label_prefix = ''
         if self.translation_enabled:
-            label = '{prefix}{label}'.format(prefix=label_prefix, label=_(col.name))
+            label = '{prefix}{label}'.format(prefix=label_prefix,
+                                             label=_(col.name))
         else:
-            label = '{prefix}{label}'.format(prefix=label_prefix, label=col.name)
+            label = '{prefix}{label}'.format(prefix=label_prefix,
+                                             label=col.name)
         return element('a', attrs=dict(href=href), content=label)
 
     def th(self, col_key, col):
