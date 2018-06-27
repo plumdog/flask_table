@@ -2,7 +2,7 @@ from __future__ import unicode_literals
 
 from flask import Markup, url_for
 from babel.dates import format_date, format_datetime
-from flask_babel import gettext as _
+from flask_babelex import _
 
 from .html import element
 
@@ -256,13 +256,15 @@ class LinkCol(Col):
     """
     def __init__(self, name, endpoint, attr=None, attr_list=None,
                  url_kwargs=None, url_kwargs_extra=None,
-                 anchor_attrs=None, text_fallback=None, **kwargs):
+                 anchor_attrs=None, text_fallback=None,
+                 translation_enabled=False, **kwargs):
         super(LinkCol, self).__init__(
             name,
             attr=attr,
             attr_list=attr_list,
             **kwargs)
         self.endpoint = endpoint
+        self.translation_enabled = False
         self._url_kwargs = url_kwargs or {}
         self._url_kwargs_extra = url_kwargs_extra or {}
         self.text_fallback = text_fallback
@@ -284,9 +286,15 @@ class LinkCol(Col):
         if attr_list:
             return self.from_attr_list(item, attr_list)
         elif self.text_fallback:
-            return self.text_fallback
+            if self.translation_enabled:
+                return _(self.text_fallback)
+            else:
+                return self.text_fallback
         else:
-            return self.name
+            if self.translation_enabled:
+                return _(self.name)
+            else:
+                return self.name
 
     def url(self, item):
         return url_for(self.endpoint, **self.url_kwargs(item))
@@ -315,13 +323,16 @@ class ButtonCol(LinkCol):
 
     def __init__(self, name, endpoint, attr=None, attr_list=None,
                  url_kwargs=None, button_attrs=None, form_attrs=None,
-                 form_hidden_fields=None, **kwargs):
+                 form_hidden_fields=None,
+                 translation_enabled=False, **kwargs):
         super(ButtonCol, self).__init__(
             name,
             endpoint,
             attr=attr,
             attr_list=attr_list,
-            url_kwargs=url_kwargs, **kwargs)
+            url_kwargs=url_kwargs,
+            translation_enabled=translation_enabled,
+            **kwargs)
         self.button_attrs = button_attrs or {}
         self.form_attrs = form_attrs or {}
         self.form_hidden_fields = form_hidden_fields or {}

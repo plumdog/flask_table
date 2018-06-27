@@ -3,7 +3,7 @@ from __future__ import unicode_literals
 from collections import OrderedDict
 
 from flask import Markup
-from flask_babel import gettext as _
+from flask_babelex import _
 
 from .columns import Col
 from .compat import with_metaclass
@@ -65,8 +65,10 @@ class Table(with_metaclass(TableMeta)):
 
     def __init__(self, items, classes=None, thead_classes=None,
                  sort_by=None, sort_reverse=False, no_items=None,
-                 table_id=None, border=None, html_attrs=None):
+                 table_id=None, border=None, html_attrs=None,
+                 translation_enabled=False):
         self.items = items
+        self.translation_enabled = translation_enabled
         self.sort_by = sort_by
         self.sort_reverse = sort_reverse
         if classes is not None:
@@ -147,7 +149,10 @@ class Table(with_metaclass(TableMeta)):
 
     def th_contents(self, col_key, col):
         if not (col.allow_sort and self.allow_sort):
-            return Markup.escape(col.name)
+            if self.translation_enabled:
+                return Markup.escape(_(col.name))
+            else:
+                return Markup.escape(col.name)
 
         if self.sort_by == col_key:
             if self.sort_reverse:
@@ -159,7 +164,10 @@ class Table(with_metaclass(TableMeta)):
         else:
             href = self.sort_url(col_key)
             label_prefix = ''
-        label = '{prefix}{label}'.format(prefix=label_prefix, label=col.name)
+        if self.translation_enabled:
+            label = '{prefix}{label}'.format(prefix=label_prefix, label=_(col.name))
+        else:
+            label = '{prefix}{label}'.format(prefix=label_prefix, label=col.name)
         return element('a', attrs=dict(href=href), content=label)
 
     def th(self, col_key, col):
