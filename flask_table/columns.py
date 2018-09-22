@@ -8,11 +8,12 @@ from .html import element
 
 
 def _single_get(item, key):
-    # First, try to lookup the key as if the item were a dict. If
-    # that fails, lookup the key as an atrribute of an item.
-    try:
-        val = item[key]
-    except (KeyError, TypeError):
+    # First, get an element if the item were a dict.
+    # else get an atrribute of an item.
+
+    if isinstance(item, dict):
+        val = item.get(key, '')
+    else:
         val = getattr(item, key)
 
     # once we have the value, try calling it as a function. If
