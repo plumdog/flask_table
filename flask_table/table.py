@@ -61,14 +61,15 @@ class Table(with_metaclass(TableMeta)):
     thead_classes = []
     allow_sort = False
     no_items = _('No Items')
-    allow_empty = False
 
     def __init__(self, items, classes=None, thead_classes=None,
                  sort_by=None, sort_reverse=False, no_items=None,
-                 table_id=None, border=None, html_attrs=None):
+                 table_id=None, border=None, html_attrs=None,
+                 allow_empty=False):
         self.items = items
         self.sort_by = sort_by
         self.sort_reverse = sort_reverse
+        self.allow_empty = allow_empty
         if classes is not None:
             self.classes = classes
         if thead_classes is not None:
