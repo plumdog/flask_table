@@ -13,7 +13,7 @@ def _single_get(item, key):
     try:
         val = item[key]
     except (KeyError, TypeError):
-        val = getattr(item, key)
+        val = getattr(item, key, None)
 
     # once we have the value, try calling it as a function. If
     # that fails, the just return it.
