@@ -125,6 +125,8 @@ The following options configure table-level options:
 
 * `border` - whether the `border` should be set on the `<table>` element.
 
+* `tbody_html_attrs` - a dictionary of attributes to set on the `<tbody>` element.
+
 These can be set in a few different ways:
 
 a) set when defining the table class

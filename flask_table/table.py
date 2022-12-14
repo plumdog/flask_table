@@ -65,10 +65,12 @@ class Table(with_metaclass(TableMeta)):
 
     def __init__(self, items, classes=None, thead_classes=None,
                  sort_by=None, sort_reverse=False, no_items=None,
-                 table_id=None, border=None, html_attrs=None):
+                 table_id=None, border=None, html_attrs=None,
+                 tbody_html_attrs=None):
         self.items = items
         self.sort_by = sort_by
         self.sort_reverse = sort_reverse
+        self.tbody_html_attrs = tbody_html_attrs
         if classes is not None:
             self.classes = classes
         if thead_classes is not None:
@@ -131,7 +133,12 @@ class Table(with_metaclass(TableMeta)):
         if not out:
             return ''
         content = '\n{}\n'.format('\n'.join(out))
-        return element('tbody', content=content, escape_content=False)
+        return element(
+            'tbody',
+            attrs=self.tbody_html_attrs,
+            content=content,
+            escape_content=False
+        )
 
     def get_tr_attrs(self, item):
         return {}
