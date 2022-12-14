@@ -138,6 +138,16 @@ class TableIDOnClassTest(TableTest):
         self.assert_html_equivalent_from_file(
             'tableid_test', 'test_one', items)
 
+class TBodyAttrs(TableTest):
+
+    class MyTable(Table):
+        name = Col('Name Heading')
+
+    def test_one(self):
+        items = [Item(name='one')]
+        self.assert_html_equivalent_from_file(
+            'tbody_attrs_test', 'test_one', items,
+            table_kwargs={'tbody_html_attrs':{'class': '123'}})
 
 class BorderTest(TableTest):
 
