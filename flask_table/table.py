@@ -2,7 +2,10 @@
 from __future__ import unicode_literals
 from collections import OrderedDict
 
-from flask import Markup
+#Flask Markup is deprecated and apparantly this is the new way
+# from flask import Markup
+from markupsafe import Markup
+
 from flask_babel import gettext as _
 
 from .columns import Col
