@@ -2,8 +2,9 @@
 from __future__ import unicode_literals
 from functools import partial
 
-from flask import Markup
-
+# Markup module deprecated
+#from flask import Markup
+from markupsafe import Markup
 
 def element(element, attrs=None, content='',
             escape_attrs=True, escape_content=True):
