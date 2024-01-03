@@ -32,5 +32,6 @@ def main():
     tab = ItemTable(items)
     print(tab.__html__())
 
+
 if __name__ == '__main__':
     main()

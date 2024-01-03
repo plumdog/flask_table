@@ -30,7 +30,7 @@ class Subitem(Item):
 
 
 def html_reduce(s):
-    return ''.join(l.strip() for l in s.split('\n'))
+    return ''.join(x.strip() for x in s.split('\n'))
 
 
 class TableTest(unittest.TestCase):

@@ -46,5 +46,6 @@ class UserTable(Table):
     username = Col('Username')
     email = Col('Email')
 
+
 users = User.query.all()
 print(UserTable(items=users).__html__())

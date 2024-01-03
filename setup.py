@@ -5,6 +5,7 @@ from setuptools import setup
 install_requires = [
     'Flask',
     'Flask-Babel',
+    'MarkupSafe',
 ]
 
 if os.path.exists('README'):

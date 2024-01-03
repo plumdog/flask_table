@@ -1,0 +1,32 @@
+name: Code checks
+
+on: push
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+      - name: Run pycodestyle
+        run: |
+          pip install pycodestyle
+          ./pycodestyle.sh
+          if [[ $? -ne 0 ]]; then
+            echo "Linting failed, please reformat your code"
+            exit 1
+          fi
+
+  test:
+    runs-on: ubuntu-latest
+    needs: lint
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+      - name: Install test dependencies
+        run: |
+          pip install -r requirements.txt
+          pip install coverage
+      - name: Run tests
+        run: |
+          LANGUAGE=en_GB:en coverage run --source=flask_table setup.py test
