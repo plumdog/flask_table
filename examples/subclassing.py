@@ -35,5 +35,6 @@ def main():
     # or {{ tab }} in jinja
     print(tab.__html__())
 
+
 if __name__ == '__main__':
     main()

@@ -1,3 +1,4 @@
 Flask
 Flask-Babel
 Flask-Testing
+MarkupSafe

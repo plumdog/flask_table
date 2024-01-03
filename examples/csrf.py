@@ -37,6 +37,7 @@ def single_item(id):
 
 def get_table_class():
     csrf_token = get_csrf_token()
+
     class ItemTable(Table):
         name = Col('Name')
         description = Col('Description')
@@ -66,6 +67,7 @@ class Item(object):
     @classmethod
     def get_element_by_id(cls, id):
         return [i for i in cls.get_elements() if i.id == id][0]
+
 
 def main():
     app.run(debug=True)

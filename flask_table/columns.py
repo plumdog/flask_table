@@ -1,6 +1,7 @@
 from __future__ import unicode_literals
 
-from flask import Markup, url_for
+from flask import url_for
+from markupsafe import Markup
 from babel.dates import format_date, format_datetime
 from flask_babel import gettext as _
 
