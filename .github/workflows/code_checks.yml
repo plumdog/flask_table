@@ -26,8 +26,7 @@ jobs:
       - name: Install test dependencies
         run: |
           pip install -r requirements.txt
-          pip install coverage coveralls
+          pip install coverage
       - name: Run tests
         run: |
           LANGUAGE=en_GB:en coverage run --source=flask_table setup.py test
-          coveralls
